@@ -9,10 +9,14 @@ TODO
 ====
 
 - Include popup_calendar.gif as browser-resource in this package.
+- create DateDeltaWidget and DatetimeDeltaWidget
 
-Authors
-=======
-- Rok Garbas
-- Simone Orsi
-- Vincent Fretin
-- Johannes Raggam
+Contributors
+============
+
+ * Vincent Fretin - vincentfretin
+ * Rok Garbas - garbas
+ * David Glick - davisagli
+ * Simone Orsi
+ * Johannes Raggam - thet
+ * Carsten Senger - csenger

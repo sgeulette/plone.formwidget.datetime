@@ -1,0 +1,3 @@
+include README.txt HISTORY.txt
+recursive-include plone *
+global-exclude *pyc
