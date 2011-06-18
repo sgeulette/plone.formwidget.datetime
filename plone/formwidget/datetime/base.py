@@ -6,8 +6,8 @@ class AbstractDateWidget(object):
 
     calendar_type = 'gregorian'
     klass = u'date-widget'
-    value = ('', '', '')
     empty_value = ('', '', '')
+    value = empty_value
 
     #
     # pure javascript no dependencies
@@ -175,6 +175,7 @@ class AbstractDateWidget(object):
 class AbstractDatetimeWidget(AbstractDateWidget):
 
     empty_value = ('', '', '', '00', '00')
+    value = empty_value
     klass = u'datetime-widget'
     ampm  = False
 
@@ -236,3 +237,4 @@ class AbstractMonthYearWidget(AbstractDateWidget):
 
     klass = u'monthyear-widget'
     empty_value = ('', '', 1)
+    value = empty_value

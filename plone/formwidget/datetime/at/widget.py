@@ -88,7 +88,6 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro' : 'datetime_input',
-        'value' : empty_value,
         'with_time': True,
     })
 
@@ -106,7 +105,6 @@ class MonthYearWidget(base.AbstractMonthYearWidget,
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro' : 'monthyear_input',
-        'value' : empty_value,
         'show_day': False,
     })
 
