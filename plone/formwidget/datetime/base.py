@@ -180,7 +180,7 @@ class AbstractDateTimeWidget(AbstractDateWidget):
 
     @property
     def _dtformatter(self):
-        return = self.request.locale.dates.getFormatter("dateTime", "short")
+        return self.request.locale.dates.getFormatter("dateTime", "short")
 
     def _dtvalue(self, value):
         return datetime(*map(int, value))
