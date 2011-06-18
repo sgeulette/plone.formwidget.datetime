@@ -29,6 +29,10 @@ class DateWidget(base.AbstractDateWidget,
         self.request = instance.REQUEST
         return super(DateWidget,self).__call__(mode, instance, context=context)
 
+    def _dtvalue(self, value):
+        # part()[5] is seconds in float. casted to int by super
+        return super(DatetimeWidget, self)._dtvalue(value.parts()[:6])
+
     @property
     def id(self):
         return self.getName()
@@ -87,9 +91,6 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
         'value' : empty_value,
         'with_time': True,
     })
-
-    def _dtvalue(self, value):
-        return super(DatetimeWidget, self)._dtvalue(value.parts()[:6])
 
 registerWidget(DatetimeWidget,
                title='Datetime widget',
