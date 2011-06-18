@@ -172,7 +172,7 @@ class AbstractDateWidget(object):
             )
 
 
-class AbstractDateTimeWidget(AbstractDateWidget):
+class AbstractDatetimeWidget(AbstractDateWidget):
 
     empty_value = ('', '', '', '00', '00')
     klass = u'datetime-widget'
