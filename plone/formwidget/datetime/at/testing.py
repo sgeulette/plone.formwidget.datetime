@@ -1,11 +1,16 @@
-from plone.formwidget.datetime.testing import PFWDTLayer
+from plone.app.testing import PloneSandboxLayer
+from plone.formwidget.datetime.testing import PFWDT_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.testing import z2
 
-class PFWDTATLayer(PFWDTLayer):
+from Products.DateRecurringIndex.testing import DRI_FIXTURE
+
+class PFWDTATLayer(PloneSandboxLayer):
+
+    # TODO: DRI_FIXTURE temporary until removal of DRI
+    defaultBases = (DRI_FIXTURE, PFWDT_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
-        super(PFWDTATLayer, super).setupZope(app, configurationContext)
         # Load ZCML
         import plone.formwidget.datetime.at
         self.loadZCML(package=plone.formwidget.datetime.at)

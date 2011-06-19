@@ -12,7 +12,7 @@ class DatetimeATTest(unittest.TestCase):
         self.obj = self.portal['dttype1']
 
     def get_field(self, fieldname):
-        return self.obj.getField(fieldname) 
+        return self.obj.getField(fieldname)
 
     def get_widget(self, fieldname):
         field = get_field(fieldname)
