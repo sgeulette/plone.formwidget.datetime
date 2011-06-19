@@ -123,7 +123,7 @@ class AbstractDateWidget(object):
     @property
     def js_value(self):
         year = self.year
-        month = self.month - 1
+        month = int(self.month) - 1
         day = self.day
         return 'new Date(%s, %s, %s), ' % (year, month, day)
 
@@ -225,7 +225,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     @property
     def js_value(self):
         year = self.year
-        month = self.month - 1
+        month = int(self.month) - 1
         day = self.day
         hour = self.hour
         min = self.minute
