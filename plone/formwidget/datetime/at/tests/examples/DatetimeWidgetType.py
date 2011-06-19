@@ -40,4 +40,4 @@ class DatetimeWidgetType(SimpleType):
     archetype_name = meta_type = "DatetimeWidgetType"
     portal_type = 'DatetimeWidgetType'
 
-registerType(DatetimeWidgetType, 'plone.formwidget.datetime.at')
+registerType(DatetimeWidgetType, 'plone.formwidget.datetime.at.tests.examples')

@@ -1,10 +1,13 @@
-import unittest
+import unittest2 as unittest
+from plone.formwidget.datetime.testing import PFWDT_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 
-from plone.formwidget.datetime.at.tests.base import TestCase
 
+class DatetimeTest(unittest.TestCase):
+    layer = PFWDT_INTEGRATION_TESTING
 
-class ResourceEnabledTest(TestCase):
+    def setUp(self):
+        self.portal = self.layer['portal']
 
     def test_portal_js(self):
         # this plugin is disabled by default. let's check if it's now enabled'
@@ -18,9 +21,3 @@ class ResourceEnabledTest(TestCase):
         css_id = "++resource++plone.app.jquerytools.dateinput.css"
         p_css = getToolByName(self.portal,'portal_css')
         self.failUnless(p_css.getResource(css_id).getEnabled())
-
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ResourceEnabledTest))
-    return suite

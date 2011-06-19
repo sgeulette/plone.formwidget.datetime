@@ -8,7 +8,7 @@ from Products.CMFCore.permissions import AddPortalContent
 def initialize(context):
     """Initializer called when used as a Zope 2 product."""
 
-    from archetypes.datetimewidget.examples import DatetimeWidgetType
+    from plone.formwidget.datetime.at.tests.examples import DatetimeWidgetType
     DatetimeWidgetType  # pyflakes
     content_types, constructors, ftis = process_types(
         listTypes(PROJECTNAME),

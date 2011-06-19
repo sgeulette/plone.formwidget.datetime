@@ -2,7 +2,7 @@
 <object name="DatetimeWidgetType" meta_type="Factory-based Type Information"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title">Datetime Widget Type</property>
- <property name="description">A simple archetype with a datetime fields</property>
+ <property name="description">A simple archetype with datetime fields</property>
  <property name="content_icon">document_icon.gif</property>
  <property name="content_meta_type">DatetimeWidgetType</property>
  <property name="product">plone.formwidget.datetime.at.tests.examples</property>
