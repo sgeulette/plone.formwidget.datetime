@@ -127,7 +127,7 @@ class AbstractDateWidget(object):
         day = self.day
         return 'new Date(%s, %s, %s), ' % (year, month, day)
 
-    def get_js(self, fieldName):
+    def get_js(self):
         language = self.request.get('LANGUAGE', 'en')
         calendar = self.request.locale.dates.calendars[self.calendar_type]
         localize =  'jQuery.tools.dateinput.localize("' + language + '", {'

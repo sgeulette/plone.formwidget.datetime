@@ -94,7 +94,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
             return (year, month, day, hour, minute)
 
         # get a hidden value
-        formatter = self._formatter
+        formatter = self._dtformatter
         hidden_date = self.request.get(self.name, '')
         try:
             dateobj = formatter.parse(hidden_date)

@@ -104,7 +104,7 @@ ISSUE 2
 
   Generate our JS and check the results.
 
-  >>> jquerytools_dateinput_js = widget.show_jquerytools_dateinput_js()
+  >>> jquerytools_dateinput_js = widget.get_js()
 
   Make sure our JS date syntax error isn't present with this incomplete date.
 
@@ -133,7 +133,7 @@ ISSUE 2
   >>> widget.value
   ('2011', '12', '31', '13', '00')
   
-  >>> 'value: new Date(2011, 12, 31)' in widget.show_jquerytools_dateinput_js()
+  >>> 'value: new Date(2011, 12, 31)' in widget.get_js()
   True
 
 

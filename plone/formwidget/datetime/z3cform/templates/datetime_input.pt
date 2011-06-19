@@ -84,7 +84,7 @@
                        onselect view/onselect;" />
 
 <a tal:condition="view/show_jquerytools_dateinput"
-   tal:replace="structure view/show_jquerytools_dateinput_js" />
+   tal:replace="structure view/get_js" />
 
 <a tal:condition="view/show_today_link"
    tal:replace="structure view/show_today_link_js" />

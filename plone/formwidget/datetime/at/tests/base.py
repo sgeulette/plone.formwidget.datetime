@@ -14,7 +14,7 @@ profile_registry.registerProfile('DatetimeWidget_examples',
     'plone.formwidget.datetime.at.tests.examples',
     EXTENSION)
 ptc.setupPloneSite(
-    extension_profiles=['plone.formwidget.datetime:DatetimeWidget_examples',])
+    extension_profiles=['plone.formwidget.datetime.at.tests.examples:DatetimeWidget_examples',])
 
 
 import plone.formwidget.datetime.at
