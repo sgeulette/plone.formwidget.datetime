@@ -31,7 +31,7 @@
                 <option tal:define="day_val day/value"
                         tal:attributes="value day_val;
                                         selected python:str(day_val)==str(current_val) and 'selected' or ''"
-                        tal:content="day/label">label</option>
+                        tal:content="day/name">label</option>
             </tal:day>
         </select>
 
@@ -63,12 +63,12 @@
                 <option tal:define="year_val year/value"
                         tal:attributes="value year_val;
                                         selected python:str(year_val)==str(current_val) and 'selected' or ''"
-                        tal:content="year/label">label</option>
+                        tal:content="year/name">label</option>
             </tal:year>
         </select>
         &nbsp;
         <script tal:condition="widget/show_calendar"
-                tal:replace="structure python:widget.get_js(fieldName, value)"></script>
+                tal:replace="structure widget/get_js"></script>
 
         <tal:hm condition="widget/with_time">
             &nbsp;
@@ -85,7 +85,7 @@
                         <option tal:define="hour_val hour/value"
                                 tal:attributes="value hour_val;
                                                 selected python:str(hour_val)==str(current_val) and 'selected' or ''"
-                                tal:content="hour/label">label</option>
+                                tal:content="hour/name">label</option>
                     </tal:day>
                 </select>
 
@@ -99,7 +99,7 @@
                         <option tal:define="min_val min/value"
                                 tal:attributes="value min_val;
                                                 selected python:str(min_val)==str(current_val) and 'selected' or ''"
-                                tal:content="min/label">label</option>
+                                tal:content="min/name">label</option>
                     </tal:day>
                 </select>
 
