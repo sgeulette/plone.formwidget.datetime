@@ -104,9 +104,10 @@ class AbstractDateWidget(object):
     def _padded_value(self, value):
         return str(value).zfill(2)
 
-    def show_today_link_js(self):
+    def show_today_link_js(self, fieldname=None):
+        id = fieldname and fieldname or self.id
         now = datetime.today()
-        show_link_func = self.id+'-show-today-link'
+        show_link_func = id+'-show-today-link'
         for i in ['-', '_']:
             show_link_func = show_link_func.replace(i, '')
         return '<a href="#" onclick="' \
@@ -114,7 +115,7 @@ class AbstractDateWidget(object):
             'document.getElementById(\'%(id)s-month\').value = %(month)s;' \
             'document.getElementById(\'%(id)s-year\').value = %(year)s;' \
             'return false;">%(today)s</a>' % dict(
-                id = self.id,
+                id = id,
                 day = now.day,
                 month = now.month,
                 year = now.year,
@@ -128,7 +129,15 @@ class AbstractDateWidget(object):
         day = self.day
         return 'new Date(%s, %s, %s), ' % (year, month, day)
 
-    def get_js(self):
+    def get_js(self, fieldname=None):
+        # TODO:
+        #     * check if self.name must always be self.name or fieldname if
+        #       given (search for other self.name appearances)
+        #     * has value be passed here from at-template?
+        # archetypes based widget have to pass id and name from the template
+        id = fieldname and fieldname or self.id
+        name = fieldname and fieldname or self.name
+
         language = self.request.get('LANGUAGE', 'en')
         calendar = self.request.locale.dates.calendars[self.calendar_type]
         localize =  'jQuery.tools.dateinput.localize("' + language + '", {'
@@ -146,7 +155,7 @@ class AbstractDateWidget(object):
                    '  jQuery("#%(id)s-year").val(self.year); \n' \
                    '  jQuery("#%(id)s-month").val(self.month); \n' \
                    '  jQuery("#%(id)s-day").val(self.day); \n' \
-                   '}, ') % dict(id = self.id)
+                   '}, ') % dict(id = id)
         config += self.jquerytools_dateinput_config
 
         return '''
@@ -167,7 +176,7 @@ class AbstractDateWidget(object):
                     jQuery("#%(id)s-calendar").next()%(popup_calendar_icon)s;
                 }
             </script>''' % dict(
-                id=self.id, name=self.name,
+                id=id, name=name,
                 config=config, localize=localize,
                 popup_calendar_icon=self.popup_calendar_icon,
             )

@@ -68,7 +68,7 @@
         </select>
         &nbsp;
         <script tal:condition="widget/show_calendar"
-                tal:replace="structure widget/get_js"></script>
+                tal:replace="structure python:widget.get_js(fieldName)"></script>
 
         <tal:hm condition="widget/with_time">
             &nbsp;
@@ -122,7 +122,7 @@
                tal:attributes="name string:${fieldName}-empty-marker" />
 
         <a tal:condition="widget/show_today_link"
-           tal:replace="structure widget/show_today_link_js" />
+          tal:replace="structure python:widget.show_today_link_js(fieldName)" />
 
     </div>
 

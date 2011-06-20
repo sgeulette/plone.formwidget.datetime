@@ -34,10 +34,6 @@ class DateWidget(base.AbstractDateWidget,
         return super(DateWidget, self)._dtvalue(value.parts()[:6])
 
     @property
-    def id(self):
-        return self.getName()
-
-    @property
     def name(self):
         return self.getName()
 
