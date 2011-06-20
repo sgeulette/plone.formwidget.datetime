@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import date
 import zope.i18n
+from plone.formwidget.datetime import MessageFactory as _
 
 class AbstractDateWidget(object):
 

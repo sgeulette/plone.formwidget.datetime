@@ -217,9 +217,11 @@ INPUT_MODE
 
   >>> print widget.get_js()
   <BLANKLINE>
-        <input type="hidden" name="bar-calendar"
-               id="foo-calendar" />
-        <script type="text/javascript">
+              <input type="hidden"
+                  id="foo-calendar"
+                  name="bar-calendar"
+                  class="bar-calendar" />
+              <script type="text/javascript">
   ...
         
 DISPLAY_MODE

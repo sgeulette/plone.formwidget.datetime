@@ -1,22 +1,25 @@
 import unittest2 as unittest
 from plone.formwidget.datetime.at.testing import PFWDTAT_INTEGRATION_TESTING
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+
 
 class DatetimeATTest(unittest.TestCase):
     layer = PFWDTAT_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.portal.invokeFactory(id='dttype1',
-                          title='Datetime Type 1',
-                          type_name='DatetimeWidgetType')
-        self.obj = self.portal['dttype1']
+        portal = self.layer['portal']
+        self.portal = portal
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        portal.invokeFactory(type_name='DatetimeWidgetType', id='dttype1', title='Datetime Type 1')
+        self.obj = portal['dttype1']
 
     def get_field(self, fieldname):
         return self.obj.getField(fieldname)
 
     def get_widget(self, fieldname):
-        field = get_field(fieldname)
-        return self.field.widget
+        field = self.get_field(fieldname)
+        return field.widget
 
     def test_datewidget_properties(self):
         widget = self.get_widget('datefield')
