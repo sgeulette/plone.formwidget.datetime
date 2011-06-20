@@ -31,7 +31,7 @@ class DateWidget(base.AbstractDateWidget,
 
     def _dtvalue(self, value):
         # part()[5] is seconds in float. casted to int by super
-        return super(DatetimeWidget, self)._dtvalue(value.parts()[:6])
+        return super(DateWidget, self)._dtvalue(value.parts()[:6])
 
     @property
     def id(self):
