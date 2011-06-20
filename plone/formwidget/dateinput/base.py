@@ -124,7 +124,7 @@ class AbstractDateWidget(object):
     @property
     def js_value(self):
         year = self.year
-        month = int(self.month) - 1
+        month = self.month and int(self.month) - 1 or None
         day = self.day
         return 'new Date(%s, %s, %s), ' % (year, month, day)
 
@@ -214,19 +214,20 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     def hours(self):
         return [{'value': x, 'name': self.padded_hour(x)} for x in range(24)]
 
-    def padded_hour(self):
-        hour = self.hour
+    def padded_hour(self, hour=None):
+        hour = hour and hour or self.hour
         if self.ampm is True and self.is_pm() and int(hour)!=12:
             hour = str(int(hour)-12)
         return self._padded_value(hour)
 
-    def padded_minute(self):
-        return self._padded_value(self.minute)
+    def padded_minute(self, minute=None):
+        minute = minute and minute or self.minute
+        return self._padded_value(minute)
 
     @property
     def js_value(self):
         year = self.year
-        month = int(self.month) - 1
+        month = self.month and int(self.month) - 1 or None
         day = self.day
         hour = self.hour
         min = self.minute
