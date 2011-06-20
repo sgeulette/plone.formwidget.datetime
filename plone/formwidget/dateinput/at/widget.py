@@ -1,8 +1,8 @@
 from AccessControl import ClassSecurityInfo
-from plone.formwidget.datetime import MessageFactory as _
+from plone.formwidget.dateinput import MessageFactory as _
 from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
-from plone.formwidget.datetime import base
+from plone.formwidget.dateinput import base
 
 
 class DateWidget(base.AbstractDateWidget,

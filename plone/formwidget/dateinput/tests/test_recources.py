@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from plone.formwidget.datetime.testing import PFWDT_INTEGRATION_TESTING
+from plone.formwidget.dateinput.testing import PFWDT_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 
 

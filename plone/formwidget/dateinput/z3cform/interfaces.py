@@ -2,7 +2,7 @@ import z3c.form
 import z3c.form.interfaces
 import zope.schema
 
-from plone.formwidget.datetime import MessageFactory as _
+from plone.formwidget.dateinput import MessageFactory as _
 
 
 # Fields

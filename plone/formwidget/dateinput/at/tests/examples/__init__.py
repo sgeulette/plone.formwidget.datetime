@@ -2,12 +2,12 @@ from Products.CMFCore import utils
 from Products.Archetypes import atapi
 from Products.CMFCore.permissions import AddPortalContent
 
-PROJECTNAME = 'plone.formwidget.datetime.at.tests.examples'
+PROJECTNAME = 'plone.formwidget.dateinput.at.tests.examples'
 
 def initialize(context):
     """Initializer called when used as a Zope 2 product."""
 
-    from plone.formwidget.datetime.at.tests.examples import DatetimeWidgetType
+    from plone.formwidget.dateinput.at.tests.examples import DatetimeWidgetType
 
     content_types, constructors, ftis = atapi.process_types(
         atapi.listTypes(PROJECTNAME),

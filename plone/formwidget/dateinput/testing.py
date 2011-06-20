@@ -9,11 +9,11 @@ class PFWDTLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import plone.formwidget.datetime
-        self.loadZCML(package=plone.formwidget.datetime)
+        import plone.formwidget.dateinput
+        self.loadZCML(package=plone.formwidget.dateinput)
 
     def setUpPloneSite(self, portal):
-        self.applyProfile(portal, 'plone.formwidget.datetime:default')
+        self.applyProfile(portal, 'plone.formwidget.dateinput:default')
 
 PFWDT_FIXTURE = PFWDTLayer()
 PFWDT_INTEGRATION_TESTING = IntegrationTesting(

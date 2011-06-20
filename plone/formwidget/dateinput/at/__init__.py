@@ -1,3 +1,3 @@
-from plone.formwidget.datetime.at.widget import DateWidget
-from plone.formwidget.datetime.at.widget import MonthYearWidget
-from plone.formwidget.datetime.at.widget import DatetimeWidget
+from plone.formwidget.dateinput.at.widget import DateWidget
+from plone.formwidget.dateinput.at.widget import MonthYearWidget
+from plone.formwidget.dateinput.at.widget import DatetimeWidget

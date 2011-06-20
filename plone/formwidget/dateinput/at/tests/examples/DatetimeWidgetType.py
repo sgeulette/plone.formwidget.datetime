@@ -6,9 +6,9 @@ from Products.Archetypes.atapi import DateTimeField
 from Products.Archetypes.atapi import registerType
 from Products.Archetypes.examples.SimpleType import SimpleType
 
-from plone.formwidget.datetime.at import DateWidget
-from plone.formwidget.datetime.at import DatetimeWidget
-from plone.formwidget.datetime.at import MonthYearWidget
+from plone.formwidget.dateinput.at import DateWidget
+from plone.formwidget.dateinput.at import DatetimeWidget
+from plone.formwidget.dateinput.at import MonthYearWidget
 
 
 schema = BaseSchema.copy() + Schema((
@@ -40,4 +40,4 @@ class DatetimeWidgetType(SimpleType):
     archetype_name = meta_type = "DatetimeWidgetType"
     portal_type = 'DatetimeWidgetType'
 
-registerType(DatetimeWidgetType, 'plone.formwidget.datetime.at.tests.examples')
+registerType(DatetimeWidgetType, 'plone.formwidget.dateinput.at.tests.examples')

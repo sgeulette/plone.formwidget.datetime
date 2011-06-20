@@ -10,7 +10,7 @@ import z3c.form
 import zope.schema
 import zope.component
 import zope.app.component
-import plone.formwidget.datetime.z3cform
+import plone.formwidget.dateinput.z3cform
 from zope.configuration import xmlconfig
 
 
@@ -35,7 +35,7 @@ class WidgetTestCase(object):
              '''))
         xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
         xmlconfig.XMLConfig('meta.zcml', z3c.form)()
-        xmlconfig.XMLConfig('configure.zcml', plone.formwidget.datetime.z3cform)()
+        xmlconfig.XMLConfig('configure.zcml', plone.formwidget.dateinput.z3cform)()
 
     def tearDown(self):
         setup.placefulTearDown()

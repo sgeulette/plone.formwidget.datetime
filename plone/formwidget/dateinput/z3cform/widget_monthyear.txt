@@ -8,7 +8,7 @@ we test the real configuration. Let's test the Widget:
   >>> import datetime
   >>> import z3c.form
   >>> import zope.schema
-  >>> from plone.formwidget.datetime.z3cform import MonthYearFieldWidget
+  >>> from plone.formwidget.dateinput.z3cform import MonthYearFieldWidget
 
   >>> request = self.testrequest()
   >>> field = zope.schema.Date(default=datetime.date(2007, 4, 1))
