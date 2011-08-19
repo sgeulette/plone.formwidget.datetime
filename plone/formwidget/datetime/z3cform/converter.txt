@@ -13,8 +13,8 @@ extracting a widget's value.)
 Let's set up a date field, date widget, and a converter adapting both of them.
 
     >>> from zope.schema import Date
-    >>> from plone.formwidget.dateinput.z3cform import DateWidget
-    >>> from plone.formwidget.dateinput.z3cform.converter import DateDataConverter
+    >>> from plone.formwidget.datetime.z3cform import DateWidget
+    >>> from plone.formwidget.datetime.z3cform.converter import DateDataConverter
     >>> from z3c.form.testing import TestRequest
     >>> field = Date()
     >>> request = TestRequest()

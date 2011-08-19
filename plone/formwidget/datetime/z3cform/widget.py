@@ -9,8 +9,8 @@ from interfaces import IDatetimeWidget
 from interfaces import IDateWidget
 from interfaces import IMonthYearWidget
 
-from plone.formwidget.dateinput import base
-from plone.formwidget.dateinput import MessageFactory as _
+from plone.formwidget.datetime import base
+from plone.formwidget.datetime import MessageFactory as _
 
 
 class DateWidget(base.AbstractDateWidget,

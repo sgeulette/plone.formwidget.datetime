@@ -1,5 +1,5 @@
 from plone.app.testing import PloneSandboxLayer
-from plone.formwidget.dateinput.testing import PFWDT_FIXTURE
+from plone.formwidget.datetime.testing import PFWDT_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.testing import z2
 
@@ -12,24 +12,24 @@ class PFWDTATLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import plone.formwidget.dateinput.at
-        self.loadZCML(package=plone.formwidget.dateinput.at)
+        import plone.formwidget.datetime.at
+        self.loadZCML(package=plone.formwidget.datetime.at)
 
-        import plone.formwidget.dateinput.at.tests.examples
-        self.loadZCML(package=plone.formwidget.dateinput.at.tests.examples)
+        import plone.formwidget.datetime.at.tests.examples
+        self.loadZCML(package=plone.formwidget.datetime.at.tests.examples)
 
         # Install product and call its initialize() function
-        z2.installProduct(app, 'plone.formwidget.dateinput.at.tests.examples')
+        z2.installProduct(app, 'plone.formwidget.datetime.at.tests.examples')
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(
                 portal,
-                'plone.formwidget.dateinput.at.tests.examples:examples')
+                'plone.formwidget.datetime.at.tests.examples:examples')
 
     def tearDownZope(self, app):
         # Uninstall product
-        z2.uninstallProduct(app, 'plone.formwidget.dateinput.at.tests.examples')
+        z2.uninstallProduct(app, 'plone.formwidget.datetime.at.tests.examples')
 
 PFWDTAT_FIXTURE = PFWDTATLayer()
 PFWDTAT_INTEGRATION_TESTING = IntegrationTesting(

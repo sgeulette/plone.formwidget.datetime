@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from z3c.form.converter import BaseDataConverter
-from plone.formwidget.dateinput.z3cform.interfaces import DateValidationError
-from plone.formwidget.dateinput.z3cform.interfaces import DatetimeValidationError
+from plone.formwidget.datetime.z3cform.interfaces import DateValidationError
+from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
 
 class DateDataConverter(BaseDataConverter):
 

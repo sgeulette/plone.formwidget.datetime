@@ -3,7 +3,7 @@ import os
 
 version = '0.1'
 
-setup(name='plone.formwidget.dateinput',
+setup(name='plone.formwidget.datetime',
       version=version,
       description="Datetime widgets for Plone",
       long_description=open("README.txt").read() + "\n" +

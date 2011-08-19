@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from plone.formwidget.dateinput.at.testing import PFWDTAT_INTEGRATION_TESTING
+from plone.formwidget.datetime.at.testing import PFWDTAT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
