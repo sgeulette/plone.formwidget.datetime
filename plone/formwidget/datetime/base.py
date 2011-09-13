@@ -133,8 +133,12 @@ class AbstractDateWidget(object):
         year = self.year
         month = self.month and int(self.month) - 1 or None
         day = self.day
-        import pdb;pdb.set_trace()
-        return 'new Date(%s, %s, %s), ' % (year, month, day)
+        if year and month and day:
+            return 'new Date(%s, %s, %s), ' % (
+                year, month, day)
+        else:
+            return None
+
 
     def get_js(self, fieldname=None):
         # TODO:
@@ -155,13 +159,14 @@ class AbstractDateWidget(object):
         localize += '});'
 
         config = 'lang: "%s", ' % language
-        config += 'value: %s, ' % self.js_value
+        if self.js_value:
+            config += 'value: %s, ' % self.js_value
 
         config += ('change: function() {\n'
                    '  var value = this.getValue("yyyy-mm-dd").split("-");\n'
-                   '  jQuery("#%(id)s-year").val(self.year); \n' \
-                   '  jQuery("#%(id)s-month").val(self.month); \n' \
-                   '  jQuery("#%(id)s-day").val(self.day); \n' \
+                   '  jQuery("#%(id)s-year").val(value[0]); \n' \
+                   '  jQuery("#%(id)s-month").val(value[1]); \n' \
+                   '  jQuery("#%(id)s-day").val(value[2]); \n' \
                    '}, ') % dict(id = id)
         config += self.jquerytools_dateinput_config
 
@@ -261,10 +266,10 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             return 'new Date(%s, %s, %s, %s, %s), ' % (
                 year, month, day, hour, min)
         elif year and month and day:
-            return 'new Date(%s, %s, %s, %s, %s), ' % (
-                year, month, day, hour, min)
+            return 'new Date(%s, %s, %s), ' % (
+                year, month, day)
         else:
-            return 'new Date()'
+            return None
 
 
 class AbstractMonthYearWidget(AbstractDateWidget):
