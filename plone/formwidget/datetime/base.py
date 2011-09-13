@@ -85,21 +85,27 @@ class AbstractDateWidget(object):
         year = self.request.get(self.name+'-year', None)
         if year is not None:
             return year
-        return self.value[0]
+        if self.value[0] != self.empty_value[0]:
+            return self.value[0]
+        return None
 
     @property
     def month(self):
         month = self.request.get(self.name+'-month', None)
         if month:
             return month
-        return self.value[1]
+        if self.value[1] != self.empty_value[1]:
+            return self.value[1]
+        return None
 
     @property
     def day(self):
         day = self.request.get(self.name+'-day', None)
         if day is not None:
             return day
-        return self.value[2]
+        if self.value[2] != self.empty_value[2]:
+            return self.value[2]
+        return None
 
     def _padded_value(self, value):
         return str(value).zfill(2)
@@ -127,6 +133,7 @@ class AbstractDateWidget(object):
         year = self.year
         month = self.month and int(self.month) - 1 or None
         day = self.day
+        import pdb;pdb.set_trace()
         return 'new Date(%s, %s, %s), ' % (year, month, day)
 
     def get_js(self, fieldname=None):
@@ -148,7 +155,7 @@ class AbstractDateWidget(object):
         localize += '});'
 
         config = 'lang: "%s", ' % language
-        config += 'value: %s' % self.js_value
+        config += 'value: %s, ' % self.js_value
 
         config += ('change: function() {\n'
                    '  var value = this.getValue("yyyy-mm-dd").split("-");\n'
@@ -201,14 +208,18 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         hour = self.request.get(self.name+'-hour', None)
         if hour:
             return hour
-        return self.value[3]
+        if self.value[3] != self.empty_value[3]:
+            return self.value[3]
+        return None
 
     @property
     def minute(self):
         min = self.request.get(self.name+'-min', None)
         if min:
             return min
-        return self.value[4]
+        if self.value[4] != self.empty_value[4]:
+            return self.value[4]
+        return None
 
     def is_pm(self):
         if int(self.hour) >= 12:
@@ -225,13 +236,19 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def padded_hour(self, hour=None):
         hour = hour and hour or self.hour
-        if self.ampm is True and self.is_pm() and int(hour)!=12:
-            hour = str(int(hour)-12)
-        return self._padded_value(hour)
+        if hour:
+            if self.ampm is True and self.is_pm() and int(hour)!=12:
+                hour = str(int(hour)-12)
+            return self._padded_value(hour)
+        else:
+            return None
 
     def padded_minute(self, minute=None):
         minute = minute and minute or self.minute
-        return self._padded_value(minute)
+        if minute:
+            return self._padded_value(minute)
+        else:
+            return None
 
     @property
     def js_value(self):
@@ -240,8 +257,14 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         day = self.day
         hour = self.hour
         min = self.minute
-        return 'new Date(%s, %s, %s, %s, %s), ' % (
-            year, month, day, hour, min)
+        if year and month and day and hour and min:
+            return 'new Date(%s, %s, %s, %s, %s), ' % (
+                year, month, day, hour, min)
+        elif year and month and day:
+            return 'new Date(%s, %s, %s, %s, %s), ' % (
+                year, month, day, hour, min)
+        else:
+            return 'new Date()'
 
 
 class AbstractMonthYearWidget(AbstractDateWidget):
