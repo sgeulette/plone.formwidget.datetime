@@ -26,6 +26,8 @@ setup(name='plone.formwidget.datetime',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'plone.app.jquerytools',
+          'zope.i18nmessageid',
       ],
       extras_require=dict(
           z3cform=[
@@ -37,15 +39,11 @@ setup(name='plone.formwidget.datetime',
               'Products.Archetypes',
               'Products.CMFCore',
               'Zope2',
-              'plone.app.jquerytools',
-              'zope.i18nmessageid',
           ],
           test=[
               'plone.app.testing',
               'Products.Archetypes',
               'Products.CMFCore',
-              'plone.app.jquerytools',
-              'zope.i18nmessageid',
               'Products.GenericSetup',
               'z3c.form[test]',
               'zope.testing',
