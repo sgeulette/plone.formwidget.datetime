@@ -33,7 +33,6 @@ setup(name='plone.formwidget.datetime',
           z3cform=[
               'zope.i18n',
               'z3c.form',
-              'zope.deprecation'
           ],
           archetypes=[
               'Products.Archetypes',
