@@ -1,16 +1,15 @@
-import zope.i18n
-import zope.schema
-import zope.interface
-import zope.component
+from interfaces import IDateWidget
+from interfaces import IDatetimeWidget
+from interfaces import IMonthYearWidget
+from plone.formwidget.datetime import base
+
 import z3c.form
 import z3c.form.browser.widget
 import z3c.form.widget
-from interfaces import IDatetimeWidget
-from interfaces import IDateWidget
-from interfaces import IMonthYearWidget
-
-from plone.formwidget.datetime import base
-from plone.formwidget.datetime import MessageFactory as _
+import zope.component
+import zope.i18n
+import zope.interface
+import zope.schema
 
 
 class DateWidget(base.AbstractDateWidget,
@@ -57,6 +56,7 @@ class DateWidget(base.AbstractDateWidget,
             return 'value: new Date(%s, %s, %s), ' % (value_date)
         else:
             return ''
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
@@ -108,6 +108,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
 
         return default
 
+
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def DatetimeFieldWidget(field, request):
@@ -119,6 +120,7 @@ class MonthYearWidget(base.AbstractMonthYearWidget,
                       DateWidget):
     """ Month and year widget """
     zope.interface.implementsOnly(IMonthYearWidget)
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)

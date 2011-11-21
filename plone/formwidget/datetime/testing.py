@@ -1,6 +1,7 @@
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
+
 
 class PFWDTLayer(PloneSandboxLayer):
 
@@ -13,6 +14,7 @@ class PFWDTLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'plone.formwidget.datetime:default')
+
 
 PFWDT_FIXTURE = PFWDTLayer()
 PFWDT_INTEGRATION_TESTING = IntegrationTesting(

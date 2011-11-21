@@ -1,17 +1,17 @@
-import doctest
-import unittest
-from zope.app.testing import setup
-from z3c.form.testing import TestRequest
-from z3c.form.interfaces import IFieldWidget
-
-from Testing import ZopeTestCase as ztc
 from StringIO import StringIO
-import z3c.form
-import zope.schema
-import zope.component
-import zope.app.component
-import plone.formwidget.datetime.z3cform
+from Testing import ZopeTestCase as ztc
+from z3c.form.interfaces import IFieldWidget
+from z3c.form.testing import TestRequest
+from zope.app.testing import setup
 from zope.configuration import xmlconfig
+
+import doctest
+import plone.formwidget.datetime.z3cform
+import unittest
+import z3c.form
+import zope.app.component
+import zope.component
+import zope.schema
 
 
 class WidgetTestCase(object):
@@ -61,10 +61,8 @@ def test_suite():
             'converter.txt',
             'issues.txt',
             test_class=WidgetTestCase,
-            optionflags=
-                        doctest.NORMALIZE_WHITESPACE |
+            optionflags=doctest.NORMALIZE_WHITESPACE |
                         doctest.ELLIPSIS |
                         doctest.REPORT_UDIFF,
             ),
         ))
-

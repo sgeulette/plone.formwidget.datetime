@@ -1,5 +1,4 @@
 from AccessControl import ClassSecurityInfo
-from plone.formwidget.datetime import MessageFactory as _
 from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
 from plone.formwidget.datetime import base
@@ -16,10 +15,10 @@ class DateWidget(base.AbstractDateWidget,
 
     _properties = widgets.TypesWidget._properties.copy()
     _properties.update({
-        'macro' : 'date_input',
-        'show_calendar' : True,
-        'show_day' : True,
-        'with_time':False,
+        'macro': 'date_input',
+        'show_calendar': True,
+        'show_day': True,
+        'with_time': False,
     })
 
     security = ClassSecurityInfo()
@@ -27,7 +26,7 @@ class DateWidget(base.AbstractDateWidget,
     def __call__(self, mode, instance, context=None):
         self.context = instance
         self.request = instance.REQUEST
-        return super(DateWidget,self).__call__(mode, instance, context=context)
+        return super(DateWidget, self).__call__(mode, instance, context=context)
 
     def _dtvalue(self, value):
         # part()[5] is seconds in float. casted to int by super
@@ -38,6 +37,7 @@ class DateWidget(base.AbstractDateWidget,
         return self.getName()
 
     security.declarePublic('process_form')
+
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
         """Basic impl for form processing in a widget"""
@@ -83,7 +83,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
 
     _properties = DateWidget._properties.copy()
     _properties.update({
-        'macro' : 'datetime_input',
+        'macro': 'datetime_input',
         'with_time': True,
     })
 
@@ -100,7 +100,7 @@ class MonthYearWidget(base.AbstractMonthYearWidget,
 
     _properties = DateWidget._properties.copy()
     _properties.update({
-        'macro' : 'monthyear_input',
+        'macro': 'monthyear_input',
         'show_day': False,
     })
 

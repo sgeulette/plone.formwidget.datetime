@@ -1,9 +1,9 @@
+from Products.DateRecurringIndex.testing import DRI_FIXTURE
+from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.formwidget.datetime.testing import PFWDT_FIXTURE
-from plone.app.testing import IntegrationTesting
 from plone.testing import z2
 
-from Products.DateRecurringIndex.testing import DRI_FIXTURE
 
 class PFWDTATLayer(PloneSandboxLayer):
 
@@ -30,6 +30,7 @@ class PFWDTATLayer(PloneSandboxLayer):
     def tearDownZope(self, app):
         # Uninstall product
         z2.uninstallProduct(app, 'plone.formwidget.datetime.at.tests.examples')
+
 
 PFWDTAT_FIXTURE = PFWDTATLayer()
 PFWDTAT_INTEGRATION_TESTING = IntegrationTesting(

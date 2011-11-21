@@ -14,9 +14,9 @@ TODO
 Contributors
 ============
 
- * Vincent Fretin - vincentfretin
- * Rok Garbas - garbas
- * David Glick - davisagli
- * Simone Orsi
- * Johannes Raggam - thet
- * Carsten Senger - csenger
+* Vincent Fretin - vincentfretin
+* Rok Garbas - garbas
+* David Glick - davisagli
+* Simone Orsi
+* Johannes Raggam - thet
+* Carsten Senger - csenger

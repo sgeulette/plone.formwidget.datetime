@@ -1,7 +1,9 @@
-from datetime import datetime
 from datetime import date
-import zope.i18n
+from datetime import datetime
 from plone.formwidget.datetime import MessageFactory as _
+
+import zope.i18n
+
 
 class AbstractDateWidget(object):
 
@@ -24,16 +26,14 @@ class AbstractDateWidget(object):
     # TODO: yearRange shoud respect site_properties values for
     #       calendar_starting_year and valendar_future_years_avaliable
 
-
     #
     # TODO: implement same thing for JQuery.UI
-
     popup_calendar_icon = '.css(%s)' % str({
-                                'background':'url(popup_calendar.gif)',
-                                'height':'16px',
-                                'width':'16px',
-                                'display':'inline-block',
-                                'vertical-align':'middle'})
+                                'background': 'url(popup_calendar.gif)',
+                                'height': '16px',
+                                'width': '16px',
+                                'display': 'inline-block',
+                                'vertical-align': 'middle'})
 
     @property
     def _dtformatter(self):
@@ -55,7 +55,7 @@ class AbstractDateWidget(object):
 
     @property
     def years(self):
-        year_range = range(2000,2020)
+        year_range = range(2000, 2020)
         return [{'value': x, 'name': x} for x in year_range]
 
     @property
@@ -70,15 +70,14 @@ class AbstractDateWidget(object):
 
         for i, month in enumerate(month_names):
             yield dict(
-                name     = month,
-                value    = i+1,
-                selected = i+1 == selected)
+                name=month,
+                value=i+1,
+                selected=i+1 == selected)
 
     @property
     def days(self):
-        day_range = range(1,32)
+        day_range = range(1, 32)
         return [{'value': x, 'name': self._padded_value(x)} for x in day_range]
-
 
     @property
     def year(self):
@@ -121,11 +120,11 @@ class AbstractDateWidget(object):
             'document.getElementById(\'%(id)s-month\').value = %(month)s;' \
             'document.getElementById(\'%(id)s-year\').value = %(year)s;' \
             'return false;">%(today)s</a>' % dict(
-                id = id,
-                day = now.day,
-                month = now.month,
-                year = now.year,
-                today = zope.i18n.translate(_(u"Today"), context=self.request)
+                id=id,
+                day=now.day,
+                month=now.month,
+                year=now.year,
+                today=zope.i18n.translate(_(u"Today"), context=self.request)
             )
 
     @property
@@ -139,7 +138,6 @@ class AbstractDateWidget(object):
         else:
             return None
 
-
     def get_js(self, fieldname=None):
         # TODO:
         #     * check if self.name must always be self.name or fieldname if
@@ -151,11 +149,15 @@ class AbstractDateWidget(object):
 
         language = self.request.get('LANGUAGE', 'en')
         calendar = self.request.locale.dates.calendars[self.calendar_type]
-        localize =  'jQuery.tools.dateinput.localize("' + language + '", {'
+        localize = 'jQuery.tools.dateinput.localize("' + language + '", {'
         localize += 'months: "%s",' % ','.join(calendar.getMonthNames())
-        localize += 'shortMonths: "%s",' % ','.join(calendar.getMonthAbbreviations())
+        localize += 'shortMonths: "%s",' % ','.join(
+            calendar.getMonthAbbreviations()
+        )
         localize += 'days: "%s",' % ','.join(calendar.getDayNames())
-        localize += 'shortDays: "%s",' % ','.join(calendar.getDayAbbreviations())
+        localize += 'shortDays: "%s",' % ','.join(
+            calendar.getDayAbbreviations()
+        )
         localize += '});'
 
         config = 'lang: "%s", ' % language
@@ -167,7 +169,7 @@ class AbstractDateWidget(object):
                    '  jQuery("#%(id)s-year").val(value[0]); \n' \
                    '  jQuery("#%(id)s-month").val(value[1]); \n' \
                    '  jQuery("#%(id)s-day").val(value[2]); \n' \
-                   '}, ') % dict(id = id)
+                   '}, ') % dict(id=id)
         config += self.jquerytools_dateinput_config
 
         return '''
@@ -199,7 +201,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     empty_value = ('', '', '', '00', '00')
     value = empty_value
     klass = u'datetime-widget'
-    ampm  = False
+    ampm = False
 
     @property
     def _dtformatter(self):
