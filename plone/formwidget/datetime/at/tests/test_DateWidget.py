@@ -1,4 +1,3 @@
-import mock
 import unittest2 as unittest
 
 
@@ -13,7 +12,7 @@ class TestDateWidget(unittest.TestCase):
         from plone.formwidget.datetime.base import AbstractDateWidget
         from Products.Archetypes.Widget import TypesWidget
         self.assertTrue(DateWidget, (AbstractDateWidget, TypesWidget))
-    
+
     def test__properties(self):
         instance = self.createInstance()
         self.assertEqual(
@@ -32,7 +31,7 @@ class TestDateWidget(unittest.TestCase):
                 'blurrable': False,
                 'modes': ('view', 'edit'),
                 'show_content_type': False,
-                'condition': '', 
+                'condition': '',
                 'helper_js': ()
             }
         )
@@ -45,5 +44,3 @@ class TestDateWidget(unittest.TestCase):
     #     ins.REQUEST = request
     #     instance(mode, ins)
     #     self.assertTrue(DateWidget.called)
-
-    

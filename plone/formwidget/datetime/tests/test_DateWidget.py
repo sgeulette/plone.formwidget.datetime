@@ -4,7 +4,6 @@ import unittest2 as unittest
 
 class TestDateWidget(unittest.TestCase):
 
-
     def createInstance(self):
         from plone.formwidget.datetime.z3cform.widget import DateWidget
         return DateWidget(mock.Mock())
@@ -32,7 +31,51 @@ class TestDateWidget(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.z3cform.widget.z3c.form.browser.widget.addFieldClass')
     def test_update(self, addFieldClass):
         instance = self.createInstance()
-        instance.name = 'name'
+        instance.name = 'field'
         instance.update()
         self.assertTrue(addFieldClass.called)
-        
+
+    def test_extract__default_not_in_(self):
+        instance = self.createInstance()
+        instance.name = 'field'
+        instance.request = {
+            'field-day': '21',
+            'field-month': '11',
+            'field-year': '2011',
+        }
+        self.assertEqual(
+            instance.extract(),
+            ('2011', '11', '21')
+        )
+
+    @mock.patch('plone.formwidget.datetime.z3cform.widget.DateWidget._dtformatter')
+    def test_extract__default_in_with_error(self, _dtformatter):
+        instance = self.createInstance()
+        instance.name = 'field'
+        instance.request = mock.MagicMock()
+        day = instance.request.get('field-day')
+        from zope.i18n.format import DateTimeParseError
+        instance._dtformatter.parse = mock.Mock(side_effect=DateTimeParseError)
+        self.assertEqual(instance.extract(day), day)
+
+    def test_extract__default_in_without_error(self):
+        instance = self.createInstance()
+        instance.name = 'field'
+        instance.request = mock.MagicMock()
+        day = instance.request.get('field-day')
+        self.assertEqual(len(instance.extract(day)), 3)
+
+    def test_js_value__without_empty_string_in_value(self):
+        instance = self.createInstance()
+        instance.name = 'field'
+        instance.value = ('2011', '11', '21')
+        self.assertEqual(
+            instance.js_value,
+            'value: new Date(2011, 11, 21), '
+        )
+
+    def test_js_value__with_empty_string_in_value(self):
+        instance = self.createInstance()
+        instance.name = 'field'
+        instance.value = ('', '11', '21')
+        self.assertEqual(instance.js_value, '')
