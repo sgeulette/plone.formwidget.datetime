@@ -80,7 +80,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.request = {}
         instance.value = '12345'
         instance.empty_value = '45678'
-        self.assertEqual(instance.minute, '5')
+        self.assertEqual(instance.minute, '8')
 
     def test_minute_is_None_value_is_empty_value(self):
         instance = self.createInstance()
