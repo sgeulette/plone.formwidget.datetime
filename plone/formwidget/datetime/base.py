@@ -102,6 +102,8 @@ class AbstractDateWidget(object):
         day = self.request.get(self.name+'-day', None)
         if day is not None:
             return day
+        if self.value[2] == 1:
+            return 1
         if self.value[2] != self.empty_value[2]:
             return self.value[2]
         return None
