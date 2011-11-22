@@ -4,11 +4,9 @@ from setuptools import setup
 import os
 
 
-version = '0.1'
-
 setup(
     name='plone.formwidget.datetime',
-    version=version,
+    version='0.1',
     description="Datetime widgets for Plone",
     long_description=open("README.txt").read() + "\n" +
         open(os.path.join("docs", "HISTORY.txt")).read(),
@@ -21,7 +19,7 @@ setup(
     keywords='plone date time datetime event widget archetypes z3c.form',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='https://github.com/collective/',
+    url='https://github.com/collective/plone.formwidget.datetime',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.formwidget'],
@@ -38,8 +36,8 @@ setup(
         ],
         extras_require=dict(
             z3cform=[
-                'zope.i18n',
                 'z3c.form',
+                'zope.i18n',
             ],
             archetypes=[
                 'Products.Archetypes',
@@ -47,14 +45,14 @@ setup(
                 'Zope2',
             ],
             test=[
-                'plone.app.testing',
                 'Products.Archetypes',
                 'Products.CMFCore',
                 'Products.GenericSetup',
-                'z3c.form[test]',
-                'zope.testing',
-                'zc.buildout',
                 'Zope2',
+                'plone.app.testing',
+                'z3c.form[test]',
+                'zc.buildout',
+                'zope.testing',
             ],
         ),
 )

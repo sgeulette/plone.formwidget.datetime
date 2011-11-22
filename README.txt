@@ -20,3 +20,4 @@ Contributors
 * Simone Orsi
 * Johannes Raggam - thet
 * Carsten Senger - csenger
+* Taito Horiuchi - taito
