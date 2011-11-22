@@ -7,6 +7,8 @@
 
     <include package="z3c.form" />
 
+    <i18n:registerTranslations directory="../locales" />
+
     <!-- WIDGETS -->
 
     <class class=".widget.DateWidget">
