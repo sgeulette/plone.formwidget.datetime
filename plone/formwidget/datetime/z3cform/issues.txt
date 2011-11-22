@@ -133,7 +133,7 @@ ISSUE 2
   >>> widget.value
   ('2011', '12', '31', '13', '00')
   
-  >>> 'value: new Date(2011, 12, 31)' in widget.get_js()
+  >>> 'value: new Date(2011, 11, 31, 01, 00)' in widget.get_js()
   True
 
 

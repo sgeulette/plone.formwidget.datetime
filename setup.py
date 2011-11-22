@@ -32,6 +32,8 @@ setup(
         'plone.app.jquerytools',
         'setuptools',
         'unittest2',
+        'z3c.form',
+        'zope.app.testing',
         'zope.i18nmessageid',
         ],
         extras_require=dict(

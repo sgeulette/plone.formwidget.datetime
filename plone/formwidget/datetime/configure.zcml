@@ -5,6 +5,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.formwidget.datetime">
 
+    <includeDependencies package="." />
     <include zcml:provides="installed Products.Archetypes" package=".at" />
     <include zcml:provides="installed z3c.form" package=".z3cform" />
 
