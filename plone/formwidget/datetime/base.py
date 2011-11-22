@@ -227,7 +227,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         if min:
             return min
         if self.value[4] != self.empty_value[4]:
-            return self.value[4]
+            return self.empty_value[4]
         return None
 
     def is_pm(self):
