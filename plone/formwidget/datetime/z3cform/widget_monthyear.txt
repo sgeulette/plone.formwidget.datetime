@@ -79,5 +79,3 @@ HIDDEN_MODE
   ...     )
   >>> widget.extract()
   ('2007', '4', '1')
-
-
