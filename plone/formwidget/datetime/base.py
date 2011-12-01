@@ -19,7 +19,7 @@ class AbstractDateWidget(object):
     #
     # Requires: jquery.tools.datewidget.js, jquery.js
     # Read more: http://flowplayer.org/tools/dateinput/index.html
-    show_jquerytools_dateinput = False
+    show_jquerytools_dateinput = True
     jquerytools_dateinput_config = 'selectors: true, ' \
                                    'trigger: true, ' \
                                    'yearRange: [-10, 10]'
