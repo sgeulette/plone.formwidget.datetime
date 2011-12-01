@@ -164,7 +164,7 @@ class AbstractDateWidget(object):
 
         config = 'lang: "%s", ' % language
         if self.js_value:
-            config += 'value: %s, ' % self.js_value
+            config += 'value: %s' % self.js_value
 
         config += ('change: function() {\n'
                    '  var value = this.getValue("yyyy-mm-dd").split("-");\n'
