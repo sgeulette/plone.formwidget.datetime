@@ -30,7 +30,7 @@ class TestAbstractDateWidget(unittest.TestCase):
 
     def test_instance__show_jquerytools_dateinput(self):
         instance = self.createInstance()
-        self.assertFalse(instance.show_jquerytools_dateinput)
+        self.assertTrue(instance.show_jquerytools_dateinput)
 
     def test_instance__jquerytools_dateinput_config(self):
         instance = self.createInstance()
@@ -293,7 +293,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance.js_value = None
         self.assertEqual(
             instance.get_js(),
-            '\n            <input type="hidden"\n                id="id-calendar"\n                name="field-calendar"\n                class="field-calendar" />\n            <script type="text/javascript">\n                if (jQuery().dateinput) {\n                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W",});\n                    jQuery("#id-calendar").dateinput({lang: "en", change: function() {\n  var value = this.getValue("yyyy-mm-dd").split("-");\n  jQuery("#id-year").val(value[0]); \n  jQuery("#id-month").val(value[1]); \n  jQuery("#id-day").val(value[2]); \n}, selectors: true, trigger: true, yearRange: [-10, 10]}).unbind(\'change\')\n                        .bind(\'onShow\', function (event) {\n                            var trigger_offset = jQuery(this).next().offset();\n                            jQuery(this).data(\'dateinput\').getCalendar().offset(\n                                {top: trigger_offset.top+20, left: trigger_offset.left}\n                            );\n                        });\n                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n                }\n            </script>'
+            '\n            <input type="hidden"\n                id="id-calendar"\n                name="field-calendar"\n                class="field-calendar" />\n            <script type="text/javascript">\n                if (jQuery().dateinput) {\n                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n                    jQuery("#id-calendar").dateinput({lang: "en", change: function() {\n  var value = this.getValue("yyyy-mm-dd").split("-");\n  jQuery("#id-year").val(value[0]); \n  jQuery("#id-month").val(value[1]); \n  jQuery("#id-day").val(value[2]); \n}, selectors: true, trigger: true, yearRange: [-10, 10]}).unbind(\'change\')\n                        .bind(\'onShow\', function (event) {\n                            var trigger_offset = jQuery(this).next().offset();\n                            jQuery(this).data(\'dateinput\').getCalendar().offset(\n                                {top: trigger_offset.top+20, left: trigger_offset.left}\n                            );\n                        });\n                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n                }\n            </script>'
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.js_value')
@@ -313,7 +313,16 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W']
         instance.js_value = 'js_value'
         instance.jquerytools_dateinput_config = 'jquerytools_dateinput_config'
-        self.assertEqual(
-            instance.get_js(),
-            '\n            <input type="hidden"\n                id="id-calendar"\n                name="field-calendar"\n                class="field-calendar" />\n            <script type="text/javascript">\n                if (jQuery().dateinput) {\n                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W",});\n                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, change: function() {\n  var value = this.getValue("yyyy-mm-dd").split("-");\n  jQuery("#id-year").val(value[0]); \n  jQuery("#id-month").val(value[1]); \n  jQuery("#id-day").val(value[2]); \n}, jquerytools_dateinput_config}).unbind(\'change\')\n                        .bind(\'onShow\', function (event) {\n                            var trigger_offset = jQuery(this).next().offset();\n                            jQuery(this).data(\'dateinput\').getCalendar().offset(\n                                {top: trigger_offset.top+20, left: trigger_offset.left}\n                            );\n                        });\n                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n                }\n            </script>'
-        )
+        target = '\n            <input type="hidden"\n                id="id-calendar"\n                name="field-calendar"\n                class="field-calendar" />\n            <script type="text/javascript">\n                if (jQuery().dateinput) {\n                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, change: function() {\n  var value = this.getValue("yyyy-mm-dd").split("-");\n  jQuery("#id-year").val(value[0]); \n  jQuery("#id-month").val(value[1]); \n  jQuery("#id-day").val(value[2]); \n}, jquerytools_dateinput_config}).unbind(\'change\')\n                        .bind(\'onShow\', function (event) {\n                            var trigger_offset = jQuery(this).next().offset();\n                            jQuery(this).data(\'dateinput\').getCalendar().offset(\n                                {top: trigger_offset.top+20, left: trigger_offset.left}\n                            );\n                        });\n                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n                }\n            </script>'
+        result = instance.get_js()
+        
+        #targetl = target.split('\n')
+        #resultl = result.split('\n')
+        #for i in range(len(targetl)):
+            #if resultl[i] != targetl[i]:
+                #import pdb;pdb.set_trace()
+                #print "Line ", i, "differs:"
+                #print resultl[i]
+                #print targetl[i]
+                    
+        self.assertEqual(result, target)
