@@ -244,7 +244,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.minute = 55
         self.assertEqual(
             instance.js_value,
-            'new Date(2011, 10, 22), '
+            'new Date(2011, 10, 22)'
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
@@ -261,7 +261,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.minute = None
         self.assertEqual(
             instance.js_value,
-            'new Date(2011, 10, 22), '
+            'new Date(2011, 10, 22)'
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
@@ -278,5 +278,5 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.minute = 55
         self.assertEqual(
             instance.js_value,
-            'new Date(2011, 10, 22, 23, 55), '
+            'new Date(2011, 10, 22, 23, 55)'
         )

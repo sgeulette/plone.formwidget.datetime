@@ -272,7 +272,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance.day = 22
         self.assertEqual(
             instance.js_value,
-            'new Date(2011, 10, 22), '
+            'new Date(2011, 10, 22)'
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.js_value')

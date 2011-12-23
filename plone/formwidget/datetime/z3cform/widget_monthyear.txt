@@ -52,7 +52,7 @@ INPUT_MODE
               <script type="text/javascript">
                   if (jQuery().dateinput) {
                       jQuery.tools.dateinput.localize("en", {months: "January,February,March,April,May,June,July,August,September,October,November,December",shortMonths: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",days: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",shortDays: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"});
-                      jQuery("#foo-calendar").dateinput({lang: "en", value: value: new Date(2007, 4, 1), , change: function() {
+                      jQuery("#foo-calendar").dateinput({lang: "en", value: new Date(2007, 4, 1), change: function() {
     var value = this.getValue("yyyy-mm-dd").split("-");
     jQuery("#foo-year").val(value[0]);
     jQuery("#foo-month").val(value[1]);

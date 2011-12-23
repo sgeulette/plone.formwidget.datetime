@@ -53,7 +53,7 @@ class DateWidget(base.AbstractDateWidget,
     def js_value(self):
         value_date = self.value[:3]
         if '' not in value_date:
-            return 'value: new Date(%s, %s, %s), ' % (value_date)
+            return 'new Date(%s, %s, %s)' % (value_date)
         else:
             return ''
 

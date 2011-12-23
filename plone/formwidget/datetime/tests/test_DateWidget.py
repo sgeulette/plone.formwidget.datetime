@@ -68,7 +68,7 @@ class TestDateWidget(unittest.TestCase):
         instance.value = ('2011', '11', '21')
         self.assertEqual(
             instance.js_value,
-            'value: new Date(2011, 11, 21), '
+            'new Date(2011, 11, 21)'
         )
 
     def test_js_value__with_empty_string_in_value(self):

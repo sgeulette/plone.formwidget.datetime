@@ -135,7 +135,7 @@ class AbstractDateWidget(object):
         month = self.month and int(self.month) - 1 or None
         day = self.day
         if year and month and day:
-            return 'new Date(%s, %s, %s), ' % (
+            return 'new Date(%s, %s, %s)' % (
                 year, month, day)
         else:
             return None
@@ -267,10 +267,10 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         hour = self.hour
         min = self.minute
         if year and month and day and hour and min:
-            return 'new Date(%s, %s, %s, %s, %s), ' % (
+            return 'new Date(%s, %s, %s, %s, %s)' % (
                 year, month, day, hour, min)
         elif year and month and day:
-            return 'new Date(%s, %s, %s), ' % (
+            return 'new Date(%s, %s, %s)' % (
                 year, month, day)
         else:
             return None
