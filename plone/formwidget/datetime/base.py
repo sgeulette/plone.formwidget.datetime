@@ -167,7 +167,7 @@ class AbstractDateWidget(object):
             config += 'value: %s, ' % self.js_value
 
         config += ('change: function() {\n'
-                   '  var value = this.getValue("yyyy-mm-dd").split("-");\n'
+                   '  var value = this.getValue("yyyy-m-d").split("-");\n'
                    '  jQuery("#%(id)s-year").val(value[0]); \n' \
                    '  jQuery("#%(id)s-month").val(value[1]); \n' \
                    '  jQuery("#%(id)s-day").val(value[2]); \n' \
@@ -191,13 +191,27 @@ class AbstractDateWidget(object):
                         });
                     jQuery("#%(id)s-calendar").next()%(popup_calendar_icon)s;
                 }
+                
+                function updateCalendar(widgetId) {
+                    var y = jQuery(widgetId + '-year').val();
+                    var m = jQuery(widgetId + '-month').val();
+                    var d = jQuery(widgetId + '-day').val();
+                    jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                    jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                }
             </script>''' % dict(
                 id=id, name=name,
                 config=config, localize=localize,
                 popup_calendar_icon=self.popup_calendar_icon,
             )
 
-
+    def onchange(self, fieldname=None):
+        if not self.show_jquerytools_dateinput:
+            return ''
+        
+        id = fieldname and fieldname or self.id
+        return "updateCalendar('#%(id)s');" % dict(id=id)
+               
 class AbstractDatetimeWidget(AbstractDateWidget):
 
     empty_value = ('', '', '', '00', '00')
