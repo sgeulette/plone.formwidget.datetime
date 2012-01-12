@@ -56,6 +56,12 @@ class DateWidget(base.AbstractDateWidget,
             return 'new Date(%s, %s, %s)' % (value_date)
         else:
             return ''
+            
+    @property
+    def js_field(self):
+        """Returns the id of a field that contains a js-parseable value of the selected date.
+        Used by plone.formwidget.recurrencewidget"""
+        return self.id + '-calendar'
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
