@@ -26,8 +26,8 @@ INPUT_MODE
   >>> print widget.render()
   <BLANKLINE>
   <BLANKLINE>
-  <input type="hidden" id="foo-day" name="bar-day" class="monthyear-widget required date-field" size="2" maxlength="2" value="1" />
-  <select id="foo-month" name="bar-month" class="monthyear-widget required date-field">
+  <input type="hidden" id="foo-day" name="bar-day" class="monthyear-widget required date-field" size="2" maxlength="2" onchange="updateCalendar('#foo');" value="1" />
+  <select id="foo-month" name="bar-month" class="monthyear-widget required date-field" onchange="updateCalendar('#foo');">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -41,7 +41,7 @@ INPUT_MODE
       <option value="11">November</option>
       <option value="12">December</option>
   </select> /
-  <input type="text" id="foo-year" name="bar-year" class="monthyear-widget required date-field" alt="" accesskey="" size="4" maxlength="4" value="2007" />
+  <input type="text" id="foo-year" name="bar-year" class="monthyear-widget required date-field" alt="" accesskey="" size="4" maxlength="4" onchange="updateCalendar('#foo');" value="2007" />
   <input name="bar-empty-marker" type="hidden" value="1" />
   <BLANKLINE>
   <BLANKLINE>
@@ -53,7 +53,7 @@ INPUT_MODE
                   if (jQuery().dateinput) {
                       jQuery.tools.dateinput.localize("en", {months: "January,February,March,April,May,June,July,August,September,October,November,December",shortMonths: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",days: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",shortDays: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"});
                       jQuery("#foo-calendar").dateinput({lang: "en", value: new Date(2007, 4, 1), change: function() {
-    var value = this.getValue("yyyy-mm-dd").split("-");
+    var value = this.getValue("yyyy-m-d").split("-");
     jQuery("#foo-year").val(value[0]);
     jQuery("#foo-month").val(value[1]);
     jQuery("#foo-day").val(value[2]);
@@ -66,7 +66,16 @@ INPUT_MODE
                           });
                       jQuery("#foo-calendar").next().css({'width': '16px', 'vertical-align': 'middle', 'display': 'inline-block', 'background': 'url(popup_calendar.gif)', 'height': '16px'});
                   }
-              </script>
+  <BLANKLINE>
+                  function updateCalendar(widgetId) {
+                      var y = jQuery(widgetId + '-year').val();
+                      var m = jQuery(widgetId + '-month').val();
+                      var d = jQuery(widgetId + '-day').val();
+                      jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                      jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                  }
+                 </script>
+
 
   >>> widget.request = self.testrequest(
   ...     form={'bar-day': '1',

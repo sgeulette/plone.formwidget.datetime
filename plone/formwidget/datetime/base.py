@@ -191,7 +191,6 @@ class AbstractDateWidget(object):
                         });
                     jQuery("#%(id)s-calendar").next()%(popup_calendar_icon)s;
                 }
-                
                 function updateCalendar(widgetId) {
                     var y = jQuery(widgetId + '-year').val();
                     var m = jQuery(widgetId + '-month').val();
