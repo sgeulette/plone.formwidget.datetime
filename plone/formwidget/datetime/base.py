@@ -195,8 +195,14 @@ class AbstractDateWidget(object):
                     var y = jQuery(widgetId + '-year').val();
                     var m = jQuery(widgetId + '-month').val();
                     var d = jQuery(widgetId + '-day').val();
-                    jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
-                    jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                    if (!y || !m || !d) {
+                        return;
+                    }
+                    var newDate = new Date(m + '/' + d + '/' + y);
+                    if (newDate.getYear()) { // return NaN (which is false) if the date is invalid
+                        jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                        jQuery(widgetId + '-calendar').data()['dateinput'].setValue(newDate);
+                    }
                 }
             </script>''' % dict(
                 id=id, name=name,
