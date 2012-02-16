@@ -8,8 +8,9 @@ JQueryTools Dateinput, provided by plone.app.jquerytools.
 TODO
 ====
 
-- Include popup_calendar.gif as browser-resource in this package.
-- create DateDeltaWidget and DatetimeDeltaWidget
+* Include popup_calendar.gif as browser-resource in this package.
+* create DateDeltaWidget and DatetimeDeltaWidget
+* use timepicker
 
 Contributors
 ============
