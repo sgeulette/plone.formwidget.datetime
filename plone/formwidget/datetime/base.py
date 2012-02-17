@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import datetime
 from plone.formwidget.datetime import MessageFactory as _
+import pytz
 
 import zope.i18n
 
@@ -200,7 +201,7 @@ class AbstractDateWidget(object):
 
 class AbstractDatetimeWidget(AbstractDateWidget):
 
-    empty_value = ('', '', '', '00', '00')
+    empty_value = ('', '', '', '00', '00', '')
     value = empty_value
     klass = u'datetime-widget'
     ampm = False
@@ -210,7 +211,11 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         return self.request.locale.dates.getFormatter("dateTime", "short")
 
     def _dtvalue(self, value):
-        return datetime(*map(int, value))
+        if value[-1]:
+            timezone = pytz.timezone(value[-1])
+            return datetime(*map(int, value[:-1]), tzinfo=timezone)
+        else:
+            return datetime(*map(int, value[-1]))
 
     @property
     def hour(self):
@@ -234,6 +239,15 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         if int(self.hour) >= 12:
             return True
         return False
+
+    @property
+    def timezone(self):
+        timezone = self.request.get(self.name+'-timezone', None)
+        if timezone:
+            return timezone
+        if self.value[5] != self.empty_value[5]:
+            return self.value[5]
+        return None
 
     @property
     def minutes(self):

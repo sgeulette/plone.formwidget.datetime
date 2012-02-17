@@ -1,3 +1,4 @@
+import pytz
 from datetime import date, datetime
 from plone.formwidget.datetime.z3cform.interfaces import DateValidationError
 from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
@@ -30,8 +31,10 @@ class DatetimeDataConverter(DateDataConverter):
 
     def toWidgetValue(self, value):
         if value is self.field.missing_value:
-            return ('', '', '', '00', '00')
-        return (value.year, value.month, value.day, value.hour, value.minute)
+            return ('', '', '', '00', '00', '')
+
+        return (value.year, value.month, value.day, value.hour, value.minute,
+                str(getattr(value, 'tzinfo', '')))
 
     def toFieldValue(self, value):
         for val in value:
@@ -39,11 +42,12 @@ class DatetimeDataConverter(DateDataConverter):
                 return self.field.missing_value
 
         try:
-            value = map(int, value)
+            intvalues = map(int, value[:-1])
         except ValueError:
             raise DatetimeValidationError
         try:
-            return datetime(*value)
+            timezone = pytz.timezone(value[-1])
+            return datetime(*intvalues[:-1], tzinfo=timezone)
         except ValueError:
             raise DatetimeValidationError
 

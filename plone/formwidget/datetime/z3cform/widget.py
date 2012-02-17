@@ -11,17 +11,19 @@ import zope.i18n
 import zope.interface
 import zope.schema
 
-
+class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
 class DateWidget(base.AbstractDateWidget,
                  z3c.form.browser.widget.HTMLTextInputWidget,
                  z3c.form.widget.Widget):
+
+class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
     """ Date widget.
 
     Please note: zope.schema date/datetime field values are python datetime
     instances.
-
-    """
     zope.interface.implementsOnly(IDateWidget)
+    """
+    implementsOnly(IDateWidget)
 
     def update(self):
         super(DateWidget, self).update()
@@ -42,9 +44,9 @@ class DateWidget(base.AbstractDateWidget,
         try:
             dateobj = formatter.parse(hidden_date)
             return (str(dateobj.year),
-                    str(dateobj.month),
-                    str(dateobj.day))
         except zope.i18n.format.DateTimeParseError:
+                    str(dateobj.day))
+        except DateTimeParseError:
             pass
 
         return default
@@ -56,27 +58,27 @@ class DateWidget(base.AbstractDateWidget,
             return 'new Date(%s, %s, %s)' % (value_date)
         else:
             return ''
-
-
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+@adapter(IField, z3c.form.interfaces.IFormLayer)
+@implementer(z3c.form.interfaces.IFieldWidget)
 def DateFieldWidget(field, request):
     """IFieldWidget factory for DateWidget."""
     return z3c.form.widget.FieldWidget(field, DateWidget(request))
-
-
 class DatetimeWidget(base.AbstractDatetimeWidget,
                      DateWidget):
-    """ DateTime widget """
+                     z3c.form.browser.widget.HTMLTextInputWidget,
     zope.interface.implementsOnly(IDatetimeWidget)
+    """ DateTime widget """
+    def extract(self, default=z3c.form.interfaces.NOVALUE):
 
     def extract(self, default=z3c.form.interfaces.NOVALUE):
         # get normal input fields
         day = self.request.get(self.name + '-day', default)
         month = self.request.get(self.name + '-month', default)
-        year = self.request.get(self.name + '-year', default)
-        hour = self.request.get(self.name + '-hour', default)
         minute = self.request.get(self.name + '-min', default)
+        minute = self.request.get(self.name + '-min', default)
+        timezone = self.request.get(self.name + '-timezone', default)
 
         if (self.ampm is True and
             hour is not default and
@@ -88,10 +90,10 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
             # something strange happened since we either
             # should have 'PM' or 'AM', return default
             elif ampm != 'AM':
-                return default
-
         if default not in (year, month, day, hour, minute):
             return (year, month, day, hour, minute)
+        if default not in (year, month, day, hour, minute, timezone):
+            return (year, month, day, hour, minute, timezone)
 
         # get a hidden value
         formatter = self._dtformatter
@@ -100,30 +102,30 @@ class DatetimeWidget(base.AbstractDatetimeWidget,
             dateobj = formatter.parse(hidden_date)
             return (str(dateobj.year),
                     str(dateobj.month),
-                    str(dateobj.day),
-                    str(dateobj.hour),
                     str(dateobj.minute))
         except zope.i18n.format.DateTimeParseError:
+                    str(getattr(dateobj, 'tzinfo', '')))
+        except DateTimeParseError:
             pass
-
-        return default
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+@adapter(IField, z3c.form.interfaces.IFormLayer)
+    """IFieldWidget factory for DatetimeWidget."""
 def DatetimeFieldWidget(field, request):
     """IFieldWidget factory for DatetimeWidget."""
     return z3c.form.widget.FieldWidget(field, DatetimeWidget(request))
 
-
-class MonthYearWidget(base.AbstractMonthYearWidget,
                       DateWidget):
-    """ Month and year widget """
+                      z3c.form.browser.widget.HTMLTextInputWidget,
     zope.interface.implementsOnly(IMonthYearWidget)
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+@adapter(IField, z3c.form.interfaces.IFormLayer)
+@implementer(z3c.form.interfaces.IFieldWidget)
 def MonthYearFieldWidget(field, request):
     """IFieldWidget factory for MonthYearWidget."""
     return z3c.form.widget.FieldWidget(field, MonthYearWidget(request))
