@@ -13,19 +13,9 @@ from zope.interface import implementer, implementsOnly
 from zope.schema.interfaces import IField
 
 class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
-    pass
-
-class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
-    """ Date widget.
-
-    Please note: zope.schema date/datetime field values are python datetime
-    instances.
-
-    """
-    implementsOnly(IDateWidget)
 
     def update(self):
-        super(DateWidget, self).update()
+        super(AbstractDXDateWidget, self).update()
         addFieldClass(self)
 
     def extract(self, default=NOVALUE):
@@ -59,6 +49,15 @@ class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
             return ''
 
 
+class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
+    """ Date widget.
+
+    Please note: zope.schema date/datetime field values are python datetime
+    instances.
+
+    """
+    implementsOnly(IDateWidget)
+
 @adapter(IField, IFormLayer)
 @implementer(IFieldWidget)
 def DateFieldWidget(field, request):
@@ -69,10 +68,6 @@ def DateFieldWidget(field, request):
 class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
     """ DateTime widget """
     implementsOnly(IDatetimeWidget)
-
-    def update(self):
-        super(DatetimeWidget, self).update()
-        addFieldClass(self)
 
     def extract(self, default=NOVALUE):
         # get normal input fields
@@ -114,15 +109,6 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
 
         return default
 
-    @property
-    def js_value(self):
-        value_date = self.value[:3]
-        if '' not in value_date:
-            return 'new Date(%s, %s, %s)' % (value_date)
-        else:
-            return ''
-
-
 @adapter(IField, IFormLayer)
 @implementer(IFieldWidget)
 def DatetimeFieldWidget(field, request):
@@ -133,42 +119,6 @@ def DatetimeFieldWidget(field, request):
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
     """ Month and year widget """
     implementsOnly(IMonthYearWidget)
-
-    def update(self):
-        super(DateWidget, self).update()
-        addFieldClass(self)
-
-    def extract(self, default=NOVALUE):
-        # get normal input fields
-        day = self.request.get(self.name + '-day', default)
-        month = self.request.get(self.name + '-month', default)
-        year = self.request.get(self.name + '-year', default)
-
-        if not default in (year, month, day):
-            return (year, month, day)
-
-        # get a hidden value
-        formatter = self._dtformatter
-        hidden_date = self.request.get(self.name, '')
-        try:
-            dateobj = formatter.parse(hidden_date)
-            return (str(dateobj.year),
-                    str(dateobj.month),
-                    str(dateobj.day))
-        except DateTimeParseError:
-            pass
-
-        return default
-
-    @property
-    def js_value(self):
-        value_date = self.value[:3]
-        if '' not in value_date:
-            return 'new Date(%s, %s, %s)' % (value_date)
-        else:
-            return ''
-
-
 
 @adapter(IField, IFormLayer)
 @implementer(IFieldWidget)
