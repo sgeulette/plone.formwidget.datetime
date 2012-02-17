@@ -1,9 +1,6 @@
-from datetime import date
 from datetime import datetime
+from zope.i18n import translate
 from plone.formwidget.datetime import MessageFactory as _
-import pytz
-
-import zope.i18n
 
 
 class AbstractDateWidget(object):
@@ -36,23 +33,6 @@ class AbstractDateWidget(object):
                                 'display': 'inline-block',
                                 'vertical-align': 'middle'})
 
-    @property
-    def _dtformatter(self):
-        return self.request.locale.dates.getFormatter("date", "short")
-
-    def _dtvalue(self, value):
-        return date(*map(int, value))
-
-    @property
-    def formatted_value(self):
-        if self.value in (self.empty_value, None):
-            return ''
-        dt_value = self._dtvalue(self.value)
-        if dt_value.year > 1900:
-            return self._dtformatter.format(dt_value)
-        # due to fantastic datetime.strftime we need this hack
-        # for now ctime is default
-        return dt_value.ctime()
 
     @property
     def years(self):
@@ -127,7 +107,7 @@ class AbstractDateWidget(object):
                 day=now.day,
                 month=now.month,
                 year=now.year,
-                today=zope.i18n.translate(_(u"Today"), context=self.request)
+                today=translate(_(u"Today"), context=self.request)
             )
 
     @property
@@ -205,17 +185,6 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     value = empty_value
     klass = u'datetime-widget'
     ampm = False
-
-    @property
-    def _dtformatter(self):
-        return self.request.locale.dates.getFormatter("dateTime", "short")
-
-    def _dtvalue(self, value):
-        if value[-1]:
-            timezone = pytz.timezone(value[-1])
-            return datetime(*map(int, value[:-1]), tzinfo=timezone)
-        else:
-            return datetime(*map(int, value[-1]))
 
     @property
     def hour(self):

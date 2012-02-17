@@ -37,7 +37,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         value = form.get("%s-calendar" % fname, empty_marker)
         if value is empty_marker:
             return empty_marker
-        import pdb;pdb.set_trace()
         # If JS support is unavailable, the value
         # in the request may be missing or incorrect
         # since it won't have been assembled from the
