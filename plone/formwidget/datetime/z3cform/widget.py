@@ -1,9 +1,9 @@
 import pytz
 from datetime import date, datetime
 from plone.formwidget.datetime import base
-from plone.formwidget.datetime.interfaces import IDateWidget
-from plone.formwidget.datetime.interfaces import IDatetimeWidget
-from plone.formwidget.datetime.interfaces import IMonthYearWidget
+from plone.formwidget.datetime.z3cform.interfaces import IDateWidget
+from plone.formwidget.datetime.z3cform.interfaces import IDatetimeWidget
+from plone.formwidget.datetime.z3cform.interfaces import IMonthYearWidget
 
 from z3c.form.browser.widget import addFieldClass, HTMLTextInputWidget
 from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
