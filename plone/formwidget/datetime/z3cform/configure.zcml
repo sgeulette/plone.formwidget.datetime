@@ -7,10 +7,7 @@
 
     <include package="z3c.form" />
 
-    <i18n:registerTranslations directory="../locales" />
-
     <!-- WIDGETS -->
-
     <class class=".widget.DateWidget">
       <require permission="zope.Public"
                interface=".interfaces.IDateWidget" />
@@ -42,7 +39,6 @@
 
 
     <!-- CONVERTORS -->
-
     <adapter
         factory=".converter.DateDataConverter"
         for="zope.schema.interfaces.IDate
@@ -58,7 +54,6 @@
 
 
     <!-- TEMPLATES -->
-
     <z3c:widgetTemplate
         mode="display"
         widget=".interfaces.IDateWidget"

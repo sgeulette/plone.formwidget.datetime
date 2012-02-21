@@ -10,7 +10,6 @@ from plone.formwidget.datetime import MessageFactory as _
 class IDateField(zope.schema.interfaces.IDate):
     """ Special marker for date fields that use our widget """
 
-
 class IDatetimeField(zope.schema.interfaces.IDatetime):
     """ Special marker for datetime fields that use our widget """
 
@@ -27,10 +26,8 @@ class IDateWidget(z3c.form.interfaces.IWidget):
         default=False,
         )
 
-
 class IDatetimeWidget(z3c.form.interfaces.IWidget):
     """ Datetime widget marker for z3c.form """
-
 
 class IMonthYearWidget(z3c.form.interfaces.IWidget):
     """ MonthYear widget marker for z3c.form """
@@ -40,7 +37,6 @@ class IMonthYearWidget(z3c.form.interfaces.IWidget):
 
 class DateValidationError(zope.schema.ValidationError):
     __doc__ = _(u'Please enter a valid date.')
-
 
 class DatetimeValidationError(zope.schema.ValidationError):
     __doc__ = _(u'Please enter a valid date and time.')
