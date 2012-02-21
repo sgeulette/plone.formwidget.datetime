@@ -10,6 +10,13 @@ class AbstractDateWidget(object):
     empty_value = ('', '', '')
     value = empty_value
 
+    with_day = True
+    with_month = True
+    with_year = True
+    with_hour = False
+    with_minute = False
+    with_timezone = False
+
     #
     # pure javascript no dependencies
     show_today_link = False
@@ -186,6 +193,13 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     klass = u'datetime-widget'
     ampm = False
 
+    with_day = True
+    with_month = True
+    with_year = True
+    with_hour = True
+    with_minute = True
+    with_timezone = True
+
     @property
     def hour(self):
         hour = self.request.get(self.name+'-hour', None)
@@ -264,3 +278,12 @@ class AbstractMonthYearWidget(AbstractDateWidget):
     klass = u'monthyear-widget'
     empty_value = ('', '', 1)
     value = empty_value
+
+    with_day = False
+    with_month = True
+    with_year = True
+    with_hour = False
+    with_minute = False
+    with_timezone = False
+
+
