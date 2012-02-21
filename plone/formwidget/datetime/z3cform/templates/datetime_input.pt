@@ -1,5 +1,6 @@
 <tal:root>
 
+<!-- day -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="2" maxlength="2"
        tal:attributes="id string:${view/id}-day;
@@ -28,6 +29,7 @@
                        alt view/alt;
                        accesskey view/accesskey;
                        onselect view/onselect;" /> /
+<!-- month -->
 <select id="" name="" class="" tabindex="" disabled=""
         tal:attributes="id string:${view/id}-month;
                         name string:${view/name}-month;
@@ -56,6 +58,7 @@
                             selected python:item['selected'] and 'selected' or None"
             tal:content="item/name">label</option>
 </select> /
+<!-- year -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="4" maxlength="4"
        tal:attributes="id string:${view/id}-year;
@@ -91,6 +94,7 @@
 
 &nbsp;
 
+<!-- hour -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="2" maxlength="2"
        tal:attributes="id string:${view/id}-hour;
@@ -117,6 +121,7 @@
                        onchange view/onchange;
                        readonly view/readonly;
                        onselect view/onselect;" /> :
+<!-- minute -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="2" maxlength="2"
        tal:attributes="id string:${view/id}-min;
@@ -143,6 +148,7 @@
                        onchange view/onchange;
                        readonly view/readonly;
                        onselect view/onselect;" />
+<!-- am/pm -->
 <select id="" name="" class="" tabindex="" disabled=""
         tal:condition="view/ampm"
         tal:attributes="id string:${view/id}-ampm;
