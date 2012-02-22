@@ -34,8 +34,8 @@ Render without AM/PM support:
   >>> print widget.render()
   <BLANKLINE>
   <BLANKLINE>  
-  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" value="1" /> /
-  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field">
+  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" onchange="updateCalendar('#foo');" value="1" /> /
+  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field" onchange="updateCalendar('#foo');">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -49,7 +49,7 @@ Render without AM/PM support:
       <option value="11">November</option>
       <option value="12">December</option>
   </select> /
-  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" value="2007" />
+  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" onchange="updateCalendar('#foo');" value="2007" />
   <BLANKLINE>
   <BLANKLINE>
               <input type="hidden"
@@ -60,7 +60,7 @@ Render without AM/PM support:
                   if (jQuery().dateinput) {
                       jQuery.tools.dateinput.localize("en", {months: "January,February,March,April,May,June,July,August,September,October,November,December",shortMonths: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",days: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",shortDays: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"});
                       jQuery("#foo-calendar").dateinput({lang: "en", value: new Date(2007, 3, 1, 12, 00), change: function() {
-    var value = this.getValue("yyyy-mm-dd").split("-");
+    var value = this.getValue("yyyy-m-d").split("-");
     jQuery("#foo-year").val(value[0]);
     jQuery("#foo-month").val(value[1]);
     jQuery("#foo-day").val(value[2]);
@@ -73,14 +73,22 @@ Render without AM/PM support:
                           });
                       jQuery("#foo-calendar").next().css({'width': '16px', 'vertical-align': 'middle', 'display': 'inline-block', 'background': 'url(popup_calendar.gif)', 'height': '16px'});
                   }
-              </script>
+  <BLANKLINE>
+                  function updateCalendar(widgetId) {
+                      var y = jQuery(widgetId + '-year').val();
+                      var m = jQuery(widgetId + '-month').val();
+                      var d = jQuery(widgetId + '-day').val();
+                      jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                      jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                  }
+                 </script>
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   &nbsp;
   <BLANKLINE>
-  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="12" /> :
-  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="00" />
+  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="12" /> :
+  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="00" />
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.request = self.testrequest(
@@ -102,8 +110,8 @@ Render with AM/PM support:
   >>> print widget.render()
   <BLANKLINE>
   <BLANKLINE>
-  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" value="1" /> /
-  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field">
+  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" onchange="updateCalendar('#foo');" value="1" /> /
+  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field" onchange="updateCalendar('#foo');">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -117,7 +125,7 @@ Render with AM/PM support:
       <option value="11">November</option>
       <option value="12">December</option>
   </select> /
-  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" value="2007" />
+  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" onchange="updateCalendar('#foo');" value="2007" />
   <BLANKLINE>
   <BLANKLINE>
               <input type="hidden"
@@ -128,7 +136,7 @@ Render with AM/PM support:
                   if (jQuery().dateinput) {
                       jQuery.tools.dateinput.localize("en", {months: "January,February,March,April,May,June,July,August,September,October,November,December",shortMonths: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",days: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",shortDays: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"});
                       jQuery("#foo-calendar").dateinput({lang: "en", value: new Date(2007, 3, 1, 12, 00), change: function() {
-    var value = this.getValue("yyyy-mm-dd").split("-");
+    var value = this.getValue("yyyy-m-d").split("-");
     jQuery("#foo-year").val(value[0]);
     jQuery("#foo-month").val(value[1]);
     jQuery("#foo-day").val(value[2]);
@@ -141,15 +149,23 @@ Render with AM/PM support:
                           });
                       jQuery("#foo-calendar").next().css({'width': '16px', 'vertical-align': 'middle', 'display': 'inline-block', 'background': 'url(popup_calendar.gif)', 'height': '16px'});
                   }
-              </script>
+  <BLANKLINE>
+                  function updateCalendar(widgetId) {
+                      var y = jQuery(widgetId + '-year').val();
+                      var m = jQuery(widgetId + '-month').val();
+                      var d = jQuery(widgetId + '-day').val();
+                      jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                      jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                  }
+                 </script>
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   &nbsp;
   <BLANKLINE>
-  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="12" /> :
-  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="00" />
-  <select id="foo-ampm" name="bar-ampm" class="datetime-widget required datetime-field">
+  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="12" /> :
+  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="00" />
+  <select id="foo-ampm" name="bar-ampm" class="datetime-widget required datetime-field" onchange="updateCalendar('#foo');">
       <option value="AM">AM</option>
       <option value="PM" selected="selected">PM</option>
   </select>
@@ -210,8 +226,8 @@ INPUT_MODE
   >>> print widget.render()
   <BLANKLINE>
   <BLANKLINE>
-  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" value="1" /> /
-  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field">
+  <input type="text" id="foo-day" name="bar-day" class="datetime-widget required datetime-field" size="2" maxlength="2" onchange="updateCalendar('#foo');" value="1" /> /
+  <select id="foo-month" name="bar-month" class="datetime-widget required datetime-field" onchange="updateCalendar('#foo');">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -225,7 +241,7 @@ INPUT_MODE
       <option value="11">November</option>
       <option value="12">December</option>
   </select> /
-  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" value="2007" />
+  <input type="text" id="foo-year" name="bar-year" class="datetime-widget required datetime-field" alt="" accesskey="" size="4" maxlength="4" onchange="updateCalendar('#foo');" value="2007" />
   <BLANKLINE>
   <BLANKLINE>
               <input type="hidden"
@@ -236,7 +252,7 @@ INPUT_MODE
                   if (jQuery().dateinput) {
                       jQuery.tools.dateinput.localize("en", {months: "January,February,March,April,May,June,July,August,September,October,November,December",shortMonths: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",days: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",shortDays: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"});
                       jQuery("#foo-calendar").dateinput({lang: "en", value: new Date(2007, 3, 1, 13, 00), change: function() {
-    var value = this.getValue("yyyy-mm-dd").split("-");
+    var value = this.getValue("yyyy-m-d").split("-");
     jQuery("#foo-year").val(value[0]);
     jQuery("#foo-month").val(value[1]);
     jQuery("#foo-day").val(value[2]);
@@ -249,15 +265,23 @@ INPUT_MODE
                           });
                       jQuery("#foo-calendar").next().css({'width': '16px', 'vertical-align': 'middle', 'display': 'inline-block', 'background': 'url(popup_calendar.gif)', 'height': '16px'});
                   }
-              </script>
+  <BLANKLINE>
+                  function updateCalendar(widgetId) {
+                      var y = jQuery(widgetId + '-year').val();
+                      var m = jQuery(widgetId + '-month').val();
+                      var d = jQuery(widgetId + '-day').val();
+                      jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                      jQuery(widgetId + '-calendar').data()['dateinput'].setValue(new Date(m + '/' + d + '/' + y));
+                  }
+                 </script>
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   &nbsp;
   <BLANKLINE>  
-  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="01" /> :
-  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2" maxlength="2" value="00" />
-  <select id="foo-ampm" name="bar-ampm" class="datetime-widget required datetime-field">
+  <input type="text" id="foo-hour" name="bar-hour" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="01" /> :
+  <input type="text" id="foo-min" name="bar-min" class="datetime-widget required datetime-field" alt="" accesskey="" size="2"  maxlength="2" onchange="updateCalendar('#foo');" value="00" />
+  <select id="foo-ampm" name="bar-ampm" class="datetime-widget required datetime-field" onchange="updateCalendar('#foo');">
       <option value="AM">AM</option>
       <option value="PM" selected="selected">PM</option>
   </select>
