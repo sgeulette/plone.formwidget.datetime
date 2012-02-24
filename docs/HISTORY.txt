@@ -1,6 +1,8 @@
 Changelog
 =========
 
-0.1 (20xx-xx-xx)
-----------------
-* Initial release.
+1.0a1 (2012-02-24)
+------------------
+
+- Initial alpha (!) release from the Plone Konferenz 2012 in Munich.
+  [thet]
