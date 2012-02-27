@@ -7,7 +7,7 @@ from plone.formwidget.datetime.z3cform.interfaces import IMonthYearWidget
 
 from z3c.form.browser.widget import addFieldClass, HTMLTextInputWidget
 from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
-from z3c.form.widget import Widget, FieldWidget 
+from z3c.form.widget import Widget, FieldWidget
 from zope.component import adapter
 from zope.i18n.format import DateTimeParseError
 from zope.interface import implementer, implementsOnly
@@ -66,7 +66,7 @@ class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
             return 'new Date(%s, %s, %s)' % (value_date)
         else:
             return ''
-            
+
     @property
     def js_field(self):
         """Returns the id of a field that contains a js-parseable value of the selected date.
