@@ -2,19 +2,6 @@
 *.egg-info
 *.mo
 *.pyc
-*.wpr
+dist/
 
 !.gitignore
-.coverage
-.installed.cfg
-coverage.xml
-
-src/*.egg-info
-bin/
-dev/
-develop-eggs/
-eggs/
-htmlcov/
-parts/
-include/
-lib/
