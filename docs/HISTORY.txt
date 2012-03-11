@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a2 (unreleased)
+1.0a2 (2012-03-12)
 ------------------
 
 - Include z3c.form's meta.zcml, so widgetsTemplate directive is registered.
