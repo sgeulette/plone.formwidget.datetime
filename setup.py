@@ -8,8 +8,8 @@ setup(
     name='plone.formwidget.datetime',
     version='1.0a2',
     description="Datetime widgets for Plone",
-    long_description=open("README.txt").read() + "\n" +
-        open(os.path.join("docs", "HISTORY.txt")).read(),
+    long_description=open("README.rst").read() + "\n" +
+        open(os.path.join("docs", "HISTORY.rst")).read(),
     # Get more strings from
     # http://pypi.python.org/pypi?:action=list_classifiers
     classifiers=[
