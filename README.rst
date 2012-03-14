@@ -15,14 +15,3 @@ TODO
 * Include popup_calendar.gif as browser-resource in this package.
 * create DateDeltaWidget and DatetimeDeltaWidget
 * use timepicker
-
-Contributors
-============
-
-* Vincent Fretin - vincentfretin
-* Rok Garbas - garbas
-* David Glick - davisagli
-* Simone Orsi
-* Johannes Raggam - thet
-* Carsten Senger - csenger
-* Taito Horiuchi - taito
