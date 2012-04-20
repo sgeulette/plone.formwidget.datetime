@@ -33,21 +33,40 @@ class DatetimeDataConverter(DateDataConverter):
         if value is self.field.missing_value:
             return ('', '', '', '00', '00', '')
 
-        return (value.year, value.month, value.day, value.hour, value.minute,
-                str(getattr(value, 'tzinfo', '')))
+
+        tz = getattr(value, 'tzinfo', '')
+        if tz: tz = str(tz)
+        else: tz = ''
+        return (value.year,
+                value.month,
+                value.day, 
+                value.hour, 
+                value.minute,
+                tz 
+               )
 
     def toFieldValue(self, value):
-        for val in value:
+        if not value:
+            return self.field.missing_value
+
+        for val in value[:-1]:
             if not val:
                 return self.field.missing_value
+
+        if not value[0]:
+            return self.field.missing_value
 
         try:
             intvalues = map(int, value[:-1])
         except ValueError:
             raise DatetimeValidationError
+
         try:
-            timezone = pytz.timezone(value[-1])
-            return datetime(*intvalues[:-1], tzinfo=timezone)
+            if value[-1]:
+                timezone = pytz.timezone(value[-1])
+                return datetime(*intvalues[:-1], tzinfo=timezone)
+            else:
+                return datetime(*intvalues[:-1])
         except ValueError:
             raise DatetimeValidationError
 

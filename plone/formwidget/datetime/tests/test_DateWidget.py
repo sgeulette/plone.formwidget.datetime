@@ -3,6 +3,13 @@ import unittest2 as unittest
 
 
 class TestDateWidget(unittest.TestCase):
+    def createRealInstance(self):
+        from plone.formwidget.datetime.z3cform.widget import DateWidget
+        request = {}
+        instance = DateWidget(request)
+        instance.drequest = request
+        instance.name = 'field'
+        return instance 
 
     def createInstance(self):
         from plone.formwidget.datetime.z3cform.widget import DateWidget
@@ -30,7 +37,7 @@ class TestDateWidget(unittest.TestCase):
         self.assertTrue(IDateWidget.providedBy(instance))
 
     ## Testing update call from the super class is missing.
-    @mock.patch('plone.formwidget.datetime.z3cform.widget.z3c.form.browser.widget.addFieldClass')
+    @mock.patch('plone.formwidget.datetime.z3cform.widget.addFieldClass')
     def test_update(self, addFieldClass):
         instance = self.createInstance()
         instance.update()
@@ -64,14 +71,18 @@ class TestDateWidget(unittest.TestCase):
         self.assertEqual(len(instance.extract(day)), 3)
 
     def test_js_value__without_empty_string_in_value(self):
-        instance = self.createInstance()
+        instance = self.createRealInstance()
         instance.value = ('2011', '11', '21')
         self.assertEqual(
             instance.js_value,
-            'new Date(2011, 11, 21)'
+            'new Date(2011, 10, 21)'
         )
 
     def test_js_value__with_empty_string_in_value(self):
-        instance = self.createInstance()
+        instance = self.createRealInstance()
         instance.value = ('', '11', '21')
         self.assertEqual(instance.js_value, '')
+
+
+
+

@@ -25,7 +25,7 @@ class TestDatetimeDataConverter(unittest.TestCase):
         value = instance.field.missing_value
         self.assertEqual(
             instance.toWidgetValue(value),
-            ('', '', '', '00', '00')
+            ('', '', '', '00', '00', '')
         )
 
     def test_toWidgetValue__value_is_not_missing(self):
@@ -37,7 +37,7 @@ class TestDatetimeDataConverter(unittest.TestCase):
         value.hour = 'hour'
         value.minute = 'minute'
         self.assertEqual(
-            instance.toWidgetValue(value),
+            instance.toWidgetValue(value)[:-1],
             ('year', 'month', 'day', 'hour', 'minute')
         )
 
@@ -61,7 +61,7 @@ class TestDatetimeDataConverter(unittest.TestCase):
 
     def test_toFieldValue_date_ValueError(self):
         instance = self.createInstance()
-        value = '012'
+        value = ('a',2,3,4)
         from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
         self.assertRaises(
             DatetimeValidationError,
@@ -71,7 +71,7 @@ class TestDatetimeDataConverter(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.z3cform.converter.datetime')
     def test_toFieldValue_no_ValueError(self, datetime):
         instance = self.createInstance()
-        value = '123'
+        value = (1,2,3, '')
         datetime.return_value = 'datetime'
         self.assertEqual(
             instance.toFieldValue(value),

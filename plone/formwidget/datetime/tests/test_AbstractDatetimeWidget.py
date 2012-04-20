@@ -19,30 +19,15 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
 
     def test_instance__empty_value(self):
         instance = self.createInstance()
-        self.assertEqual(instance.empty_value, ('', '', '', '00', '00'))
+        self.assertEqual(instance.empty_value, ('', '', '', '00', '00', ''))
 
     def test_instance__value(self):
         instance = self.createInstance()
-        self.assertEqual(instance.value, ('', '', '', '00', '00'))
+        self.assertEqual(instance.value, ('', '', '', '00', '00', ''))
 
     def test_instance__ampm(self):
         instance = self.createInstance()
         self.assertFalse(instance.ampm)
-
-    def test__dtformatter(self):
-        instance = self.createInstance()
-        getFormatter = mock.Mock()
-        instance.request = mock.Mock()
-        instance.request.locale.dates.getFormatter = getFormatter
-        instance._dtformatter
-        getFormatter.assert_called_with('dateTime', 'short')
-
-    @mock.patch('plone.formwidget.datetime.base.datetime')
-    def test__dtvalue(self, datetime):
-        instance = self.createInstance()
-        value = '123'
-        instance._dtvalue(value)
-        datetime.assert_called_with(1, 2, 3)
 
     def test_hour_is_not_None(self):
         instance = self.createInstance()
@@ -280,3 +265,20 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
             instance.js_value,
             'new Date(2011, 10, 22, 23, 55)'
         )
+
+
+    def test__dtformatter(self):
+        instance = self.createInstance()
+        getFormatter = mock.Mock()
+        instance.request = mock.Mock()
+        instance.request.locale.dates.getFormatter = getFormatter
+        instance._dtformatter
+        getFormatter.assert_called_with('dateTime', 'short')
+
+    @mock.patch('plone.formwidget.datetime.base.datetime')
+    def test__dtvalue(self, datetime):
+        instance = self.createInstance()
+        value = (1,2,3)
+        instance._dtvalue(value)
+        datetime.assert_called_with(1, 2, 3)
+        

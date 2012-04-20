@@ -15,24 +15,6 @@ from zope.schema.interfaces import IField
 
 class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
 
-    @property
-    def _dtformatter(self):
-        return self.request.locale.dates.getFormatter("date", "short")
-
-    def _dtvalue(self, value):
-        return date(*map(int, value))
-
-    @property
-    def formatted_value(self):
-        if self.value in (self.empty_value, None):
-            return ''
-        dt_value = self._dtvalue(self.value)
-        if dt_value.year > 1900:
-            return self._dtformatter.format(dt_value)
-        # due to fantastic datetime.strftime we need this hack
-        # for now ctime is default
-        return dt_value.ctime()
-
     def update(self):
         super(AbstractDXDateWidget, self).update()
         addFieldClass(self)
@@ -50,10 +32,11 @@ class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
         formatter = self._dtformatter
         hidden_date = self.request.get(self.name, '')
         try:
-            dateobj = formatter.parse(hidden_date)
-            return (str(dateobj.year),
-                    str(dateobj.month),
-                    str(dateobj.day))
+            if formatter is not None:
+                dateobj = formatter.parse(hidden_date)
+                return (str(dateobj.year),
+                        str(dateobj.month),
+                        str(dateobj.day))
         except DateTimeParseError:
             pass
 
@@ -94,17 +77,6 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
     """ DateTime widget """
     implementsOnly(IDatetimeWidget)
 
-    @property
-    def _dtformatter(self):
-        return self.request.locale.dates.getFormatter("dateTime", "short")
-
-    def _dtvalue(self, value):
-        if value[-1]:
-            timezone = pytz.timezone(value[-1])
-            return datetime(*map(int, value[:-1]), tzinfo=timezone)
-        else:
-            return datetime(*map(int, value[-1]))
-
     def extract(self, default=NOVALUE):
         # get normal input fields
         day = self.request.get(self.name + '-day', default)
@@ -126,20 +98,30 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
             elif ampm != 'AM':
                 return default
 
-        if default not in (year, month, day, hour, minute, timezone):
-            return (year, month, day, hour, minute, timezone)
+        if default not in (year, month, day, hour, minute):
+            dt = (year, month, day, hour, minute)
+            if timezone != default:
+                # can be naive datetime
+                dt += (timezone,)
+            return dt
 
         # get a hidden value
         formatter = self._dtformatter
-        hidden_date = self.request.get(self.name, '')
         try:
-            dateobj = formatter.parse(hidden_date)
-            return (str(dateobj.year),
-                    str(dateobj.month),
-                    str(dateobj.day),
-                    str(dateobj.hour),
-                    str(dateobj.minute),
-                    str(getattr(dateobj, 'tzinfo', '')))
+            if formatter is not None:
+                hidden_date = self.request.get(self.name, '')
+                dateobj = formatter.parse(hidden_date)
+                tz = getattr(dateobj, 'tzinfo', '')
+                if tz:
+                    tz = str(tz)
+                else:
+                    ts = ''
+                return (str(dateobj.year),
+                        str(dateobj.month),
+                        str(dateobj.day),
+                        str(dateobj.hour),
+                        str(dateobj.minute),
+                        tz,)
         except DateTimeParseError:
             pass
 

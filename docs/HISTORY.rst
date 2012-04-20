@@ -1,6 +1,14 @@
 Changelog
 =========
 
+
+1.0a3 (unreleased)
+---------------------
+- fix all tests [kiorky]
+- dynamic years range support [kiorky]
+- support for very old years  ( <1800 ) [kiorky]
+
+
 1.0a2 (2012-03-12)
 ------------------
 

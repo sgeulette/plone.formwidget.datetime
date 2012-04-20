@@ -1,4 +1,7 @@
-from datetime import datetime
+from datetime import date, datetime, timedelta
+import pytz
+from datetime import date, datetime
+
 from zope.i18n import translate
 from plone.formwidget.datetime import MessageFactory as _
 
@@ -8,19 +11,27 @@ class AbstractDateWidget(object):
     calendar_type = 'gregorian'
     klass = u'date-widget'
     empty_value = ('', '', '')
+    years_range = (-10, 10)
     value = empty_value
 
     #
     # pure javascript no dependencies
     show_today_link = False
 
-    #
     # Requires: jquery.tools.datewidget.js, jquery.js
     # Read more: http://flowplayer.org/tools/dateinput/index.html
     show_jquerytools_dateinput = True
-    jquerytools_dateinput_config = 'selectors: true, ' \
-                                   'trigger: true, ' \
-                                   'yearRange: [-10, 10]'
+
+    base_jquerytools_dateinput_config = 'selectors: true, ' \
+            'trigger: true, ' \
+            'yearRange: [%s, %s]'
+
+    @property
+    def jquerytools_dateinput_config(self):
+        config = self.base_jquerytools_dateinput_config
+        if 'yearRange' in config:
+            config = config % self.years_range
+        return config
     # TODO: yearRange shoud respect site_properties values for
     #       calendar_starting_year and valendar_future_years_avaliable
 
@@ -32,12 +43,42 @@ class AbstractDateWidget(object):
                                 'width': '16px',
                                 'display': 'inline-block',
                                 'vertical-align': 'middle'})
-
-
     @property
     def years(self):
-        year_range = range(2000, 2020)
+        value = self.value
+        if not value:
+            value = datetime.now()
+        now = value.year
+        before = now + self.years_range[0]
+        after  = now + self.years_range[1]
+        year_range = range(*(before, after))
         return [{'value': x, 'name': x} for x in year_range]
+
+    @property
+    def formatted_value(self):
+        if self.value in (self.empty_value, None):
+            return ''
+        dt_value = self._dtvalue(self.value)
+        # due to fantastic datetime.strftime we need this hack
+        # for now ctime is default
+        # but some persons have already a patched version
+        # of python working for older years.
+        if not dt_value.year < 100:
+            try:
+                return self._dtformatter.format(dt_value)
+            except ValueError, e:
+                if dt_value.year <= 1900:
+                    pass
+        date_fmt = '%Y/%m/%d %H:%M'
+        if (not isinstance(dt_value, datetime)
+            and isinstance(dt_value, date)):
+            date_fmt = '%Y/%m/%d'
+        try:
+            # try another time to format with bare python (no i18n)
+            return dt_value.strftime(date_fmt)
+        except Exception, e:
+            # last resort is ctime
+            return dt_value.ctime()
 
     @property
     def months(self):
@@ -113,13 +154,41 @@ class AbstractDateWidget(object):
     @property
     def js_value(self):
         year = self.year
+        month = None
         month = self.month and int(self.month) - 1 or None
+
         day = self.day
         if year and month and day:
             return 'new Date(%s, %s, %s)' % (
                 year, month, day)
         else:
-            return None
+            return ''
+
+
+    @property
+    def _dtformatter(self):
+        return self.request.locale.dates.getFormatter("date", "short")
+
+    def _base_dtvalue(self, func, value):
+        if value:
+            # either no noaive datetime or date
+            if (len(value) in [4, 6]) and value[-1]:
+                timezone = pytz.timezone(value[-1])
+                return func(*map(int, value[:-1]), tzinfo=timezone)
+            else:
+                if (len(value) in [4, 6]) and not value[-1]:
+                    # tz is empty
+                    value = value[:-1]
+                try:
+                    return func(*map(int, value))
+                except:
+                    import pdb;pdb.set_trace()  ## Breakpoint ##
+
+
+
+    def _dtvalue(self, value):
+        return self._base_dtvalue(date, value)
+
 
     def get_js(self, fieldname=None):
         # TODO:
@@ -194,16 +263,30 @@ class AbstractDateWidget(object):
     def onchange(self, fieldname=None):
         if not self.show_jquerytools_dateinput:
             return ''
-        
+
         id = fieldname and fieldname or self.id
         return "updateCalendar('#%(id)s');" % dict(id=id)
-               
+
 class AbstractDatetimeWidget(AbstractDateWidget):
 
     empty_value = ('', '', '', '00', '00', '')
     value = empty_value
     klass = u'datetime-widget'
     ampm = False
+
+    @property
+    def _dtformatter(self):
+        formater = None
+        try:
+            formater = self.request.locale.dates.getFormatter("dateTime", "short")
+        except AttributeError, e:
+            """Tests case, no request"""
+            pass
+        return formater
+
+
+    def _dtvalue(self, value):
+        return self._base_dtvalue(datetime, value)
 
     @property
     def hour(self):
@@ -276,6 +359,8 @@ class AbstractDatetimeWidget(AbstractDateWidget):
                 year, month, day)
         else:
             return None
+
+
 
 
 class AbstractMonthYearWidget(AbstractDateWidget):

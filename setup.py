@@ -50,6 +50,7 @@ setup(
                 'Products.GenericSetup',
                 'Zope2',
                 'plone.app.testing',
+                'profilehooks',
                 'z3c.form[test]',
                 'zc.buildout',
                 'zope.testing',

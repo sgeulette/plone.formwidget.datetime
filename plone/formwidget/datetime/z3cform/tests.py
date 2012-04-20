@@ -29,7 +29,6 @@ class WidgetTestCase(object):
                <utility
                   provides="zope.i18n.interfaces.INegotiator"
                   component="zope.i18n.negotiator.negotiator" />
-
                <include package="zope.i18n.locales" />
             </configure>
              '''))

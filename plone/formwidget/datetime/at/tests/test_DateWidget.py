@@ -6,7 +6,9 @@ class TestDateWidget(unittest.TestCase):
 
     def createInstance(self):
         from plone.formwidget.datetime.at.widget import DateWidget
-        return DateWidget()
+        widget = DateWidget() 
+        widget.request = {}
+        return widget
 
     def test_subclass(self):
         from plone.formwidget.datetime.at.widget import DateWidget
@@ -44,12 +46,6 @@ class TestDateWidget(unittest.TestCase):
         request = mock.Mock()
         ins.REQUEST = request
         instance(mode, ins)
-
-    def test__dtvalue(self):
-        instance = self.createInstance()
-        value = mock.Mock()
-        value.parts.return_value = '123'
-        instance._dtvalue(value)
 
     def test_name(self):
         instance = self.createInstance()

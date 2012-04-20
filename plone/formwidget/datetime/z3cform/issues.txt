@@ -53,18 +53,17 @@ ISSUE 1
 
   >>> from zope.interface import alsoProvides
   >>> alsoProvides(self.root, ITest)
-
   >>> test_form.mode = interfaces.DISPLAY_MODE
   >>> test_form.update()
-  >>> print test_form.render() #doctest:
-  <...
-  <div class="row">
-     <label for="form-widgets-datetime">Datetime</label>
-     <span id="form-widgets-datetime"
-       class="datetime-widget required datetime-field">Thu Oct  1 06:35:00 0099</span>
-  </div>
-  ...<input... id="form-buttons-apply" ...
-
+  >>> content = test_form.render()
+  >>> test_form.widgets['date'].value
+  (u'99', u'2', u'14')
+  >>> test_form.widgets['datetime'].value
+  (u'99', u'10', u'1', u'6', u'35')
+  >>> test_form.widgets['date'].render()
+  u'\n<span id="form-widgets-date" class="date-widget required date-field">99/02/14</span>\n\n'
+  >>> test_form.widgets['datetime'].render()
+  u'\n<span id="form-widgets-datetime" class="datetime-widget required datetime-field">99/10/01 06:35</span>\n\n'
 
 ISSUE 2
 -------

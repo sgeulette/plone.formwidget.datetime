@@ -117,9 +117,14 @@ class TestDatetimeWidget(unittest.TestCase):
 
     def test_extract__default_in_without_error(self):
         instance = self.createInstance()
-        instance.request = mock.MagicMock()
-        day = instance.request.get('field-day')
+        instance.request = {
+            'field-day': '21',
+            'field-month': '11',
+            'field-year': '2011',
+            'field-hour': '5',
+            'field-min': '30',
+        } 
         self.assertEqual(
-            len(instance.extract(day)),
+            len(instance.extract()),
             5
         )

@@ -5,7 +5,7 @@ import unittest2 as unittest
 class TestDateFieldWidget(unittest.TestCase):
 
     @mock.patch('plone.formwidget.datetime.z3cform.widget.DateWidget')
-    @mock.patch('plone.formwidget.datetime.z3cform.widget.z3c.form.widget.FieldWidget')
+    @mock.patch('plone.formwidget.datetime.z3cform.widget.FieldWidget')
     def test_DateFieldWidget(self, FieldWidget, DateWidget):
         from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
         field = mock.Mock()

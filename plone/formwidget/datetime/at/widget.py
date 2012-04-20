@@ -29,6 +29,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     def name(self):
         return self.getName()
 
+
     security.declarePublic('process_form')
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
@@ -60,6 +61,8 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         if emptyReturnsMarker and value == '':
             return empty_marker
         # stick it back in request.form
+        if isinstance(value, basestring):
+            value = value.strip()
         form[fname] = value
         return value, {}
 
