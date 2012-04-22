@@ -9,7 +9,8 @@ have signed the Plone Contributors Agreement [1][2]. Thanks!
 - Simone Orsi
 - Johannes Raggam - thet
 - Carsten Senger - csenger
-- Taito Horiuchi - taito
+- Taito Horiuchi - Taito
+- Lennart Regebro - regebro
 - Mathieu Le Marec - Pasquet - kiorky
 
 [1] http://plone.org/foundation/contributors-agreement/contributors-agreement-explained
