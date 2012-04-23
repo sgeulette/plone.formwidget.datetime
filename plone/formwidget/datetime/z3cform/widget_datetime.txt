@@ -72,7 +72,7 @@ DISPLAY_MODE
   >>> widget.mode = z3c.form.interfaces.DISPLAY_MODE
   >>> print widget.render() #doctest: +ELLIPSIS
   <span id="foo"
-        class="datetime-widget required datetime-field">4/1/07 12:00 PM</span>
+        class="datetime-widget required datetime-field">4/1/2007 12:00 PM</span>
 
 
 HIDDEN_MODE
@@ -81,9 +81,9 @@ HIDDEN_MODE
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render() #doctest: +ELLIPSIS
   <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/07 12:00 PM" />
+           class="hidden-widget" value="4/1/2007 12:00 PM" />
 
-  >>> widget.request = self.testrequest(form={'bar': '4/1/07 12:00 PM'})
+  >>> widget.request = self.testrequest(form={'bar': '4/1/2007 12:00 PM'})
   >>> widget.extract()
   ('2007', '4', '1', '12', '0', None)
 
@@ -131,7 +131,7 @@ DISPLAY_MODE
   >>> widget.mode = z3c.form.interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo"
-        class="datetime-widget required datetime-field">4/1/07 1:00 PM</span>
+        class="datetime-widget required datetime-field">4/1/2007 1:00 PM</span>
 
 
 HIDDEN_MODE
@@ -140,8 +140,8 @@ HIDDEN_MODE
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render() #doctest: +ELLIPSIS
   <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/07 1:00 PM" />
+           class="hidden-widget" value="4/1/2007 1:00 PM" />
 
-  >>> widget.request = self.testrequest(form={'bar': '4/1/07 1:00 PM'})
+  >>> widget.request = self.testrequest(form={'bar': '4/1/2007 1:00 PM'})
   >>> widget.extract()
   ('2007', '4', '1', '13', '0', None)

@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
+from DateTime import DateTime
 import pytz
-from datetime import date, datetime
 
 from zope.i18n import translate
 from plone.formwidget.datetime import MessageFactory as _
@@ -12,6 +12,7 @@ class AbstractDateWidget(object):
     klass = u'date-widget'
     empty_value = ('', '', '')
     years_range = (-10, 10)
+    pattern = None # zope.i18n format (default: u'M/d/yyyy')
     value = empty_value
 
     #
@@ -45,27 +46,32 @@ class AbstractDateWidget(object):
                                 'vertical-align': 'middle'})
     @property
     def years(self):
-        value = self.value
+        """years."""
+        # 0: year
+        value = self.value[0]
         if not value:
-            value = datetime.now()
-        now = value.year
+            value = datetime.now().year
+        now = int(value)
         before = now + self.years_range[0]
         after  = now + self.years_range[1]
         year_range = range(*(before, after))
         return [{'value': x, 'name': x} for x in year_range]
 
-    @property
-    def formatted_value(self):
-        if self.value in (self.empty_value, None):
-            return ''
-        dt_value = self._dtvalue(self.value)
+    def get_formatted_value(self, dt_value):
         # due to fantastic datetime.strftime we need this hack
         # for now ctime is default
         # but some persons have already a patched version
         # of python working for older years.
+        if not dt_value:
+            return ''
+        if isinstance(dt_value, DateTime):
+            dt_value =  dt_value.asdatetime()
         if not dt_value.year < 100:
             try:
-                return self._dtformatter.format(dt_value)
+                formater = self._dtformatter
+                if self.pattern is not None:
+                    formater.setPattern(self.pattern)
+                return formater.format(dt_value)
             except ValueError, e:
                 if dt_value.year <= 1900:
                     pass
@@ -74,11 +80,41 @@ class AbstractDateWidget(object):
             and isinstance(dt_value, date)):
             date_fmt = '%Y/%m/%d'
         try:
-            # try another time to format with bare python (no i18n)
+            # try to format with bare python (no i18n)
             return dt_value.strftime(date_fmt)
         except Exception, e:
             # last resort is ctime
             return dt_value.ctime()
+
+    def dtformatter_to_full_year(self, dt_type):
+        formater = None
+        try:
+            formater = self.request.locale.dates.getFormatter(
+                dt_type, "short")
+            pattern = formater._pattern
+            if (isinstance(pattern, basestring)
+                and  ('yy' in pattern)
+                and (not 'yyyy' in pattern)):
+                formater._pattern = pattern.replace('yy', 'yyyy')
+                bin_pattern = formater._bin_pattern[:]
+                for i, info in enumerate(bin_pattern):
+                    if 'y' == info[0]:
+                        formater._bin_pattern[i] = (info[0],  4)
+        except AttributeError, e:
+            """Tests case, no request"""
+            pass
+        return formater
+
+    @property
+    def _dtformatter(self):
+        return self.dtformatter_to_full_year("date")
+
+    @property
+    def formatted_value(self):
+        if self.value in (self.empty_value, None):
+            return ''
+        dt_value = self._dtvalue(self.value)
+        return self.get_formatted_value(dt_value)
 
     @property
     def months(self):
@@ -164,11 +200,6 @@ class AbstractDateWidget(object):
         else:
             return ''
 
-
-    @property
-    def _dtformatter(self):
-        return self.request.locale.dates.getFormatter("date", "short")
-
     def _base_dtvalue(self, func, value):
         if value:
             # either no noaive datetime or date
@@ -179,16 +210,10 @@ class AbstractDateWidget(object):
                 if (len(value) in [4, 6]) and not value[-1]:
                     # tz is empty
                     value = value[:-1]
-                try:
-                    return func(*map(int, value))
-                except:
-                    import pdb;pdb.set_trace()  ## Breakpoint ##
-
-
+                return func(*map(int, value))
 
     def _dtvalue(self, value):
         return self._base_dtvalue(date, value)
-
 
     def get_js(self, fieldname=None):
         # TODO:
@@ -267,23 +292,18 @@ class AbstractDateWidget(object):
         id = fieldname and fieldname or self.id
         return "updateCalendar('#%(id)s');" % dict(id=id)
 
+
 class AbstractDatetimeWidget(AbstractDateWidget):
 
     empty_value = ('', '', '', '00', '00', '')
     value = empty_value
     klass = u'datetime-widget'
     ampm = False
+    pattern = None # (default: u'M/d/yyyy h:mm a'')
 
     @property
     def _dtformatter(self):
-        formater = None
-        try:
-            formater = self.request.locale.dates.getFormatter("dateTime", "short")
-        except AttributeError, e:
-            """Tests case, no request"""
-            pass
-        return formater
-
+        return self.dtformatter_to_full_year("dateTime")
 
     def _dtvalue(self, value):
         return self._base_dtvalue(datetime, value)
@@ -359,9 +379,6 @@ class AbstractDatetimeWidget(AbstractDateWidget):
                 year, month, day)
         else:
             return None
-
-
-
 
 class AbstractMonthYearWidget(AbstractDateWidget):
 

@@ -3,7 +3,6 @@ from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
 from plone.formwidget.datetime import base
 
-
 class AbstractATDattimeWidget(widgets.TypesWidget):
     """ Date widget.
 
@@ -17,6 +16,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         'show_calendar': True,
         'show_day': True,
         'with_time': False,
+        'years_range': (-10, 10),
     })
     security = ClassSecurityInfo()
 
@@ -28,7 +28,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     @property
     def name(self):
         return self.getName()
-
 
     security.declarePublic('process_form')
     def process_form(self, instance, field, form, empty_marker=None,

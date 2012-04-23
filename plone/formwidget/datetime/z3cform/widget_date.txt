@@ -37,7 +37,7 @@ DISPLAY_MODE
 
   >>> widget.mode = z3c.form.interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="date-widget required date-field">4/1/07</span>
+  <span id="foo" class="date-widget required date-field">4/1/2007</span>
 
 
 HIDDEN_MODE
@@ -46,9 +46,9 @@ HIDDEN_MODE
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render()
   <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/07" />
+           class="hidden-widget" value="4/1/2007" />
   >>> widget.request = self.testrequest(
-  ...     form={'bar': '4/1/07'}
+  ...     form={'bar': '4/1/2007'}
   ...     )
   >>> widget.extract()
   ('2007', '4', '1')

@@ -103,7 +103,8 @@ class TestAbstractDateWidget(unittest.TestCase):
 
     def test_years(self):
         instance = self.createInstance()
-        instance.value = datetime(2010, 1, 1)
+        d = datetime(2010, 1, 1) 
+        instance.value =  (d.year, d.month, d.day)
         self.assertEqual(len(instance.years), 20)
         self.assertEqual(
             instance.years[0],

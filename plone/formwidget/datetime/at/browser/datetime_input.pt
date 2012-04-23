@@ -59,7 +59,7 @@
                             current_val python:request.get(field_id,bool(value) and value.year() or '');"
                 tal:attributes="id field_id;
                                 name field_id;">
-            <tal:year repeat="year widget/years">
+            <tal:year repeat="year python:widget.years">
                 <option tal:define="year_val year/value"
                         tal:attributes="value year_val;
                                         selected python:str(year_val)==str(current_val) and 'selected' or ''"
