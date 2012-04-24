@@ -22,7 +22,14 @@
     <div metal:fill-slot="widget_body">
 
         <!-- day -->
+        <input type="hidden" 
+                tal:condition="not: widget/show_day"
+                tal:define="field_id string:${fieldName}-day;
+                            current_val python:request.get(field_id, bool(value) and value.day() or '1');"
+                tal:attributes="name field_id;
+                value current_val">
         <select class="day"
+                tal:condition="widget/show_day"
                 tal:define="field_id string:${fieldName}-day;
                             current_val python:request.get(field_id, bool(value) and value.day() or '');"
                 tal:attributes="id field_id;
@@ -38,9 +45,16 @@
         <span class="separator" tal:condition="widget/show_day">/</span>
 
         <!-- month -->
+        <input type="hidden" 
+                tal:condition="not: widget/show_month"
+                tal:define="field_id string:${fieldName}-month;
+                            current_val python:request.get(field_id, bool(value) and value.day() or '1');"
+                tal:attributes="name field_id;
+                value current_val">
         <select id="" name="" class="month"
             tal:define="field_id string:${fieldName}-month;
                 current_val python:request.get(field_id,bool(value) and value.month() or '');"
+            tal:condition="python:widget.show_month"
             tal:attributes="id field_id;
                 name field_id;">
         <tal:month repeat="month widget/months">
@@ -51,7 +65,7 @@
         </tal:month>
         </select>
 
-        <span class="separator">/</span>
+        <span class="separator" tal:condition="widget/show_month">/</span>
 
         <!-- year -->
         <select class="year"

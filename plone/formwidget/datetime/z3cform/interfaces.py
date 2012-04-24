@@ -34,6 +34,8 @@ class IMonthYearWidget(IWidget):
     """ MonthYear widget marker for z3c.form """
 
 
+class IYearWidget(IWidget):
+    """Year widget marker for z3c.form """ 
 # Errors
 
 class DateValidationError(ValidationError):

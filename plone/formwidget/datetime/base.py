@@ -385,3 +385,11 @@ class AbstractMonthYearWidget(AbstractDateWidget):
     klass = u'monthyear-widget'
     empty_value = ('', '', 1)
     value = empty_value
+
+
+class AbstractYearWidget(AbstractDateWidget):
+
+    klass = u'year-widget'
+    empty_value = ('', 1, 1)
+    value = empty_value
+    pattern = 'yyyy'

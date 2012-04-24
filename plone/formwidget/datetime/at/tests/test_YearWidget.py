@@ -1,17 +1,17 @@
 import unittest2 as unittest
 
 
-class TestMonthYearWidget(unittest.TestCase):
+class TestYearWidget(unittest.TestCase):
 
     def createInstance(self):
-        from plone.formwidget.datetime.at.widget import MonthYearWidget
-        return MonthYearWidget()
+        from plone.formwidget.datetime.at.widget import YearWidget
+        return YearWidget()
 
     def test_subclass(self):
-        from plone.formwidget.datetime.at.widget import MonthYearWidget
-        from plone.formwidget.datetime.base import AbstractMonthYearWidget
+        from plone.formwidget.datetime.at.widget import YearWidget
+        from plone.formwidget.datetime.base import AbstractYearWidget
         from plone.formwidget.datetime.at.widget import DateWidget
-        self.assertTrue(MonthYearWidget, (AbstractMonthYearWidget, DateWidget))
+        self.assertTrue(YearWidget, (AbstractYearWidget, DateWidget))
 
     def test__properties(self):
         instance = self.createInstance()
@@ -25,8 +25,8 @@ class TestMonthYearWidget(unittest.TestCase):
                 'description': '',
                 'populate': True,
                 'show_day': False,
-                'show_month': True,
-                'macro': 'monthyear_input',
+                'show_month': False,
+                'macro': 'year_input',
                 'postback': True,
                 'label': '',
                 'visible': {'edit': 'visible', 'view': 'visible'},

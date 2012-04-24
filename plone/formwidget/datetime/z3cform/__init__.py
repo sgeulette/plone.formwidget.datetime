@@ -4,3 +4,5 @@ from plone.formwidget.datetime.z3cform.widget import DatetimeWidget
 from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.formwidget.datetime.z3cform.widget import MonthYearWidget
 from plone.formwidget.datetime.z3cform.widget import MonthYearFieldWidget
+from plone.formwidget.datetime.z3cform.widget import YearFieldWidget
+from plone.formwidget.datetime.z3cform.widget import YearWidget

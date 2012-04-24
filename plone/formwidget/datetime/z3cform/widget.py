@@ -4,6 +4,7 @@ from plone.formwidget.datetime import base
 from plone.formwidget.datetime.z3cform.interfaces import IDateWidget
 from plone.formwidget.datetime.z3cform.interfaces import IDatetimeWidget
 from plone.formwidget.datetime.z3cform.interfaces import IMonthYearWidget
+from plone.formwidget.datetime.z3cform.interfaces import IYearWidget
 
 from z3c.form.browser.widget import addFieldClass, HTMLTextInputWidget
 from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
@@ -143,3 +144,15 @@ class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
 def MonthYearFieldWidget(field, request):
     """IFieldWidget factory for MonthYearWidget."""
     return FieldWidget(field, MonthYearWidget(request))
+
+
+
+class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
+    """ Year widget """
+    implementsOnly(IYearWidget)
+
+@adapter(IField, IFormLayer)
+@implementer(IFieldWidget)
+def YearFieldWidget(field, request):
+    """IFieldWidget factory for YearWidget."""
+    return FieldWidget(field, YearWidget(request))

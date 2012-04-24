@@ -1,3 +1,5 @@
+from DateTime import DateTime
+from datetime import date, datetime
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
@@ -15,6 +17,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         'macro': 'date_input',
         'show_calendar': True,
         'show_day': True,
+        'show_month': True,
         'with_time': False,
         'years_range': (-10, 10),
     })
@@ -45,25 +48,36 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         year = form.get('%s-year' % fname, '0000')
         month = form.get('%s-month' % fname, '00')
         day = form.get('%s-day' % fname, '00')
-        hour = form.get('%s-hour' % fname, '00')
+        hour = form.get('%s-hour' % fname, '')
         minute = form.get('%s-min' % fname, '00')
         ampm = form.get('%s-ampm' % fname, '')
         timezone = form.get('%s-timezone' % fname, '')
         if (year != '0000') and (day != '00') and (month != '00'):
-            if ampm and ampm == 'PM' and hour != '12':
-                hour = int(hour) + 12
-            elif ampm and ampm == 'AM' and hour == '12':
-                hour = '00'
-            value = "%s-%s-%s %s:%s %s" % (year, month, day, hour, minute, timezone)
+            if hour != 'missing':
+                if ampm and ampm == 'PM' and hour != '12':
+                    hour = int(hour) + 12
+                elif ampm and ampm == 'AM' and hour == '12':
+                    hour = '00'
         else:
             value = ''
         if emptyReturnsMarker and value == '':
             return empty_marker
-        # stick it back in request.form
-        if isinstance(value, basestring):
-            value = value.strip()
-        form[fname] = value
-        return value, {}
+        args = (year, month, day)
+        if self.with_time:
+            args += (hour, minute, timezone)
+        res = ''
+        try:
+            res = self._dtvalue(args)
+            if (isinstance(res, date) 
+                and not isinstance(res, datetime)):
+                 res = DateTime(
+                     datetime(res.year, res.month, res.day)
+                )
+            # stick it back in request.form
+        except:
+            pass
+        form[fname] = res
+        return res, {}
 
 
 class DateWidget(base.AbstractDateWidget, AbstractATDattimeWidget):
@@ -104,5 +118,21 @@ class MonthYearWidget(base.AbstractMonthYearWidget, AbstractATDattimeWidget):
 registerWidget(MonthYearWidget,
                title='Month year widget',
                description=('Month year widget'),
+               used_for=('Products.Archetypes.Field.DateTimeField',)
+               )
+
+
+
+class YearWidget(base.AbstractYearWidget, AbstractATDattimeWidget):
+    """ Month and year widget """
+    _properties = DateWidget._properties.copy()
+    _properties.update({
+        'macro': 'year_input',
+        'show_day': False,
+        'show_month': False,
+    })
+registerWidget(YearWidget,
+               title='Year widget',
+               description=('Year widget'),
                used_for=('Products.Archetypes.Field.DateTimeField',)
                )

@@ -22,3 +22,8 @@ class DatetimeWidget(Base):
 class MonthYearWidget(Base):
     """ view klass for MonthYearWidget """
     template = ViewPageTemplateFile('datetime_input.pt')
+
+
+class YearWidget(Base):
+    """ view klass for YearWidget """
+    template = ViewPageTemplateFile('datetime_input.pt')

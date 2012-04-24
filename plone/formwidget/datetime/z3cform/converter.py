@@ -39,10 +39,10 @@ class DatetimeDataConverter(DateDataConverter):
         else: tz = ''
         return (value.year,
                 value.month,
-                value.day, 
-                value.hour, 
+                value.day,
+                value.hour,
                 value.minute,
-                tz 
+                tz
                )
 
     def toFieldValue(self, value):
@@ -76,4 +76,12 @@ class MonthYearDataConverter(DateDataConverter):
     def toWidgetValue(self, value):
         if value is self.field.missing_value:
             return ('', '', '1')
+        return (value.year, value.month, value.day)
+
+
+class YearDataConverter(DateDataConverter):
+
+    def toWidgetValue(self, value):
+        if value is self.field.missing_value:
+            return ('', '1', '1')
         return (value.year, value.month, value.day)

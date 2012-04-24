@@ -1,3 +1,4 @@
+from DateTime import DateTime
 import mock
 import unittest2 as unittest
 
@@ -28,6 +29,7 @@ class TestDateWidget(unittest.TestCase):
                 'description': '',
                 'populate': True,
                 'show_day': True,
+                'show_month': True,
                 'macro': 'date_input',
                 'postback': True,
                 'label': '',
@@ -101,77 +103,10 @@ class TestDateWidget(unittest.TestCase):
         }
         self.assertEqual(
             instance.process_form(ins, field, form),
-            ('2011-11-22 00:00', {})
+            (DateTime('2011/11/22 00:00:00 GMT+1'), {})
         )
         self.assertEqual(
             form['field'],
-            '2011-11-22 00:00'
+            DateTime('2011/11/22 00:00:00 GMT+1')
         )
-
-    def test_process_form_with_valid_date_without_ampm(self):
-        instance = self.createInstance()
-        ins = mock.Mock()
-        field = mock.Mock()
-        field.getName.return_value = 'field'
-        form = {
-            'field-calendar': 'value',
-            'field-year': '2011',
-            'field-month': '11',
-            'field-day': '22',
-            'field-hour': '13',
-            'field-min': '30',
-        }
-        self.assertEqual(
-            instance.process_form(ins, field, form),
-            ('2011-11-22 13:30', {})
-        )
-        self.assertEqual(
-            form['field'],
-            '2011-11-22 13:30'
-        )
-
-    def test_process_form_with_valid_date_pm(self):
-        instance = self.createInstance()
-        ins = mock.Mock()
-        field = mock.Mock()
-        field.getName.return_value = 'field'
-        form = {
-            'field-calendar': 'value',
-            'field-year': '2011',
-            'field-month': '11',
-            'field-day': '22',
-            'field-hour': '2',
-            'field-min': '30',
-            'field-ampm': 'PM',
-        }
-        self.assertEqual(
-            instance.process_form(ins, field, form),
-            ('2011-11-22 14:30', {})
-        )
-        self.assertEqual(
-            form['field'],
-            '2011-11-22 14:30'
-        )
-
-    def test_process_form_with_valid_date_am(self):
-        instance = self.createInstance()
-        ins = mock.Mock()
-        field = mock.Mock()
-        field.getName.return_value = 'field'
-        form = {
-            'field-calendar': 'value',
-            'field-year': '2011',
-            'field-month': '11',
-            'field-day': '22',
-            'field-hour': '12',
-            'field-min': '30',
-            'field-ampm': 'AM',
-        }
-        self.assertEqual(
-            instance.process_form(ins, field, form),
-            ('2011-11-22 00:30', {})
-        )
-        self.assertEqual(
-            form['field'],
-            '2011-11-22 00:30'
-        )
+ 

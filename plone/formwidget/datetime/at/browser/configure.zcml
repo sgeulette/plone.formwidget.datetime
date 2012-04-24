@@ -9,19 +9,25 @@
         permission="zope2.View"
         class=".widget.DateWidget"
         />
-        
+
     <browser:page
         for="*"
         name="datetime_input"
         permission="zope2.View"
         class=".widget.DatetimeWidget"
         />
-        
+
     <browser:page
         for="*"
         name="monthyear_input"
         permission="zope2.View"
         class=".widget.MonthYearWidget"
+        />
+    <browser:page
+        for="*"
+        name="year_input"
+        permission="zope2.View"
+        class=".widget.YearWidget"
         />
 
 </configure>

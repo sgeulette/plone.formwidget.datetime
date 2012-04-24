@@ -54,6 +54,7 @@ class WidgetTestCase(object):
 def test_suite():
     return unittest.TestSuite((
         ztc.ZopeDocFileSuite(
+            'widget_year.txt',
             'widget_date.txt',
             'widget_datetime.txt',
             'widget_monthyear.txt',

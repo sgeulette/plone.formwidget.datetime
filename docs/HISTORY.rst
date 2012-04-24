@@ -8,6 +8,8 @@ Changelog
 - dynamic years range support [kiorky]
 - support for very old years  ( <1800 ) [kiorky]
 - support for custom date patterns in view mode [kiorky]
+- support for only year widget [kiorky]
+- Fix support for older years inside AT widgets [kiorky]
 
 
 1.0a2 (2012-03-12)
