@@ -5,6 +5,10 @@ Changelog
 1.0a3 (unreleased)
 ---------------------
 
+- Fixed a bug where the minutes were ignored and set unconditionally
+  to zero when the field values were extracted.
+  [dokai]
+
 - Fixed a problem with zero valued time components being ignored.
   [dokai]
 
