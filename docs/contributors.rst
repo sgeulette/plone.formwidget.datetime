@@ -12,6 +12,7 @@ have signed the Plone Contributors Agreement [1][2]. Thanks!
 - Taito Horiuchi - Taito
 - Lennart Regebro - regebro
 - Mathieu Le Marec - Pasquet - kiorky
+- Kai Lautaportti - dokai
 
 [1] http://plone.org/foundation/contributors-agreement/contributors-agreement-explained
 [2] http://plone.org/foundation/contributors-agreement/agreement.pdf/view

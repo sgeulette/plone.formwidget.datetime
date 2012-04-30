@@ -311,7 +311,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     @property
     def hour(self):
         hour = self.request.get(self.name+'-hour', None)
-        if hour:
+        if hour is not None:
             return hour
         if self.value[3] != self.empty_value[3]:
             return self.value[3]
@@ -320,10 +320,10 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     @property
     def minute(self):
         min = self.request.get(self.name+'-min', None)
-        if min:
+        if min is not None:
             return min
         if self.value[4] != self.empty_value[4]:
-            return self.empty_value[4]
+            return self.value[4]
         return None
 
     def is_pm(self):
@@ -350,7 +350,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def padded_hour(self, hour=None):
         hour = hour and hour or self.hour
-        if hour:
+        if hour is not None:
             if self.ampm is True and self.is_pm() and int(hour)!=12:
                 hour = str(int(hour)-12)
             return self._padded_value(hour)
@@ -359,7 +359,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def padded_minute(self, minute=None):
         minute = minute and minute or self.minute
-        if minute:
+        if minute is not None:
             return self._padded_value(minute)
         else:
             return None

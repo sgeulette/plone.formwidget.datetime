@@ -4,6 +4,10 @@ Changelog
 
 1.0a3 (unreleased)
 ---------------------
+
+- Fixed a problem with zero valued time components being ignored.
+  [dokai]
+
 - fix all tests [kiorky]
 - dynamic years range support [kiorky]
 - support for very old years  ( <1800 ) [kiorky]
