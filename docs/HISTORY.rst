@@ -5,6 +5,10 @@ Changelog
 1.0a3 (unreleased)
 ---------------------
 
+- Added a wrapper element around the time components in the z3c.form datetime widget markup
+  to faciliate Javascript (and CSS) control.
+  [dokai]
+
 - Fixed a bug where the minutes were ignored and set unconditionally
   to zero when the field values were extracted.
   [dokai]
