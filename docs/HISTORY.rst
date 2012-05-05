@@ -5,6 +5,10 @@ Changelog
 1.0a3 (unreleased)
 ---------------------
 
+- Fixed a bug with the datepicker configuration when the week starts on
+  a different day than Sunday.
+  [dokai]
+
 - Added a wrapper element around the time components in the z3c.form datetime widget markup
   to faciliate Javascript (and CSS) control.
   [dokai]

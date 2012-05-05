@@ -4,6 +4,16 @@ import pytz
 
 from zope.i18n import translate
 from plone.formwidget.datetime import MessageFactory as _
+from collections import deque
+
+
+def rotated(sequence, steps):
+    """Returns a (shallow) copy of the ``sequence`` rotated ``steps``
+    times to the right.
+    """
+    dq = deque(sequence)
+    dq.rotate(steps)
+    return list(dq)
 
 
 class AbstractDateWidget(object):
@@ -226,20 +236,24 @@ class AbstractDateWidget(object):
 
         language = self.request.get('LANGUAGE', 'en')
         calendar = self.request.locale.dates.calendars[self.calendar_type]
+        firstday = calendar.week.get('firstDay', 0)
         localize = 'jQuery.tools.dateinput.localize("' + language + '", {'
         localize += 'months: "%s",' % ','.join(calendar.getMonthNames())
         localize += 'shortMonths: "%s",' % ','.join(
             calendar.getMonthAbbreviations()
         )
-        localize += 'days: "%s",' % ','.join(calendar.getDayNames())
-        localize += 'shortDays: "%s"' % ','.join(
-            calendar.getDayAbbreviations()
-        )
+        # jQuery Tools datepicker wants the days to always start with Sunday and
+        # uses the 'firstDay' option to reorder them if required. The .getDayNames()
+        # and .getDayAbbreviations() return the days ordered by the current locale
+        # and unless the week starts on Sunday we need to rotate them.
+        localize += 'days: "%s",' % ','.join(rotated(calendar.getDayNames(), firstday))
+        localize += 'shortDays: "%s",' % ','.join(rotated(calendar.getDayAbbreviations(), firstday))
         localize += '});'
 
         config = 'lang: "%s", ' % language
         if self.js_value:
             config += 'value: %s, ' % self.js_value
+        config += 'firstDay: %s, ' % firstday
 
         config += ('change: function() {\n'
                    '  var value = this.getValue("yyyy-m-d").split("-");\n'
