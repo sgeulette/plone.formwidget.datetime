@@ -35,6 +35,7 @@ class AbstractDateWidget(object):
 
     base_jquerytools_dateinput_config = 'selectors: true, ' \
             'trigger: true, ' \
+            'format: \'mm/dd/yyyy\', '\
             'yearRange: [%s, %s]'
 
     @property
