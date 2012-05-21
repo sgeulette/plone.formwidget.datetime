@@ -54,6 +54,7 @@ setup(
                 'z3c.form[test]',
                 'zc.buildout',
                 'zope.testing',
+                'interlude',
             ],
         ),
 )

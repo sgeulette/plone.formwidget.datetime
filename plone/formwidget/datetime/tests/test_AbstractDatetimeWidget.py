@@ -113,65 +113,38 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
             {'value': 23, 'name': 'hour'}
         )
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
-    def test_padded_hour_None(self, hour):
+    def test_padded_hour_None(self):
         instance = self.createInstance()
         instance.hour = None
-        self.assertFalse(instance.padded_hour())
+        self.assertTrue(instance.padded_hour is None)
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
-    def test_padded_hour_ampm(self, hour):
+    def test_padded_hour_ampm(self):
         instance = self.createInstance()
         instance.ampm = True
-        instance.is_pm = mock.Mock()
         instance.hour = 14
-        instance._padded_value = mock.Mock()
-        instance.padded_hour()
-        instance._padded_value.assert_called_with('2')
+        self.assertTrue(instance.padded_hour == '02')
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
     def test_padded_hour_ampm_False(self, hour):
         instance = self.createInstance()
         instance.ampm = False
-        instance.is_pm = mock.Mock()
         instance.hour = 14
-        instance._padded_value = mock.Mock()
-        instance.padded_hour()
-        instance._padded_value.assert_called_with(14)
+        self.assertTrue(instance.padded_hour == '14')
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
-    def test_padded_hour_is_pm_False(self, hour):
+    def test_padded_hour_12(self):
         instance = self.createInstance()
         instance.ampm = True
-        instance.is_pm = mock.Mock(return_value=False)
-        instance.hour = 14
-        instance._padded_value = mock.Mock()
-        instance.padded_hour()
-        instance._padded_value.assert_called_with(14)
-
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
-    def test_padded_hour_12(self, hour):
-        instance = self.createInstance()
-        instance.ampm = True
-        instance.is_pm = mock.Mock(return_value=True)
         instance.hour = 12
-        instance._padded_value = mock.Mock()
-        instance.padded_hour()
-        instance._padded_value.assert_called_with(12)
+        self.assertTrue(instance.padded_hour == '12')
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
-    def test_padded_minute_None(self, hour):
+    def test_padded_minute_None(self):
         instance = self.createInstance()
         instance.minute = None
-        self.assertFalse(instance.padded_minute())
+        self.assertTrue(instance.padded_minute is None)
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
-    def test_padded_minute_not_None(self, hour):
+    def test_padded_minute_not_None(self):
         instance = self.createInstance()
         instance.minute = 55
-        instance._padded_value = mock.Mock()
-        instance.padded_minute()
-        instance._padded_value.assert_called_with(55)
+        self.assertTrue(instance.padded_minute == '55')
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')

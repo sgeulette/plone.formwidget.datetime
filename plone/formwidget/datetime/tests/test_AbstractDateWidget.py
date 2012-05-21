@@ -228,26 +228,6 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance.empty_value = '345'
         self.assertFalse(instance.day)
 
-    def test__padded_value__empty(self):
-        instance = self.createInstance()
-        value = ''
-        self.assertEqual(instance._padded_value(value), '00')
-
-    def test__padded_value__one(self):
-        instance = self.createInstance()
-        value = 'a'
-        self.assertEqual(instance._padded_value(value), '0a')
-
-    def test__padded_value__two(self):
-        instance = self.createInstance()
-        value = 'ab'
-        self.assertEqual(instance._padded_value(value), 'ab')
-
-    def test__padded_value__three(self):
-        instance = self.createInstance()
-        value = 'abc'
-        self.assertEqual(instance._padded_value(value), 'abc')
-
     @mock.patch('plone.formwidget.datetime.zope.i18n.translate')
     @mock.patch('plone.formwidget.datetime.base.datetime')
     def test_show_today_link_js(self, datetime, translate):

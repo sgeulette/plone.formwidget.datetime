@@ -92,7 +92,7 @@
                 <!-- hour -->
                 <select class="hour"
                         tal:define="field_id string:${fieldName}-hour;
-                                    current_val python:request.get(field_id,bool(value) and value.hour() or '');"
+                                    current_val python:request.get(field_id, bool(value) and value.hour() or '');"
                         tal:attributes="id field_id;
                                         name field_id;">
                     <tal:day repeat="hour widget/hours">

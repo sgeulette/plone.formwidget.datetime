@@ -1,19 +1,16 @@
-from datetime import date, datetime, timedelta
 from DateTime import DateTime
+from datetime import date, datetime
+from zope.i18n import translate
 import pytz
 
-from zope.i18n import translate
+from plone.formwidget.datetime.utils import (
+    padded_minute,
+    padded_hour,
+    padded_value,
+    rotated
+)
 from plone.formwidget.datetime import MessageFactory as _
-from collections import deque
 
-
-def rotated(sequence, steps):
-    """Returns a (shallow) copy of the ``sequence`` rotated ``steps``
-    times to the right.
-    """
-    dq = deque(sequence)
-    dq.rotate(steps)
-    return list(dq)
 
 
 class AbstractDateWidget(object):
@@ -145,7 +142,7 @@ class AbstractDateWidget(object):
     @property
     def days(self):
         day_range = range(1, 32)
-        return [{'value': x, 'name': self._padded_value(x)} for x in day_range]
+        return [{'value': x, 'name': padded_value(x)} for x in day_range]
 
     @property
     def year(self):
@@ -175,9 +172,6 @@ class AbstractDateWidget(object):
         if self.value[2] != self.empty_value[2]:
             return self.value[2]
         return None
-
-    def _padded_value(self, value):
-        return str(value).zfill(2)
 
     def show_today_link_js(self, fieldname=None):
         id = fieldname and fieldname or self.id
@@ -356,27 +350,19 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     @property
     def minutes(self):
-        return [{'value': x, 'name': self.padded_minute(x)} for x in range(60)]
+        return [{'value': x, 'name': padded_minute(x)} for x in range(60)]
 
     @property
     def hours(self):
-        return [{'value': x, 'name': self.padded_hour(x)} for x in range(24)]
+        return [{'value': x, 'name': padded_hour(x)} for x in range(24)]
 
-    def padded_hour(self, hour=None):
-        hour = hour and hour or self.hour
-        if hour is not None:
-            if self.ampm is True and self.is_pm() and int(hour)!=12:
-                hour = str(int(hour)-12)
-            return self._padded_value(hour)
-        else:
-            return None
+    @property
+    def padded_hour(self):
+        return padded_hour(self.hour)
 
-    def padded_minute(self, minute=None):
-        minute = minute and minute or self.minute
-        if minute is not None:
-            return self._padded_value(minute)
-        else:
-            return None
+    @property
+    def padded_minute(self):
+        return padded_minute(self.minute)
 
     @property
     def js_value(self):
