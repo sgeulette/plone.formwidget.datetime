@@ -4,6 +4,22 @@ Changelog
 
 1.0a3 (unreleased)
 ---------------------
+
+- Fixed a bug with the datepicker configuration when the week starts on
+  a different day than Sunday.
+  [dokai]
+
+- Added a wrapper element around the time components in the z3c.form datetime widget markup
+  to faciliate Javascript (and CSS) control.
+  [dokai]
+
+- Fixed a bug where the minutes were ignored and set unconditionally
+  to zero when the field values were extracted.
+  [dokai]
+
+- Fixed a problem with zero valued time components being ignored.
+  [dokai]
+
 - fix all tests [kiorky]
 - dynamic years range support [kiorky]
 - support for very old years  ( <1800 ) [kiorky]

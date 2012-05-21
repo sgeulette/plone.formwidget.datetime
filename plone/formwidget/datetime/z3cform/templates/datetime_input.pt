@@ -94,6 +94,7 @@
 
 &nbsp;
 
+<span tal:attributes="id string:${view/id}-timecomponents">
 <!-- hour -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="2" maxlength="2"
@@ -179,6 +180,7 @@
 </select>
 <input name="timezone" type="hidden" value=""
     tal:attributes="name string:${view/name}-timezone; value view/timezone"/>
+</span>
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />
 

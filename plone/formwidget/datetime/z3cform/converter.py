@@ -64,9 +64,9 @@ class DatetimeDataConverter(DateDataConverter):
         try:
             if value[-1]:
                 timezone = pytz.timezone(value[-1])
-                return datetime(*intvalues[:-1], tzinfo=timezone)
+                return datetime(*intvalues, tzinfo=timezone)
             else:
-                return datetime(*intvalues[:-1])
+                return datetime(*intvalues)
         except ValueError:
             raise DatetimeValidationError
 
