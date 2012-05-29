@@ -51,7 +51,7 @@ setup(
                 'Zope2',
                 'plone.app.testing',
                 'profilehooks',
-                'z3c.form[test]',
+                'z3c.form',
                 'zc.buildout',
                 'zope.testing',
             ],
