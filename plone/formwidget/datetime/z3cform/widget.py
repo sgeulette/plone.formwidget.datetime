@@ -90,10 +90,14 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
         if (self.ampm is True and
             hour is not default and
             minute is not default and
-            int(hour)!=12):
+            hour):
             ampm = self.request.get(self.name + '-ampm', default)
             if ampm == 'PM':
-                hour = str(12+int(hour))
+                if hour != u'12':
+                    hour = str(12+int(hour))
+            elif ampm == 'AM':
+                if hour == u'12':
+                    hour = u'00'  # 12 a.m. midnight hour == 00:** 
             # something strange happened since we either
             # should have 'PM' or 'AM', return default
             elif ampm != 'AM':

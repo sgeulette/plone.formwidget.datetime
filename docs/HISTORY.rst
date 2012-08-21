@@ -5,6 +5,11 @@ Changelog
 1.0a3 (unreleased)
 ---------------------
 
+- AM/PM 12-hour time fixes: 12 a.m. == u'00' hour internally, displayed
+  consistently; normalization of times gracefully handles missing hour
+  values; deal gracefully with 12 p.m. and 12 a.m. hours.
+  [seanupton]
+
 - Fixed a bug with the datepicker configuration when the week starts on
   a different day than Sunday.
   [dokai]

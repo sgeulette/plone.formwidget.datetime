@@ -343,7 +343,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def is_pm(self):
         hour = self.hour
-        if hour is None or int(hour) < 12:
+        if hour in (None, '') or int(hour) < 12:
             return False
         return True
 
@@ -366,9 +366,12 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def padded_hour(self, hour=None):
         hour = hour is not None and hour or self.hour
-        if hour is not None:
-            if self.ampm is True and self.is_pm() and int(hour)!=12:
+        if hour not in (None, ''):
+            pm = self.is_pm()
+            if self.ampm is True and pm and int(hour)!=12:
                 hour = str(int(hour)-12)
+            if self.ampm is True and not pm and int(hour)==0:
+                hour = u'12'  # 12 a.m. midnight hour == 00:** hour
             return self._padded_value(hour)
         else:
             return None
