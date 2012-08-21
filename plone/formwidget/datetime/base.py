@@ -342,9 +342,10 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         return None
 
     def is_pm(self):
-        if int(self.hour) >= 12:
-            return True
-        return False
+        hour = self.hour
+        if hour is None or int(hour) < 12:
+            return False
+        return True
 
     @property
     def timezone(self):
