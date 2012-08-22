@@ -48,7 +48,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         year = form.get('%s-year' % fname, '0000')
         month = form.get('%s-month' % fname, '00')
         day = form.get('%s-day' % fname, '00')
-        hour = form.get('%s-hour' % fname, '')
+        hour = form.get('%s-hour' % fname, '00')
         minute = form.get('%s-min' % fname, '00')
         ampm = form.get('%s-ampm' % fname, '')
         timezone = form.get('%s-timezone' % fname, '')
@@ -62,24 +62,17 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
             value = ''
         if emptyReturnsMarker and value == '':
             return empty_marker
-        args = (year, month, day)
+        dt_args = (year, month, day)
         if self.with_time:
-            args += (hour, minute, timezone)
+            dt_args += (hour, minute, timezone)
         res = ''
-        try:
-            res = self._dtvalue(args)
-            if (isinstance(res, date) 
-                and not isinstance(res, datetime)):
-                 res = DateTime(
-                     datetime(res.year, res.month, res.day)
-                )
-            # stick it back in request.form
-        except:
-            pass
-        form[fname] = res
+        res = self._base_dtvalue(DateTime, dt_args)
+        form[fname] = res # stick it back in request.form
         return res, {}
 
 
+# TODO: multi inheritance is nasty, when it comes to overriding methods. then
+#       there is no clearly defined method resolution order.
 class DateWidget(base.AbstractDateWidget, AbstractATDattimeWidget):
     """ Date widget.
 
