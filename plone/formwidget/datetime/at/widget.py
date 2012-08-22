@@ -32,9 +32,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     def name(self):
         return self.getName()
 
-    def _dtvalue(self, value):
-        return self._base_dtvalue(DateTime, value)
-
     security.declarePublic('process_form')
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
