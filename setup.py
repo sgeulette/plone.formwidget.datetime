@@ -53,6 +53,7 @@ setup(
                 'profilehooks',
                 'z3c.form',
                 'zc.buildout',
+                'lxml',
                 'zope.testing',
             ],
         ),
