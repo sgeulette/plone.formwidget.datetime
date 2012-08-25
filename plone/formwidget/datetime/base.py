@@ -103,12 +103,16 @@ class AbstractDateWidget(object):
             date_fmt = '%Y/%m/%d'
         if self.pattern == 'yyyy':
             date_fmt = '%Y'
-        if self.pattern == 'yyyy':
+        if self.pattern == 'yy':
             date_fmt = '%y'
         if self.pattern == 'yyyy/M':
             date_fmt = '%Y/%m'
         if self.pattern == 'M/yyyy':
             date_fmt = '%m/%Y'
+        if self.pattern == 'yy/M':
+            date_fmt = '%y/%m'
+        if self.pattern == 'M/yy':
+            date_fmt = '%m/%y'
         try:
             # try to format with bare python (no i18n)
             # it can do mervelous things with this
