@@ -2,6 +2,9 @@ import mock
 import unittest2 as unittest
 from datetime import datetime
 
+import DateTime
+import pytz
+
 
 class TestAbstractDateWidget(unittest.TestCase):
 
@@ -41,8 +44,9 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance = self.createInstance()
         self.assertEqual(
             instance.jquerytools_dateinput_config,
-            'selectors: true, ' \
-            'trigger: true, ' \
+            'selectors: true, ' 
+            'trigger: true, ' 
+            'format: \'mm/dd/yyyy\', '
             'yearRange: [-10, 10]'
         )
 
@@ -71,6 +75,25 @@ class TestAbstractDateWidget(unittest.TestCase):
     def test_formatted_value__value_in_empty_value(self):
         instance = self.createInstance()
         self.assertFalse(instance.formatted_value)
+
+    def test_formatted_value__date_DateTime_bordercases(self):
+        instance = self.createInstance()
+        dtv = DateTime.DateTime('99/01/01 01:01 Europe/Paris')
+        dv =  DateTime.DateTime('99/01/01')
+        self.assertEqual(instance.get_formatted_value(dtv), 
+                         '1999/01/01')
+        self.assertEqual(instance.get_formatted_value(dv), 
+                         '1999/01/01')
+
+    def test_formatted_value__date_datetime_bordercases(self):
+        instance = self.createInstance()
+        tz = pytz.timezone('Europe/Paris')
+        dtv = tz.localize(datetime(99,1,1,1,1,1))
+        dv = dtv.date()
+        self.assertEqual(instance.get_formatted_value(dtv), 
+                         '99/01/01')
+        self.assertEqual(instance.get_formatted_value(dv), 
+                         '99/01/01')
 
     def test_formatted_value__value_is_None(self):
         instance = self.createInstance()
@@ -297,14 +320,16 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar_type = mock.Mock()
         instance.calendar_type = calendar_type
         calendar = mock.Mock()
+        calendar.week.get.return_value = 0
         instance.request.locale.dates.calendars = {instance.calendar_type: calendar}
         calendar.getMonthNames.return_value = ['Jan', 'Feb', 'Mar', 'Apr']
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
         calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed']
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W']
         instance.js_value = None
-        self.assertEqual(
-            instance.get_js(),
+
+
+        REFJS = (
             '\n            <input type="hidden"\n'
             '                id="id-calendar"\n'
             '                name="field-calendar"\n'
@@ -312,12 +337,12 @@ class TestAbstractDateWidget(unittest.TestCase):
             '            <script type="text/javascript">\n'
             '                if (jQuery().dateinput) {\n'
             '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n'
-            '                    jQuery("#id-calendar").dateinput({lang: "en", change: function() {\n'
+            '                    jQuery("#id-calendar").dateinput({lang: "en", firstDay: 0, change: function() {\n'
             '  var value = this.getValue("yyyy-m-d").split("-");\n'
             '  jQuery("#id-year").val(value[0]); \n'
             '  jQuery("#id-month").val(value[1]); \n'
             '  jQuery("#id-day").val(value[2]); \n'
-            '}, selectors: true, trigger: true, yearRange: [-10, 10]}).unbind(\'change\')\n'
+            '}, selectors: true, trigger: true, format: \'mm/dd/yyyy\', yearRange: [-10, 10]}).unbind(\'change\')\n'
             '                        .bind(\'onShow\', function (event) {\n'
             '                            var trigger_offset = jQuery(this).next().offset();\n'
             '                            jQuery(this).data(\'dateinput\').getCalendar().offset(\n'
@@ -341,6 +366,7 @@ class TestAbstractDateWidget(unittest.TestCase):
             '                }\n'
             '            </script>'
         )
+        self.assertEqual(instance.get_js(), REFJS)
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.js_value')
     def test_get_js__js_value(self, js_value):
@@ -353,6 +379,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance.calendar_type = calendar_type
         calendar = mock.Mock()
         instance.request.locale.dates.calendars = {instance.calendar_type: calendar}
+        calendar.week.get.return_value = 0
         calendar.getMonthNames.return_value = ['Jan', 'Feb', 'Mar', 'Apr']
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
         calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed']
@@ -368,7 +395,7 @@ class TestAbstractDateWidget(unittest.TestCase):
             '            <script type="text/javascript">\n'
             '                if (jQuery().dateinput) {\n'
             '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n'
-            '                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, change: function() {\n'
+            '                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, firstDay: 0, change: function() {\n'
             '  var value = this.getValue("yyyy-m-d").split("-");\n'
             '  jQuery("#id-year").val(value[0]); \n'
             '  jQuery("#id-month").val(value[1]); \n'
@@ -399,13 +426,12 @@ class TestAbstractDateWidget(unittest.TestCase):
         )
         result = instance.get_js()
 
-        #targetl = target.split('\n')
-        #resultl = result.split('\n')
-        #for i in range(len(targetl)):
-            #if resultl[i] != targetl[i]:
-                #import pdb;pdb.set_trace()
-                #print "Line ", i, "differs:"
-                #print resultl[i]
-                #print targetl[i]
+        targetl = target.split('\n')
+        resultl = result.split('\n')
+        for i in range(len(targetl)):
+            if resultl[i] != targetl[i]:
+                print "Line ", i, "differs:"
+                print resultl[i]
+                print targetl[i]
 
         self.assertEqual(result, target)

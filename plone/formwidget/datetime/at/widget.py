@@ -18,7 +18,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         'show_calendar': True,
         'show_day': True,
         'show_month': True,
-        'with_time': False,
         'years_range': (-10, 10),
     })
     security = ClassSecurityInfo()
@@ -26,7 +25,8 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     def __call__(self, mode, instance, context=None):
         self.context = instance
         self.request = instance.REQUEST
-        return super(AbstractATDattimeWidget, self).__call__(mode, instance, context=context)
+        return super(AbstractATDattimeWidget, self).__call__(
+            mode, instance, context=context)
 
     @property
     def name(self):
@@ -49,7 +49,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         month = form.get('%s-month' % fname, '00')
         day = form.get('%s-day' % fname, '00')
         hour = form.get('%s-hour' % fname, '00')
-        minute = form.get('%s-min' % fname, '00')
+        minute = form.get('%s-minute' % fname, '00')
         ampm = form.get('%s-ampm' % fname, '')
         timezone = form.get('%s-timezone' % fname, '')
         if (year != '0000') and (day != '00') and (month != '00'):
@@ -62,11 +62,27 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
             value = ''
         if emptyReturnsMarker and value == '':
             return empty_marker
+        func = date
         dt_args = (year, month, day)
         if self.with_time:
+            func = datetime
             dt_args += (hour, minute, timezone)
-        res = ''
-        res = self._base_dtvalue(DateTime, dt_args)
+        # !!! IMPORTANT
+        # CONVERT BEFORE TO PYTHON DATETIME FOR
+        # OLD DATES < 0100 NOT TO BE CONVERTED
+        # TO 1900 OR 2000 !!!
+        # this also prevent from calling
+        # stftime on date < 1900 which fails
+        # without a specific python  patch
+        try:
+            res = self._base_dtvalue(func, dt_args)
+            # for date, limit fields to date fields only
+            if (isinstance(res, date)
+                and not isinstance(res, datetime)):
+                res = datetime(res.year, res.month, res.day)
+            res = DateTime(res)
+        except:
+            res= ''
         form[fname] = res # stick it back in request.form
         return res, {}
 
@@ -92,7 +108,6 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractATDattimeWidget):
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'datetime_input',
-        'with_time': True,
     })
 registerWidget(DatetimeWidget,
                title='Datetime widget',

@@ -11,7 +11,7 @@ we test the real configuration. Let's test the Widget:
   >>> from plone.formwidget.datetime.z3cform import YearFieldWidget
 
   >>> request = self.testrequest()
-  >>> field = zope.schema.Date(default=datetime.date(2007, 4, 1))
+  >>> field = zope.schema.Date(default=datetime.date(2007, 4, 2))
   >>> widget = YearFieldWidget(field, request)
   >>> widget.id = 'foo'
   >>> widget.name = 'bar'
@@ -28,7 +28,7 @@ INPUT_MODE
   <input type="hidden" id="foo-day" name="bar-day"
          class="year-widget required date-field" size="2"
          maxlength="2" onchange="updateCalendar('#foo');"
-         value="1" />
+         value="2" />
   <!-- month -->
   <input type="hidden" id="foo-month" name="bar-month"
          class="year-widget required date-field" size="2"
@@ -59,8 +59,6 @@ DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="year-widget required date-field">2007</span>
 
-
-
 HIDDEN_MODE
 -----------
 
@@ -70,9 +68,17 @@ HIDDEN_MODE
            class="hidden-widget" value="2007" />
   >>> widget.request = self.testrequest(
   ...     form={'bar-year': '2007',
-  ...           'bar-day': '1',
-  ...           'bar-month': '1',
+  ...           'bar-day': '6',
+  ...           'bar-month': '5',
+  ...      }
+  ...     )
+  >>> widget.extract()
+  ('2007', '5', '6')
+  >>> widget.request = self.testrequest(
+  ...     form={'bar-year': '2007',
   ...      }
   ...     )
   >>> widget.extract()
   ('2007', '1', '1')
+
+

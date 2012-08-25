@@ -1,3 +1,12 @@
+from plone.formwidget.datetime.at.widget import DateWidget
+from plone.formwidget.datetime.base import AbstractDatetimeWidget
+from plone.formwidget.datetime.at.widget import DatetimeWidget
+from DateTime import DateTime
+from Products.Archetypes.Field import DateTimeField
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from zope.pagetemplate.pagetemplatefile import PageTemplateFile
+from plone.formwidget.datetime.testing import PFWDT_INTEGRATION_TESTING
+from plone.formwidget.datetime.at.browser import widget as bw
 import datetime
 import mock
 from DateTime import DateTime
@@ -7,13 +16,9 @@ import unittest2 as unittest
 class TestDatetimeWidget(unittest.TestCase):
 
     def createInstance(self):
-        from plone.formwidget.datetime.at.widget import DatetimeWidget
         return DatetimeWidget()
 
     def test_subclass(self):
-        from plone.formwidget.datetime.at.widget import DatetimeWidget
-        from plone.formwidget.datetime.base import AbstractDatetimeWidget
-        from plone.formwidget.datetime.at.widget import DateWidget
         self.assertTrue(DatetimeWidget, (AbstractDatetimeWidget, DateWidget))
 
     def test__properties(self):
@@ -23,7 +28,6 @@ class TestDatetimeWidget(unittest.TestCase):
             {
                 'show_calendar': True,
                 'helper_css': (),
-                'with_time': True,
                 'years_range': (-10, 10),
                 'description': '',
                 'populate': True,
@@ -54,14 +58,14 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-day': '22',
             'field-hour': '13',
-            'field-min': '30',
+            'field-minute': '30',
         }
         self.assertEqual(
-            instance.process_form(ins, field, form),
-            (datetime.datetime(2011, 11, 22, 13, 30), {})
+            instance.process_form(ins, field, form)[0].asdatetime(),
+            (datetime.datetime(2011, 11, 22, 13, 30))
         )
         self.assertEqual(
-            form['field'],
+            form['field'].asdatetime(),
             datetime.datetime(2011, 11, 22, 13, 30)
         )
 
@@ -76,16 +80,16 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-day': '22',
             'field-hour': '2',
-            'field-min': '30',
+            'field-minute': '30',
             'field-ampm': 'PM',
         }
         self.assertEqual(
-            instance.process_form(ins, field, form),
-            (datetime.datetime(2011, 11, 22, 14, 30), {})
+            instance.process_form(ins, field, form)[0].asdatetime(),
+            (datetime.datetime(2011, 11, 22, 14, 30))
         )
         self.assertEqual(
-            form['field'],
-            datetime.datetime(2011, 11, 22, 14, 30) 
+            form['field'].asdatetime(),
+            datetime.datetime(2011, 11, 22, 14, 30)
         )
 
     def test_process_form_with_valid_date_am(self):
@@ -99,17 +103,37 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-day': '22',
             'field-hour': '12',
-            'field-min': '30',
+            'field-minute': '30',
             'field-ampm': 'AM',
         }
         self.assertEqual(
-            instance.process_form(ins, field, form),
-            (datetime.datetime(2011, 11, 22, 0, 30), {})
+            instance.process_form(ins, field, form)[0].asdatetime(),
+            (datetime.datetime(2011, 11, 22, 0, 30))
         )
         self.assertEqual(
-            form['field'],
+            form['field'].asdatetime(),
             datetime.datetime(2011, 11, 22, 0, 30)
-        ) 
+        )
 
-
-
+    def test_process_form_with_oldyear(self):
+        instance = self.createInstance()
+        ins = mock.Mock()
+        field = mock.Mock()
+        field.getName.return_value = 'field'
+        form = {
+            'field-calendar': 'value',
+            'field-year': '99',
+            'field-month': '11',
+            'field-day': '22',
+            'field-hour': '12',
+            'field-minute': '30',
+            'field-ampm': 'AM',
+        }
+        self.assertEqual(
+            instance.process_form(ins, field, form)[0].asdatetime(),
+            (datetime.datetime(99, 11, 22, 0, 30))
+        )
+        self.assertEqual(
+            form['field'].asdatetime(),
+            datetime.datetime(99, 11, 22, 0, 30)
+        )

@@ -5,6 +5,13 @@ Changelog
 1.0a3 (unreleased)
 ---------------------
 
+- Changes related to "Archetypes widget now reliably returns DateTime instances instead datetime."
+
+    - support for only year widget [kiorky]
+    - Fix support for older years inside AT widgets [kiorky]
+    - Add lot of tests for year ranges & old years [kiorky]
+    - Fix the Year and Month/Years widgets [kiorky]
+     
 - Archetypes widget now reliably returns DateTime instances instead datetime.
   [thet]
 
@@ -32,8 +39,6 @@ Changelog
 - dynamic years range support [kiorky]
 - support for very old years  ( <1800 ) [kiorky]
 - support for custom date patterns in view mode [kiorky]
-- support for only year widget [kiorky]
-- Fix support for older years inside AT widgets [kiorky]
 
 
 1.0a2 (2012-03-12)

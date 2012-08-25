@@ -11,7 +11,7 @@ we test the real configuration. Let's test the Widget:
   >>> from plone.formwidget.datetime.z3cform import MonthYearFieldWidget
 
   >>> request = self.testrequest()
-  >>> field = zope.schema.Date(default=datetime.date(2007, 4, 1))
+  >>> field = zope.schema.Date(default=datetime.date(2007, 4, 2))
   >>> widget = MonthYearFieldWidget(field, request)
   >>> widget.id = 'foo'
   >>> widget.name = 'bar'
@@ -23,6 +23,28 @@ we test the real configuration. Let's test the Widget:
 INPUT_MODE
 ----------
 
+  >>> print widget.render()
+  <BLANKLINE>
+  <BLANKLINE>
+  <!-- day -->
+  <input type="hidden" id="foo-day" name="bar-day"
+         class="monthyear-widget required date-field" size="2"
+         maxlength="2" onchange="updateCalendar('#foo');"
+         value="2" />
+  <!-- month -->
+  <select id="foo-month" name="bar-month"
+          class="monthyear-widget required date-field"
+          onchange="updateCalendar('#foo');">
+  ...
+      <option value="4" selected="selected">April</option>
+  ...
+  </select> /
+  <!-- year -->
+  <input type="text" id="foo-year" name="bar-year"
+         class="monthyear-widget required date-field" alt=""
+         accesskey="" size="4" maxlength="4"
+         onchange="updateCalendar('#foo');" value="2007" />...
+  >>> widget.mode = z3c.form.interfaces.INPUT_MODE
   >>> widget.request = self.testrequest(
   ...     form={'bar-day': '1',
   ...           'bar-month': '4',
@@ -40,7 +62,7 @@ DISPLAY_MODE
   >>> widget.mode = z3c.form.interfaces.DISPLAY_MODE
   >>> print widget.render()
   <BLANKLINE>
-  <span id="foo" class="monthyear-widget required date-field">4/1/2007</span>
+  <span id="foo" class="monthyear-widget required date-field">2007/4</span>
   <BLANKLINE>
   <BLANKLINE>
 
@@ -52,11 +74,23 @@ HIDDEN_MODE
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render()
   <BLANKLINE>
-  <input type="hidden" id="foo" name="bar" class="hidden-widget" value="4/1/2007" />
+  <input type="hidden" id="foo" name="bar" class="hidden-widget" value="2007/4" />
   <BLANKLINE>
   <BLANKLINE>
   >>> widget.request = self.testrequest(
-  ...     form={'bar': '4/1/2007'}
-  ...     )
+  ...     form={
+  ...             'bar-year':  '2007',
+  ...             'bar-month': '4',
+  ... })
   >>> widget.extract()
   ('2007', '4', '1')
+  >>> widget.request = self.testrequest(
+  ...     form={
+  ...             'bar-year':  '2007',
+  ...             'bar-month': '4',
+  ...             'bar-day': '4',
+  ... })
+  >>> widget.extract()
+  ('2007', '4', '4')
+
+

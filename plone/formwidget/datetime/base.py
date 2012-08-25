@@ -16,6 +16,10 @@ def rotated(sequence, steps):
     return list(dq)
 
 
+def is_pure_date(instance):
+    return (isinstance(instance, date)
+            and not isinstance(instance, datetime))
+
 class AbstractDateWidget(object):
 
     calendar_type = 'gregorian'
@@ -37,6 +41,11 @@ class AbstractDateWidget(object):
             'trigger: true, ' \
             'format: \'mm/dd/yyyy\', '\
             'yearRange: [%s, %s]'
+
+
+    @property
+    def with_time(self):
+        return 'time' in self.__class__.__name__.lower()
 
     @property
     def jquerytools_dateinput_config(self):
@@ -77,25 +86,79 @@ class AbstractDateWidget(object):
             return ''
         if isinstance(dt_value, DateTime):
             dt_value =  dt_value.asdatetime()
-        if not dt_value.year < 100:
-            try:
-                formater = self._dtformatter
-                if self.pattern is not None:
-                    formater.setPattern(self.pattern)
-                return formater.format(dt_value)
-            except ValueError, e:
-                if dt_value.year <= 1900:
-                    pass
+        eraise = True
+        if dt_value.year < 1900:
+            eraise = False
+        try:
+            formater = self._dtformatter
+            if self.pattern is not None:
+                formater.setPattern(self.pattern)
+            return formater.format(dt_value)
+        except ValueError, e:
+            if not eraise:
+                pass
         date_fmt = '%Y/%m/%d %H:%M'
-        if (not isinstance(dt_value, datetime)
-            and isinstance(dt_value, date)):
+        # special handles for month and year/month patterns
+        if not self.with_time:
             date_fmt = '%Y/%m/%d'
+        if self.pattern == 'yyyy':
+            date_fmt = '%Y'
+        if self.pattern == 'yyyy':
+            date_fmt = '%y'
+        if self.pattern == 'yyyy/M':
+            date_fmt = '%Y/%m'
+        if self.pattern == 'M/yyyy':
+            date_fmt = '%m/%Y'
         try:
             # try to format with bare python (no i18n)
+            # it can do mervelous things with this
+            # patch to handle old years:
+            # https://github.com/minitage-dependencies/python-2.7/blob/master/patches/strftime-pre-1900.patch
+            # you can also find this patch
+            # on the python tracker)
             return dt_value.strftime(date_fmt)
         except Exception, e:
-            # last resort is ctime
-            return dt_value.ctime()
+            try:
+                dt = ''
+                # try to fallback to DateTime repr()
+                # be sure to call datetime methods or date
+                # only if we have the right underlying object
+                if not self.with_time or (
+                    self.with_time
+                    and is_pure_date(dt_value)):
+                    dt = '%s-%s-%s' % (
+                        dt_value.year,
+                        dt_value.month,
+                        dt_value.day)
+                else:
+                    dt = '%s-%s-%s %s:%s:%s.%s' % (
+                        dt_value.year,
+                        dt_value.month,
+                        dt_value.day,
+                        dt_value.hour,
+                        dt_value.minute,
+                        dt_value.second,
+                        dt_value.microsecond
+                    )
+                    if dt_value.tzinfo is not None:
+                        if dt_value.tzinfo.utcoffset(
+                            dt_value) is not None:
+                            dt += ' %s' % str(
+                                dt_value.tzinfo)
+                # ATTENTION / WARNING
+                # its important to call DateTime with a
+                # regular python datetime for it not to
+                # break old dates < 100 (like 99)
+                # because they would be translited to eg: 1999
+                if dt:
+                    dt = DateTime(dt)
+                    if len(str(dt_value.year)) < 3:
+                        date_fmt = date_fmt.replace('Y', 'y')
+                    dt =  dt.strftime(date_fmt)
+                return dt
+            except Exception, e:
+                # last resort is ctime
+                return dt_value.ctime()
 
     def dtformatter_to_full_year(self, dt_type):
         formater = None
@@ -247,9 +310,14 @@ class AbstractDateWidget(object):
         # uses the 'firstDay' option to reorder them if required. The .getDayNames()
         # and .getDayAbbreviations() return the days ordered by the current locale
         # and unless the week starts on Sunday we need to rotate them.
-        localize += 'days: "%s",' % ','.join(rotated(calendar.getDayNames(), firstday))
-        localize += 'shortDays: "%s",' % ','.join(rotated(calendar.getDayAbbreviations(), firstday))
+        localize += 'days: "%s",' % ','.join(
+            rotated(calendar.getDayNames(), firstday))
+
+        localize += 'shortDays: "%s",' % ','.join(
+            rotated(calendar.getDayAbbreviations(), firstday))
         localize += '});'
+        localize = localize.replace(',}', '}')
+
 
         config = 'lang: "%s", ' % language
         if self.js_value:
@@ -334,9 +402,9 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     @property
     def minute(self):
-        min = self.request.get(self.name+'-min', None)
-        if min is not None:
-            return min
+        minute = self.request.get(self.name+'-minute', None)
+        if minute is not None:
+            return minute
         if self.value[4] != self.empty_value[4]:
             return self.value[4]
         return None
@@ -389,10 +457,14 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         month = self.month and int(self.month) - 1 or None
         day = self.day
         hour = self.hour
-        min = self.minute
-        if year and month and day and hour and min:
+        minute = self.minute
+        if (year is not None
+            and month is not None
+            and day is not None
+            and hour is not None
+            and minute is not None):
             return 'new Date(%s, %s, %s, %s, %s)' % (
-                year, month, day, hour, min)
+                year, month, day, hour, minute)
         elif year and month and day:
             return 'new Date(%s, %s, %s)' % (
                 year, month, day)
@@ -404,6 +476,7 @@ class AbstractMonthYearWidget(AbstractDateWidget):
     klass = u'monthyear-widget'
     empty_value = ('', '', 1)
     value = empty_value
+    pattern = 'yyyy/M'
 
 
 class AbstractYearWidget(AbstractDateWidget):
