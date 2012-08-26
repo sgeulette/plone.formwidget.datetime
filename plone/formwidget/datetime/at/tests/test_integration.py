@@ -1,3 +1,4 @@
+
 from DateTime import DateTime
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -320,8 +321,14 @@ class TestYearMonthIWidget(BaseTestDatetimeIWidget):
         dt = DateTime(datetime.datetime(99,1,2,3,4))
         self.folder.getField(self.fid).set(self.folder, dt)
         res = self.v.render(field=self.field, mode='view').strip()
-        REF = u'<span>99/01</span>'
-        self.assertEqual(res, REF)
+        # with a patched python
+        # month is in integer form, non zero padded
+        EITHER = [u'<span>99/1</span>',
+                  u'<span>99/01</span>'
+                 ]
+        self.assertTrue(
+            True
+            in [a in res for a in EITHER])
 
     def test_a_view_render_datetime(self):
         dt = datetime.datetime(99,6,2,3,4)
