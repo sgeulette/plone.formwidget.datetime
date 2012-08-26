@@ -6,6 +6,6 @@ src_type=git
 category=zope
 homepage=
 description=
-buildout_config=minitage-test-4.2.x.cfg
+buildout_config=.minitagecfg/minitage-test-4.2.x.cfg
 
 
