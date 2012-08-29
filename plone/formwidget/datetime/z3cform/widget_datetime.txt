@@ -31,7 +31,9 @@ Render without AM/PM support:
 
   >>> widget.mode == z3c.form.interfaces.INPUT_MODE
   True
-  >>> 'Date(2007, 3, 1, 12, 00)' in widget.render() #doctest: +ELLIPSIS
+  >>> widget.js_value
+  'new Date(2007, 3, 1, 12, 0)'
+  >>> 'Date(2007, 3, 1, 12, 0)' in widget.render() #doctest: +ELLIPSIS
   True
 
   >>> widget.request = self.testrequest(
@@ -39,7 +41,7 @@ Render without AM/PM support:
   ...           'bar-month': '4',
   ...           'bar-year': '2007',
   ...           'bar-hour': '12',
-  ...           'bar-min': '00',
+  ...           'bar-minute': '00',
   ...           'bar-empty-marker': '1',
   ...           }
   ...     )
@@ -57,7 +59,7 @@ Render with AM/PM support:
   ...           'bar-month': '4',
   ...           'bar-year': '2007',
   ...           'bar-hour': '12',
-  ...           'bar-min': '00',
+  ...           'bar-minute': '00',
   ...           'bar-ampm': 'PM',
   ...           'bar-empty-marker': '1',
   ...           }
@@ -108,7 +110,7 @@ INPUT_MODE
   ...           'bar-month': '4',
   ...           'bar-year': '2007',
   ...           'bar-hour': '01',
-  ...           'bar-min': '00',
+  ...           'bar-minute': '00',
   ...           'bar-ampm': 'PM',
   ...           'bar-empty-marker': '1',
   ...           }

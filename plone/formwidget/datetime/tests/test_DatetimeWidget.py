@@ -36,7 +36,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
         }
         self.assertEqual(
             instance.extract(),
@@ -50,7 +50,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
         }
         default = mock.Mock()
         self.assertEqual(
@@ -66,7 +66,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
             'field-ampm': 'AM'
         }
         self.assertEqual(
@@ -82,7 +82,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
             'field-ampm': 'PM'
         }
         self.assertEqual(
@@ -98,7 +98,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
             'field-ampm': 'AMPM'
         }
         self.assertEqual(
@@ -122,7 +122,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-month': '11',
             'field-year': '2011',
             'field-hour': '5',
-            'field-min': '30',
+            'field-minute': '30',
         } 
         self.assertEqual(
             len(instance.extract()),

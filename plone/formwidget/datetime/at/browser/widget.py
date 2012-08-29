@@ -3,6 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class Base(BrowserView):
+    template = ViewPageTemplateFile('datetime_input.pt')
 
     @property
     def macros(self):
@@ -11,19 +12,17 @@ class Base(BrowserView):
 
 class DateWidget(Base):
     """ view klass for DateWidget """
-    template = ViewPageTemplateFile('datetime_input.pt')
 
 
 class DatetimeWidget(Base):
     """ view klass for DatetimeWidget """
-    template = ViewPageTemplateFile('datetime_input.pt')
 
 
 class MonthYearWidget(Base):
     """ view klass for MonthYearWidget """
-    template = ViewPageTemplateFile('datetime_input.pt')
 
 
 class YearWidget(Base):
     """ view klass for YearWidget """
-    template = ViewPageTemplateFile('datetime_input.pt')
+
+

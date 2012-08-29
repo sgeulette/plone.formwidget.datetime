@@ -8,7 +8,7 @@ we test the real configuration. Let's test the Widget:
   >>> import datetime
   >>> import z3c.form
   >>> import zope.schema
-  
+
 
 ISSUE 1
 -------
@@ -26,7 +26,7 @@ ISSUE 1
   >>> class ITest(zope.interface.Interface):
   ...     date = zope.schema.Date(title=u'Date',required=True)
   ...     datetime = zope.schema.Datetime(title=u'Datetime', required=True)
-  
+
   >>> from z3c.form import form, field, button, interfaces
   >>> class TestForm(form.EditForm):
   ...     fields = field.Fields(ITest)
@@ -40,7 +40,7 @@ ISSUE 1
   ...                 'form.widgets.datetime-month': u'10',
   ...                 'form.widgets.datetime-year': u'99',
   ...                 'form.widgets.datetime-hour': u'6',
-  ...                 'form.widgets.datetime-min': u'35',
+  ...                 'form.widgets.datetime-minute': u'35',
   ...                 'form.buttons.apply': u'Apply'})
   >>> test_form = TestForm(self.root, request)
 
@@ -60,10 +60,10 @@ ISSUE 1
   (u'99', u'2', u'14')
   >>> test_form.widgets['datetime'].value
   (u'99', u'10', u'1', u'6', u'35')
-  >>> test_form.widgets['date'].render()
-  u'\n<span id="form-widgets-date" class="date-widget required date-field">99/02/14</span>\n\n'
-  >>> test_form.widgets['datetime'].render()
-  u'\n<span id="form-widgets-datetime" class="datetime-widget required datetime-field">99/10/01 06:35</span>\n\n'
+  >>> test_form.widgets['date'].render().replace('\n', '')
+  u'<span id="form-widgets-date"      class="date-widget required date-field">99/02/14</span>'
+  >>> test_form.widgets['datetime'].render().replace('\n', '')
+  u'<span id="form-widgets-datetime"      class="datetime-widget required datetime-field">99/10/01 06:35</span>'
 
 ISSUE 2
 -------
@@ -92,7 +92,7 @@ ISSUE 2
   ...           'bar-month': '1',
   ...           'bar-year': '',
   ...           'bar-hour': '01',
-  ...           'bar-min': '00',
+  ...           'bar-minute': '00',
   ...           'bar-ampm': 'PM',
   ...           'bar-empty-marker': '1',
   ...           }
@@ -110,7 +110,7 @@ ISSUE 2
   >>> 'value: new Date(, 1, )' not in jquerytools_dateinput_js
   True
 
-  We default to specifying no value at all on our widget 
+  We default to specifying no value at all on our widget
   (thus defaulting to today's date).
 
   >>> 'value: new Date(' not in jquerytools_dateinput_js
@@ -123,7 +123,7 @@ ISSUE 2
   ...           'bar-month': '12',
   ...           'bar-year': '2011',
   ...           'bar-hour': '01',
-  ...           'bar-min': '00',
+  ...           'bar-minute': '00',
   ...           'bar-ampm': 'PM',
   ...           'bar-empty-marker': '1',
   ...           }
@@ -131,7 +131,7 @@ ISSUE 2
   >>> widget.update()
   >>> widget.value
   ('2011', '12', '31', '13', '00')
-  
+
   >>> 'value: new Date(2011, 11, 31, 01, 00)' in widget.get_js()
   True
 

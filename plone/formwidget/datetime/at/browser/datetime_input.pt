@@ -20,9 +20,8 @@
         <metal:use use-macro="field_macro | context/widgets/field/macros/edit">
 
     <div metal:fill-slot="widget_body">
-
         <!-- day -->
-        <input type="hidden" 
+        <input type="hidden"
                 tal:condition="not: widget/show_day"
                 tal:define="field_id string:${fieldName}-day;
                             current_val python:request.get(field_id, bool(value) and value.day() or '1');"
@@ -45,10 +44,10 @@
         <span class="separator" tal:condition="widget/show_day">/</span>
 
         <!-- month -->
-        <input type="hidden" 
+        <input type="hidden"
                 tal:condition="not: widget/show_month"
                 tal:define="field_id string:${fieldName}-month;
-                            current_val python:request.get(field_id, bool(value) and value.day() or '1');"
+                            current_val python:request.get(field_id, bool(value) and value.month() or '1');"
                 tal:attributes="name field_id;
                 value current_val">
         <select id="" name="" class="month"
@@ -73,7 +72,7 @@
                             current_val python:request.get(field_id,bool(value) and value.year() or '');"
                 tal:attributes="id field_id;
                                 name field_id;">
-            <option value=""></option> 
+            <option value=""></option>
             <tal:year repeat="year python:widget.years">
                 <option tal:define="year_val year/value"
                         tal:attributes="value year_val;
@@ -105,16 +104,16 @@
                 </select>
 
                 <!-- minute -->
-                <select class="min"
-                        tal:define="field_id string:${fieldName}-min;
+                <select class="minute"
+                        tal:define="field_id string:${fieldName}-minute;
                                     current_val python:request.get(field_id,bool(value) and value.minute() or '');"
                         tal:attributes="id field_id;
                                         name field_id;">
-                    <tal:day repeat="min widget/minutes">
-                        <option tal:define="min_val min/value"
-                                tal:attributes="value min_val;
-                                                selected python:str(min_val)==str(current_val) and 'selected' or ''"
-                                tal:content="min/name">label</option>
+                    <tal:day repeat="minute widget/minutes">
+                        <option tal:define="minute_val minute/value"
+                                tal:attributes="value minute_val;
+                                                selected python:str(minute_val)==str(current_val) and 'selected' or ''"
+                                tal:content="minute/name">label</option>
                     </tal:day>
                 </select>
 

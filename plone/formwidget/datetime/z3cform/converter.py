@@ -78,7 +78,6 @@ class MonthYearDataConverter(DateDataConverter):
             return ('', '', '1')
         return (value.year, value.month, value.day)
 
-
 class YearDataConverter(DateDataConverter):
 
     def toWidgetValue(self, value):

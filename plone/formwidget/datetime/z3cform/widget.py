@@ -84,7 +84,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
         month = self.request.get(self.name + '-month', default)
         year = self.request.get(self.name + '-year', default)
         hour = self.request.get(self.name + '-hour', default)
-        minute = self.request.get(self.name + '-min', default)
+        minute = self.request.get(self.name + '-minute', default)
         timezone = self.request.get(self.name + '-timezone', default)
 
         if (self.ampm is True and
@@ -97,7 +97,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
                     hour = str(12+int(hour))
             elif ampm == 'AM':
                 if hour == u'12':
-                    hour = u'00'  # 12 a.m. midnight hour == 00:** 
+                    hour = u'00'  # 12 a.m. midnight hour == 00:**
             # something strange happened since we either
             # should have 'PM' or 'AM', return default
             elif ampm != 'AM':
@@ -142,6 +142,15 @@ def DatetimeFieldWidget(field, request):
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
     """ Month and year widget """
     implementsOnly(IMonthYearWidget)
+    def extract(self, default=NOVALUE):
+        day = self.request.get(self.name + '-day', default)
+        year = self.request.get(self.name + '-year', default)
+        month = self.request.get(self.name + '-month', default)
+        # only make default for day if year/month are set !
+        if ((not default in (year, month))
+            and (day == default)):
+            self.request.form[self.name + '-day'] = '1'
+        return AbstractDXDateWidget.extract(self)
 
 @adapter(IField, IFormLayer)
 @implementer(IFieldWidget)
@@ -149,14 +158,25 @@ def MonthYearFieldWidget(field, request):
     """IFieldWidget factory for MonthYearWidget."""
     return FieldWidget(field, MonthYearWidget(request))
 
-
-
 class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
     """ Year widget """
     implementsOnly(IYearWidget)
+    def extract(self, default=NOVALUE):
+        day = self.request.get(self.name + '-day', default)
+        year = self.request.get(self.name + '-year', default)
+        month = self.request.get(self.name + '-month', default)
+        # only make default for day/month if year is set !
+        if year != default:
+            if day == default:
+                self.request.form[self.name + '-day'] = '1'
+            if month == default:
+                self.request.form[self.name + '-month'] = '1'
+        return AbstractDXDateWidget.extract(self)
 
 @adapter(IField, IFormLayer)
 @implementer(IFieldWidget)
 def YearFieldWidget(field, request):
     """IFieldWidget factory for YearWidget."""
     return FieldWidget(field, YearWidget(request))
+
+

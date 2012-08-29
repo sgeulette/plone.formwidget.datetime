@@ -125,8 +125,8 @@
 <!-- minute -->
 <input type="text" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="2" maxlength="2"
-       tal:attributes="id string:${view/id}-min;
-                       name string:${view/name}-min;
+       tal:attributes="id string:${view/id}-minute;
+                       name string:${view/name}-minute;
                        class view/klass;
                        style view/style;
                        title view/title;

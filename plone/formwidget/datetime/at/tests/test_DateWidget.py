@@ -1,3 +1,4 @@
+from datetime import datetime
 from DateTime import DateTime
 import mock
 import unittest2 as unittest
@@ -7,7 +8,7 @@ class TestDateWidget(unittest.TestCase):
 
     def createInstance(self):
         from plone.formwidget.datetime.at.widget import DateWidget
-        widget = DateWidget() 
+        widget = DateWidget()
         widget.request = {}
         return widget
 
@@ -24,7 +25,6 @@ class TestDateWidget(unittest.TestCase):
             {
                 'show_calendar': True,
                 'helper_css': (),
-                'with_time': False,
                 'years_range': (-10, 10),
                 'description': '',
                 'populate': True,
@@ -109,4 +109,22 @@ class TestDateWidget(unittest.TestCase):
             form['field'],
             DateTime('2011/11/22 00:00:00 GMT+1')
         )
- 
+
+    def test_process_form_with_oldyear(self):
+        instance = self.createInstance()
+        ins = mock.Mock()
+        field = mock.Mock()
+        field.getName.return_value = 'field'
+        form = {
+            'field-calendar': 'value',
+            'field-year': '99',
+            'field-month': '11',
+            'field-day': '22',
+        }
+        R = DateTime(datetime(99,11,22))
+        self.assertEqual(
+            instance.process_form(ins, field, form),
+            (R, {})
+        )
+        self.assertEqual(form['field'], R)
+
