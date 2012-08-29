@@ -64,7 +64,7 @@ class DatetimeDataConverter(DateDataConverter):
         try:
             if value[-1]:
                 timezone = pytz.timezone(value[-1])
-                return datetime(*intvalues, tzinfo=timezone)
+                return timezone.localize(datetime(*intvalues))
             else:
                 return datetime(*intvalues)
         except ValueError:
