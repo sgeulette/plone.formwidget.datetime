@@ -6,7 +6,7 @@ import os
 
 setup(
     name='plone.formwidget.datetime',
-    version='1.0a2',
+    version='1.0htug2',
     description="Datetime widgets for Plone",
     long_description=open("README.rst").read() + "\n" +
         open(os.path.join("docs", "HISTORY.rst")).read(),
