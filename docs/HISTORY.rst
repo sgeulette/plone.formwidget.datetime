@@ -35,6 +35,9 @@ Changelog
 - Fixed a problem with zero valued time components being ignored.
   [dokai]
 
+- Fixed a problem with the weekdays being off by one
+  [href]
+
 - fix all tests [kiorky]
 - dynamic years range support [kiorky]
 - support for very old years  ( <1800 ) [kiorky]
