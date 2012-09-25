@@ -324,8 +324,8 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance.request.locale.dates.calendars = {instance.calendar_type: calendar}
         calendar.getMonthNames.return_value = ['Jan', 'Feb', 'Mar', 'Apr']
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
-        calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed']
-        calendar.getDayAbbreviations.return_value = ['M', 'T', 'W']
+        calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         instance.js_value = None
 
 
@@ -336,7 +336,7 @@ class TestAbstractDateWidget(unittest.TestCase):
             '                class="field-calendar" />\n'
             '            <script type="text/javascript">\n'
             '                if (jQuery().dateinput) {\n'
-            '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n'
+            '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});\n'
             '                    jQuery("#id-calendar").dateinput({lang: "en", firstDay: 0, change: function() {\n'
             '  var value = this.getValue("yyyy-m-d").split("-");\n'
             '  jQuery("#id-year").val(value[0]); \n'
@@ -382,8 +382,8 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.week.get.return_value = 0
         calendar.getMonthNames.return_value = ['Jan', 'Feb', 'Mar', 'Apr']
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
-        calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed']
-        calendar.getDayAbbreviations.return_value = ['M', 'T', 'W']
+        calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         instance.js_value = 'js_value'
         instance.base_jquerytools_dateinput_config = 'jquerytools_dateinput_config'
         target = '%s' % (
@@ -394,7 +394,7 @@ class TestAbstractDateWidget(unittest.TestCase):
             '                class="field-calendar" />\n'
             '            <script type="text/javascript">\n'
             '                if (jQuery().dateinput) {\n'
-            '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Mon,Tue,Wed",shortDays: "M,T,W"});\n'
+            '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});\n'
             '                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, firstDay: 0, change: function() {\n'
             '  var value = this.getValue("yyyy-m-d").split("-");\n'
             '  jQuery("#id-year").val(value[0]); \n'
