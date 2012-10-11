@@ -8,9 +8,8 @@ from zope.configuration import xmlconfig
 import doctest
 import plone.formwidget.datetime.z3cform
 import unittest
-import z3c.form
-import zope.app.component
 import zope.component
+import zope.security
 import zope.schema
 
 
@@ -19,7 +18,8 @@ class WidgetTestCase(object):
     def setUp(self):
         self.root = setup.placefulSetUp(True)
         xmlconfig.XMLConfig('meta.zcml', zope.component)()
-        xmlconfig.XMLConfig('meta.zcml', zope.app.component)()
+        xmlconfig.XMLConfig('meta.zcml', zope.security)()
+        xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
         try:
             xmlconfig.XMLConfig('configure.zcml', zope.i18n)()
         except IOError:
@@ -32,8 +32,6 @@ class WidgetTestCase(object):
                <include package="zope.i18n.locales" />
             </configure>
              '''))
-        xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
-        xmlconfig.XMLConfig('meta.zcml', z3c.form)()
         xmlconfig.XMLConfig('configure.zcml', plone.formwidget.datetime.z3cform)()
 
     def tearDown(self):

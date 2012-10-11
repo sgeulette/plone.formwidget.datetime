@@ -113,7 +113,6 @@
         layer="z3c.form.interfaces.IFormLayer"
         template="templates/hidden.pt" />
 
-
     <z3c:widgetTemplate
         mode="display"
         widget=".interfaces.IYearWidget"
