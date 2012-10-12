@@ -2,10 +2,15 @@ Changelog
 =========
 
 
-1.0a3 (unreleased)
----------------------
+1.0b1 (unreleased)
+------------------
 
-- Changes related to "Archetypes widget now reliably returns DateTime instances instead datetime."
+- Include popup_calendar.gif and register a plone.formwidget.datetime style in
+  the CSS registry.
+  [thet]
+
+- Changes related to "Archetypes widget now reliably returns DateTime instances
+  instead datetime."
 
     - support for only year widget [kiorky]
     - Fix support for older years inside AT widgets [kiorky]

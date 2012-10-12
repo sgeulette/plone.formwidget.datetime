@@ -56,14 +56,6 @@ class AbstractDateWidget(object):
     # TODO: yearRange shoud respect site_properties values for
     #       calendar_starting_year and valendar_future_years_avaliable
 
-    #
-    # TODO: implement same thing for JQuery.UI
-    popup_calendar_icon = '.css(%s)' % str({
-                                'background': 'url(popup_calendar.gif)',
-                                'height': '16px',
-                                'width': '16px',
-                                'display': 'inline-block',
-                                'vertical-align': 'middle'})
     @property
     def years(self):
         """years."""
@@ -350,7 +342,6 @@ class AbstractDateWidget(object):
                                 {top: trigger_offset.top+20, left: trigger_offset.left}
                             );
                         });
-                    jQuery("#%(id)s-calendar").next()%(popup_calendar_icon)s;
                 }
                 function updateCalendar(widgetId) {
                     var y = jQuery(widgetId + '-year').val();
@@ -367,8 +358,7 @@ class AbstractDateWidget(object):
                 }
             </script>''' % dict(
                 id=id, name=name,
-                config=config, localize=localize,
-                popup_calendar_icon=self.popup_calendar_icon,
+                config=config, localize=localize
             )
 
     def onchange(self, fieldname=None):
