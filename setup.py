@@ -19,7 +19,7 @@ setup(
     keywords='plone date time datetime event widget archetypes z3c.form',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='https://github.com/collective/plone.formwidget.datetime',
+    url='https://github.com/plone/plone.formwidget.datetime',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.formwidget'],
