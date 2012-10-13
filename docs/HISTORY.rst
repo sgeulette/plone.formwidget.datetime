@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0dev (unreleased)
+-------------------
+
+- CSS fixes to display the calendar icon properly.
+  [thet]
+
 1.0b1 (2012-10-12)
 ------------------
 
