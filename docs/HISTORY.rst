@@ -7,6 +7,7 @@ Changelog
 - CSS fixes to display the calendar icon properly.
   [thet]
 
+
 1.0b1 (2012-10-12)
 ------------------
 
@@ -65,6 +66,7 @@ Changelog
 
 - Code cleanup.
   [thet]
+
 
 1.0a1 (2012-02-24)
 ------------------
