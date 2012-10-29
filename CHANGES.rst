@@ -1,8 +1,11 @@
 Changelog
 =========
 
-1.0dev (unreleased)
--------------------
+1.0b2 (2012-10-29)
+------------------
+
+- Fixed missing '00' in hour/minute in AT and z3cform for 0 values. Fixes #5.
+  [thet]
 
 - CSS fixes to display the calendar icon properly.
   [thet]
@@ -22,7 +25,7 @@ Changelog
     - Fix support for older years inside AT widgets [kiorky]
     - Add lot of tests for year ranges & old years [kiorky]
     - Fix the Year and Month/Years widgets [kiorky]
-     
+
 - Archetypes widget now reliably returns DateTime instances instead datetime.
   [thet]
 
@@ -73,3 +76,7 @@ Changelog
 
 - Initial alpha (!) release from the Plone Konferenz 2012 in Munich.
   [thet]
+
+
+This package derived from collective.z3cform.datetimewidget. For older release
+History, see there.

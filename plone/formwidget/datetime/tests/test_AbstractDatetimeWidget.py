@@ -89,28 +89,28 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
 
     def test_minutes(self):
         instance = self.createInstance()
-        instance.padded_minute = mock.Mock(return_value='minute')
         self.assertEqual(len(instance.minutes), 60)
         self.assertEqual(
             instance.minutes[0],
-            {'value': 0, 'name': 'minute'}
+            {'value': 0, 'name': '00'}
         )
         self.assertEqual(
             instance.minutes[-1],
-            {'value': 59, 'name': 'minute'}
+            {'value': 59, 'name': '59'}
         )
 
     def test_hours(self):
         instance = self.createInstance()
-        instance.padded_hour = mock.Mock(return_value='hour')
+        instance.ampm = False
+        instance.is_pm = mock.Mock(return_value=False)
         self.assertEqual(len(instance.hours), 24)
         self.assertEqual(
             instance.hours[0],
-            {'value': 0, 'name': 'hour'}
+            {'value': 0, 'name': '00'}
         )
         self.assertEqual(
             instance.hours[-1],
-            {'value': 23, 'name': 'hour'}
+            {'value': 23, 'name': '23'}
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
@@ -266,7 +266,6 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
             'new Date(2011, 10, 22, 23, 55)'
         )
 
-
     def test__dtformatter(self):
         instance = self.createInstance()
         getFormatter = mock.Mock()
@@ -281,4 +280,3 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         value = (1,2,3)
         instance._dtvalue(value)
         datetime.assert_called_with(1, 2, 3)
-        

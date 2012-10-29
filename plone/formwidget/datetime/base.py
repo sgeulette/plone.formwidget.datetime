@@ -426,7 +426,8 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         return [{'value': x, 'name': self.padded_hour(x)} for x in range(24)]
 
     def padded_hour(self, hour=None):
-        hour = hour is not None and hour or self.hour
+        if hour is None:
+            hour = self.hour
         if hour not in (None, ''):
             pm = self.is_pm()
             if self.ampm is True and pm and int(hour)!=12:
@@ -438,7 +439,8 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             return None
 
     def padded_minute(self, minute=None):
-        minute = minute is not None and minute or self.minute
+        if minute is None:
+            minute = self.minute
         if minute is not None:
             return self._padded_value(minute)
         else:
