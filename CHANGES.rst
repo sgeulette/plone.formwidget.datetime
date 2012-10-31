@@ -44,8 +44,8 @@ Changelog
   a different day than Sunday.
   [dokai]
 
-- Added a wrapper element around the time components in the z3c.form datetime widget markup
-  to faciliate Javascript (and CSS) control.
+- Added a wrapper element around the time components in the z3c.form datetime
+  widget markup to faciliate Javascript (and CSS) control.
   [dokai]
 
 - Fixed a bug where the minutes were ignored and set unconditionally
