@@ -44,12 +44,12 @@ ISSUE 1
   ...                 'form.buttons.apply': u'Apply'})
   >>> test_form = TestForm(self.root, request)
 
-  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from Products.Five.browser import pagetemplatefile
   >>> from z3c.form import tests
   >>> import os
-  >>> test_form.template = viewpagetemplatefile.BoundPageTemplate(
-  ...         viewpagetemplatefile.ViewPageTemplateFile(
-  ...             'simple_edit.pt', os.path.dirname(tests.__file__)), test_form)
+  >>> test_form.template = pagetemplatefile.BoundPageTemplate(
+  ...         pagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_edit.pt', os.path.dirname(tests.__file__)), test_form)
 
   >>> from zope.interface import alsoProvides
   >>> alsoProvides(self.root, ITest)

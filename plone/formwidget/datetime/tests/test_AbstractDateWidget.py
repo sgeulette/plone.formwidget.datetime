@@ -50,13 +50,6 @@ class TestAbstractDateWidget(unittest.TestCase):
             'yearRange: [-10, 10]'
         )
 
-    def test_instance__popup_calendar_icon(self):
-        instance = self.createInstance()
-        self.assertEqual(
-            instance.popup_calendar_icon,
-            ".css({'width': '16px', 'vertical-align': 'middle', 'display': 'inline-block', 'background': 'url(popup_calendar.gif)', 'height': '16px'})"
-        )
-
     def test__dtformatter(self):
         instance = self.createInstance()
         getFormatter = mock.Mock()
@@ -349,7 +342,6 @@ class TestAbstractDateWidget(unittest.TestCase):
             '                                {top: trigger_offset.top+20, left: trigger_offset.left}\n'
             '                            );\n'
             '                        });\n'
-            '                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n'
             '                }\n'
             '                function updateCalendar(widgetId) {\n'
             '                    var y = jQuery(widgetId + \'-year\').val();\n'
@@ -407,7 +399,6 @@ class TestAbstractDateWidget(unittest.TestCase):
             '                                {top: trigger_offset.top+20, left: trigger_offset.left}\n'
             '                            );\n'
             '                        });\n'
-            '                    jQuery("#id-calendar").next().css({\'width\': \'16px\', \'vertical-align\': \'middle\', \'display\': \'inline-block\', \'background\': \'url(popup_calendar.gif)\', \'height\': \'16px\'});\n'
             '                }\n'
             '                function updateCalendar(widgetId) {\n'
             '                    var y = jQuery(widgetId + \'-year\').val();\n'
