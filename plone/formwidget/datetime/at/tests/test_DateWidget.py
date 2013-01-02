@@ -102,12 +102,12 @@ class TestDateWidget(unittest.TestCase):
             'field-day': '22',
         }
         self.assertEqual(
-            instance.process_form(ins, field, form),
-            (DateTime('2011/11/22 00:00:00 GMT+1'), {})
+            instance.process_form(ins, field, form)[0].asdatetime(),
+            datetime(2011, 11, 22, 0, 0)
         )
         self.assertEqual(
-            form['field'],
-            DateTime('2011/11/22 00:00:00 GMT+1')
+            form['field'].asdatetime(),
+            datetime(2011, 11, 22, 0, 0)
         )
 
     def test_process_form_with_oldyear(self):
