@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from DateTime import DateTime
 import pytz
 
@@ -374,7 +374,6 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     empty_value = ('', '', '', '00', '00', '')
     value = empty_value
     klass = u'datetime-widget'
-    ampm = False
     pattern = None # (default: u'M/d/yyyy h:mm a'')
 
     @property
@@ -402,6 +401,12 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             return self.value[4]
         return None
 
+    @property
+    def ampm(self):
+        dates = self.request.locale.dates
+        timepattern = dates.getFormatter('time').getPattern()
+        return bool('a' in timepattern)
+
     def is_pm(self):
         hour = self.hour
         if hour in (None, '') or int(hour) < 12:
@@ -423,7 +428,24 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     @property
     def hours(self):
-        return [{'value': x, 'name': self.padded_hour(x)} for x in range(24)]
+        if self.ampm:
+            hours = [{'value': x,
+                      'name': self._padded_value(x),
+                      'selected': False} for x in [12] + range(1, 12)]
+            hour = self.hour
+            if hour is not None:
+                if hour > 11:
+                    hours[hour - 12]['selected'] = True
+                else:
+                    hours[hour]['selected'] = True
+        else:
+            hours = [{'value': x,
+                      'name': self.padded_hour(x),
+                      'selected': False} for x in range(24)]
+            hour = self.hour
+            if hour is not None:
+                hours[self.hour]['selected'] = True
+        return hours
 
     def padded_hour(self, hour=None):
         if hour is None:

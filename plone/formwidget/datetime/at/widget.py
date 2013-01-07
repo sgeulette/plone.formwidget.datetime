@@ -25,6 +25,17 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     def __call__(self, mode, instance, context=None):
         self.context = instance
         self.request = instance.REQUEST
+        if context is not None:
+            field = context.vars['field']
+            fieldName = context.vars['fieldName']
+            edit_accessor = field.getEditAccessor(instance)
+            value = None
+            if self.populate:
+                value = edit_accessor()
+            if self.postback:
+                value = self.request.get(fieldName, value)
+            if value is not None:
+                self.value = (value.year(), value.month(), value.day(), value.hour(), value.minute())
         return super(AbstractATDattimeWidget, self).__call__(
             mode, instance, context=context)
 

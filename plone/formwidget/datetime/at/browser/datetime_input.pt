@@ -91,14 +91,12 @@
 
                 <!-- hour -->
                 <select class="hour"
-                        tal:define="field_id string:${fieldName}-hour;
-                                    current_val python:request.get(field_id,bool(value) and value.hour() or '');"
+                        tal:define="field_id string:${fieldName}-hour;"
                         tal:attributes="id field_id;
                                         name field_id;">
                     <tal:day repeat="hour widget/hours">
-                        <option tal:define="hour_val hour/value"
-                                tal:attributes="value hour_val;
-                                                selected python:str(hour_val)==str(current_val) and 'selected' or ''"
+                        <option tal:attributes="value hour/value;
+                                                selected hour/selected;"
                                 tal:content="hour/name">label</option>
                     </tal:day>
                 </select>
