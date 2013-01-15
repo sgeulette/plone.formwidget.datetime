@@ -81,8 +81,4 @@ class TestDateWidget(unittest.TestCase):
     def test__js_value__with_empty_string_in_value(self):
         instance = self.createRealInstance()
         instance.value = ('', '11', '21')
-        self.assertEqual(instance._js_value, '')
-
-
-
-
+        self.assertEqual(instance._js_value, None)

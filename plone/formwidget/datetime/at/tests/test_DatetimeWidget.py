@@ -30,6 +30,7 @@ class TestDatetimeWidget(unittest.TestCase):
                 'helper_css': (),
                 'years_range': (-10, 10),
                 'description': '',
+                'first_day': None,
                 'populate': True,
                 'show_day': True,
                 'show_month': True,

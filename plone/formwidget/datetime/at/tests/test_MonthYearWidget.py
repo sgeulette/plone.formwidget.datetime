@@ -22,6 +22,7 @@ class TestMonthYearWidget(unittest.TestCase):
                 'helper_css': (),
                 'years_range': (-10, 10),
                 'description': '',
+                'first_day': None,
                 'populate': True,
                 'show_day': False,
                 'show_month': True,
