@@ -14,6 +14,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         request = TestRequest()
         widget = AbstractDateWidget()
         widget.request = request
+        widget.first_day = 1
         return  widget
 
     def test_instance__calendar_type(self):
@@ -40,14 +41,15 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance = self.createInstance()
         self.assertTrue(instance.show_jquerytools_dateinput)
 
-    def test_instance__jquerytools_dateinput_config(self):
+    def test_instance___js_config(self):
         instance = self.createInstance()
         self.assertEqual(
-            instance.jquerytools_dateinput_config,
-            'selectors: true, ' 
-            'trigger: true, ' 
+            instance._js_config,
+            'selectors: true, '
+            'trigger: true, '
             'format: \'mm/dd/yyyy\', '
-            'yearRange: [-10, 10]'
+            'yearRange: [-10, 10]',
+            'firstDay: 1'
         )
 
     def test__dtformatter(self):
@@ -73,9 +75,9 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance = self.createInstance()
         dtv = DateTime.DateTime('99/01/01 01:01 Europe/Paris')
         dv =  DateTime.DateTime('99/01/01')
-        self.assertEqual(instance.get_formatted_value(dtv), 
+        self.assertEqual(instance.get_formatted_value(dtv),
                          '1999/01/01')
-        self.assertEqual(instance.get_formatted_value(dv), 
+        self.assertEqual(instance.get_formatted_value(dv),
                          '1999/01/01')
 
     def test_formatted_value__date_datetime_bordercases(self):
@@ -83,9 +85,9 @@ class TestAbstractDateWidget(unittest.TestCase):
         tz = pytz.timezone('Europe/Paris')
         dtv = tz.localize(datetime(99,1,1,1,1,1))
         dv = dtv.date()
-        self.assertEqual(instance.get_formatted_value(dtv), 
+        self.assertEqual(instance.get_formatted_value(dtv),
                          '99/01/01')
-        self.assertEqual(instance.get_formatted_value(dv), 
+        self.assertEqual(instance.get_formatted_value(dv),
                          '99/01/01')
 
     def test_formatted_value__value_is_None(self):
@@ -119,7 +121,7 @@ class TestAbstractDateWidget(unittest.TestCase):
 
     def test_years(self):
         instance = self.createInstance()
-        d = datetime(2010, 1, 1) 
+        d = datetime(2010, 1, 1)
         instance.value =  (d.year, d.month, d.day)
         self.assertEqual(len(instance.years), 20)
         self.assertEqual(
@@ -283,28 +285,28 @@ class TestAbstractDateWidget(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.year')
-    def test_js_value_date_None(self, year, month, day):
+    def test__js_value_date_None(self, year, month, day):
         instance = self.createInstance()
         instance.year = None
         instance.month = None
         instance.day = None
-        self.assertFalse(instance.js_value)
+        self.assertFalse(instance._js_value)
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.year')
-    def test_js_value_date_not_None(self, year, month, day):
+    def test__js_value_date_not_None(self, year, month, day):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = 11
         instance.day = 22
         self.assertEqual(
-            instance.js_value,
+            instance._js_value,
             'new Date(2011, 10, 22)'
         )
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.js_value')
-    def test_get_js__js_value_None(self, js_value):
+    @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget._js_value')
+    def test_get_js___js_value_None(self, _js_value):
         instance = self.createInstance()
         instance.id = 'id'
         instance.name = 'field'
@@ -319,7 +321,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
         calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-        instance.js_value = None
+        instance._js_value = None
 
 
         REFJS = (
@@ -360,8 +362,8 @@ class TestAbstractDateWidget(unittest.TestCase):
         )
         self.assertEqual(instance.get_js(), REFJS)
 
-    @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.js_value')
-    def test_get_js__js_value(self, js_value):
+    @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget._js_value')
+    def test_get_js___js_value(self, _js_value):
         instance = self.createInstance()
         instance.id = 'id'
         instance.name = 'field'
@@ -376,7 +378,7 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.getMonthAbbreviations.return_value = ['J', 'F', 'M', 'A']
         calendar.getDayNames.return_value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-        instance.js_value = 'js_value'
+        instance._js_value = '_js_value'
         instance.base_jquerytools_dateinput_config = 'jquerytools_dateinput_config'
         target = '%s' % (
             '\n'
@@ -387,7 +389,7 @@ class TestAbstractDateWidget(unittest.TestCase):
             '            <script type="text/javascript">\n'
             '                if (jQuery().dateinput) {\n'
             '                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});\n'
-            '                    jQuery("#id-calendar").dateinput({lang: "en", value: js_value, firstDay: 0, change: function() {\n'
+            '                    jQuery("#id-calendar").dateinput({lang: "en", value: _js_value, firstDay: 0, change: function() {\n'
             '  var value = this.getValue("yyyy-m-d").split("-");\n'
             '  jQuery("#id-year").val(value[0]); \n'
             '  jQuery("#id-month").val(value[1]); \n'

@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from DateTime import DateTime
 import pytz
 
@@ -20,6 +20,7 @@ def is_pure_date(instance):
     return (isinstance(instance, date)
             and not isinstance(instance, datetime))
 
+
 class AbstractDateWidget(object):
 
     calendar_type = 'gregorian'
@@ -37,24 +38,22 @@ class AbstractDateWidget(object):
     # Read more: http://flowplayer.org/tools/dateinput/index.html
     show_jquerytools_dateinput = True
 
-    base_jquerytools_dateinput_config = 'selectors: true, ' \
-            'trigger: true, ' \
-            'format: \'mm/dd/yyyy\', '\
-            'yearRange: [%s, %s]'
+    base_jquerytools_dateinput_config = """selectors: true,
+        trigger: true,
+        format: 'mm/dd/yyyy'"""
 
+    @property
+    def language(self):
+        return self.request.get('LANGUAGE', 'en')
+
+    @property
+    def calendar(self):
+        return self.request.locale.dates.calendars[self.calendar_type]
 
     @property
     def with_time(self):
         return 'time' in self.__class__.__name__.lower()
 
-    @property
-    def jquerytools_dateinput_config(self):
-        config = self.base_jquerytools_dateinput_config
-        if 'yearRange' in config:
-            config = config % self.years_range
-        return config
-    # TODO: yearRange shoud respect site_properties values for
-    #       calendar_starting_year and valendar_future_years_avaliable
 
     @property
     def years(self):
@@ -193,8 +192,7 @@ class AbstractDateWidget(object):
         except:
             selected = -1
 
-        calendar = self.request.locale.dates.calendars[self.calendar_type]
-        month_names = calendar.getMonthNames()
+        month_names = self.calendar.getMonthNames()
 
         for i, month in enumerate(month_names):
             yield dict(
@@ -257,18 +255,6 @@ class AbstractDateWidget(object):
                 today=translate(_(u"Today"), context=self.request)
             )
 
-    @property
-    def js_value(self):
-        year = self.year
-        month = None
-        month = self.month and int(self.month) - 1 or None
-
-        day = self.day
-        if year and month and day:
-            return 'new Date(%s, %s, %s)' % (
-                year, month, day)
-        else:
-            return ''
 
     def _base_dtvalue(self, func, value):
         if value:
@@ -285,18 +271,40 @@ class AbstractDateWidget(object):
     def _dtvalue(self, value):
         return self._base_dtvalue(date, value)
 
-    def get_js(self, fieldname=None):
-        # TODO:
-        #     * check if self.name must always be self.name or fieldname if
-        #       given (search for other self.name appearances)
-        #     * has value be passed here from at-template?
-        # archetypes based widget have to pass id and name from the template
-        id = fieldname and fieldname or self.id
-        name = fieldname and fieldname or self.name
 
-        language = self.request.get('LANGUAGE', 'en')
-        calendar = self.request.locale.dates.calendars[self.calendar_type]
-        
+    @property
+    def _js_value(self):
+        year = self.year
+        month = self.month and int(self.month) - 1 or None
+        day = self.day
+        value = None
+
+        if year and day and month is not None:
+            value = 'new Date(%s, %s, %s)' % (year, month, day)
+        return value
+
+
+    @property
+    def _js_config(self):
+        config = self.base_jquerytools_dateinput_config
+
+        if self.years_range:
+            # TODO: yearRange shoud respect site_properties values for
+            #       calendar_starting_year and valendar_future_years_avaliable
+            config += """,
+                yearRange: [%s, %s]""" % self.years_range
+
+        if self.language:
+            config += """,
+                lang: "%s""" % self.language
+
+        return config
+
+
+    @property
+    def _js_localize(self):
+        language = self.language
+        calendar = self.calendar
         localize = 'jQuery.tools.dateinput.localize("' + language + '", {'
         localize += 'months: "%s",' % ','.join(calendar.getMonthNames())
         localize += 'shortMonths: "%s",' % ','.join(
@@ -313,21 +321,34 @@ class AbstractDateWidget(object):
             rotated(calendar.getDayAbbreviations(), 1))
         localize += '});'
         localize = localize.replace(',}', '}')
+        return localize
 
-        config = 'lang: "%s", ' % language
-        if self.js_value:
-            config += 'value: %s, ' % self.js_value
-        config += 'firstDay: %s, ' % calendar.week.get('firstDay', 0)
 
-        config += ('change: function() {\n'
-                   '  var value = this.getValue("yyyy-m-d").split("-");\n'
-                   '  jQuery("#%(id)s-year").val(value[0]); \n' \
-                   '  jQuery("#%(id)s-month").val(value[1]); \n' \
-                   '  jQuery("#%(id)s-day").val(value[2]); \n' \
-                   '}, ') % dict(id=id)
-        config += self.jquerytools_dateinput_config
+    def get_js(self, fieldname=None):
+        # TODO:
+        #     * check if self.name must always be self.name or fieldname if
+        #       given (search for other self.name appearances)
+        #     * has value be passed here from at-template?
+        # archetypes based widget have to pass id and name from the template
+        id = fieldname and fieldname or self.id
+        name = fieldname and fieldname or self.name
 
-        return '''
+        localize = self._js_localize
+        config = self._js_config
+
+        if self._js_value:
+            config += """,
+                value: %s""" % self._js_value
+
+        config += """,
+            change: function() {
+                var value = this.getValue("yyyy-m-d").split("-");
+                jQuery("#%(id)s-year").val(value[0]);
+                jQuery("#%(id)s-month").val(value[1]);
+                jQuery("#%(id)s-day").val(value[2]);
+            }""" % {'id': id}
+
+        return """
             <input type="hidden"
                 id="%(id)s-calendar"
                 name="%(name)s-calendar"
@@ -356,10 +377,8 @@ class AbstractDateWidget(object):
                         jQuery(widgetId + '-calendar').data()['dateinput'].setValue(newDate);
                     }
                 }
-            </script>''' % dict(
-                id=id, name=name,
-                config=config, localize=localize
-            )
+            </script>""" %\
+            {'id': id, 'name': name, 'config': config, 'localize': localize}
 
     def onchange(self, fieldname=None):
         if not self.show_jquerytools_dateinput:
@@ -447,24 +466,22 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             return None
 
     @property
-    def js_value(self):
+    def _js_value(self):
         year = self.year
         month = self.month and int(self.month) - 1 or None
         day = self.day
         hour = self.hour
         minute = self.minute
-        if (year is not None
-            and month is not None
-            and day is not None
-            and hour is not None
-            and minute is not None):
-            return 'new Date(%s, %s, %s, %s, %s)' % (
-                year, month, day, hour, minute)
-        elif year and month and day:
-            return 'new Date(%s, %s, %s)' % (
-                year, month, day)
-        else:
-            return None
+        value = None
+
+        if year and day and month is not None:
+            if hour is not None and minute is not None:
+                value = 'new Date(%s, %s, %s, %s, %s)' % (
+                    year, month, day, hour, minute)
+            else:
+                value = 'new Date(%s, %s, %s)' % (year, month, day)
+        return value
+
 
 class AbstractMonthYearWidget(AbstractDateWidget):
 

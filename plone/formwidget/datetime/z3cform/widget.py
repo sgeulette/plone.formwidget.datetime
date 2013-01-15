@@ -1,5 +1,3 @@
-import pytz
-from datetime import date, datetime
 from plone.formwidget.datetime import base
 from plone.formwidget.datetime.z3cform.interfaces import IDateWidget
 from plone.formwidget.datetime.z3cform.interfaces import IDatetimeWidget
@@ -13,6 +11,7 @@ from zope.component import adapter
 from zope.i18n.format import DateTimeParseError
 from zope.interface import implementer, implementsOnly
 from zope.schema.interfaces import IField
+
 
 class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
 
@@ -42,14 +41,6 @@ class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
             pass
 
         return default
-
-    @property
-    def js_value(self):
-        value_date = self.value[:3]
-        if '' not in value_date:
-            return 'new Date(%s, %s, %s)' % (value_date)
-        else:
-            return ''
 
     @property
     def js_field(self):
@@ -178,5 +169,3 @@ class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
 def YearFieldWidget(field, request):
     """IFieldWidget factory for YearWidget."""
     return FieldWidget(field, YearWidget(request))
-
-

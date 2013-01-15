@@ -19,6 +19,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         'show_day': True,
         'show_month': True,
         'years_range': (-10, 10),
+        'first_day': None,
     })
     security = ClassSecurityInfo()
 

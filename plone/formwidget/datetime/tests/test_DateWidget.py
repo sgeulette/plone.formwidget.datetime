@@ -70,18 +70,18 @@ class TestDateWidget(unittest.TestCase):
         day = instance.request.get('field-day')
         self.assertEqual(len(instance.extract(day)), 3)
 
-    def test_js_value__without_empty_string_in_value(self):
+    def test__js_value__without_empty_string_in_value(self):
         instance = self.createRealInstance()
         instance.value = ('2011', '11', '21')
         self.assertEqual(
-            instance.js_value,
+            instance._js_value,
             'new Date(2011, 10, 21)'
         )
 
-    def test_js_value__with_empty_string_in_value(self):
+    def test__js_value__with_empty_string_in_value(self):
         instance = self.createRealInstance()
         instance.value = ('', '11', '21')
-        self.assertEqual(instance.js_value, '')
+        self.assertEqual(instance._js_value, '')
 
 
 

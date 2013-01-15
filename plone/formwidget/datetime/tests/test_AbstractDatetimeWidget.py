@@ -178,49 +178,49 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__year_None(self, year, month, day, hour, minute):
+    def test__js_value__year_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = None
         instance.month = 11
         instance.day = 22
         instance.hour = 23
         instance.minute = 55
-        self.assertFalse(instance.js_value)
+        self.assertFalse(instance._js_value)
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__month_None(self, year, month, day, hour, minute):
+    def test__js_value__month_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = None
         instance.day = 22
         instance.hour = 23
         instance.minute = 55
-        self.assertFalse(instance.js_value)
+        self.assertFalse(instance._js_value)
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__day_None(self, year, month, day, hour, minute):
+    def test__js_value__day_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = 11
         instance.day = None
         instance.hour = 23
         instance.minute = 55
-        self.assertFalse(instance.js_value)
+        self.assertFalse(instance._js_value)
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.minute')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.hour')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__hour_None(self, year, month, day, hour, minute):
+    def test__js_value__hour_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = 11
@@ -228,7 +228,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.hour = None
         instance.minute = 55
         self.assertEqual(
-            instance.js_value,
+            instance._js_value,
             'new Date(2011, 10, 22)'
         )
 
@@ -237,7 +237,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__minute_None(self, year, month, day, hour, minute):
+    def test__js_value__minute_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = 11
@@ -245,7 +245,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.hour = 23
         instance.minute = None
         self.assertEqual(
-            instance.js_value,
+            instance._js_value,
             'new Date(2011, 10, 22)'
         )
 
@@ -254,7 +254,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.day')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.month')
     @mock.patch('plone.formwidget.datetime.base.AbstractDatetimeWidget.year')
-    def test_js_value__datetime_not_None(self, year, month, day, hour, minute):
+    def test__js_value__datetime_not_None(self, year, month, day, hour, minute):
         instance = self.createInstance()
         instance.year = 2011
         instance.month = 11
@@ -262,7 +262,7 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         instance.hour = 23
         instance.minute = 55
         self.assertEqual(
-            instance.js_value,
+            instance._js_value,
             'new Date(2011, 10, 22, 23, 55)'
         )
 
