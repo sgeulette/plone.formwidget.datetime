@@ -310,7 +310,7 @@ class AbstractDateWidget(object):
 
         if self.language:
             config += """,
-                lang: "%s""" % self.language
+                lang: '%s'""" % self.language
 
         return config
 
