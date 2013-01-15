@@ -4,7 +4,8 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Allow configuration of the first day of the week (first_day).
+  [thet]
 
 
 1.0b2 (2012-10-29)

@@ -20,6 +20,14 @@ def is_pure_date(instance):
     return (isinstance(instance, date)
             and not isinstance(instance, datetime))
 
+def safe_callable(var, default=None):
+    if var is None: return default
+    if hasattr(var, '__call__'):
+        ret = var()
+    else:
+        ret = var
+    return ret
+
 
 class AbstractDateWidget(object):
 
@@ -29,6 +37,7 @@ class AbstractDateWidget(object):
     years_range = (-10, 10)
     pattern = None # zope.i18n format (default: u'M/d/yyyy')
     value = empty_value
+    first_day = None
 
     #
     # pure javascript no dependencies
@@ -293,6 +302,11 @@ class AbstractDateWidget(object):
             #       calendar_starting_year and valendar_future_years_avaliable
             config += """,
                 yearRange: [%s, %s]""" % self.years_range
+
+        first_day = safe_callable(self.first_day,
+            default=self.calendar.week.get('firstDay', 0))
+        config += """,
+            firstDay: %s""" % first_day
 
         if self.language:
             config += """,
