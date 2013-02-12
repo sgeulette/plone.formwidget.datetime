@@ -3,7 +3,9 @@
 
     <stylesheet id="++resource++plone.app.jquerytools.dateinput.css"
         enabled="True"/>
-      
+    <stylesheet id="++resource++plone.app.jquerytools.custom.css"
+        enabled="True"/>
+
     <stylesheet title=""
       id="++resource++plone.formwidget.datetime/styles.css"
       media="screen" rel="stylesheet" rendering="link"

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0dev (unreleased)
+-------------------
+
+- Enable plone.app.jquerytools' custom.css for datepicker style overrides and
+  enable next/prev icons this way.
+  [thet]
+
+
 1.0b3 (2013-02-08)
 ------------------
 
