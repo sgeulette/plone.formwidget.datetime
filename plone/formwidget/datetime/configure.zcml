@@ -26,4 +26,10 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="plone.formwidget.datetime"
+      provides="Products.CMFPlone.interfaces.INonInstallable"
+      />
+
 </configure>

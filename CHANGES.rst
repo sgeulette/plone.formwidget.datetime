@@ -4,6 +4,10 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
+- Don't show plone.formwidget.datetime:default profile when creating a Plone
+  site with @@plone-addsite.
+  [thet]
+
 - Enable plone.app.jquerytools' custom.css for datepicker style overrides and
   enable next/prev icons this way.
   [thet]
