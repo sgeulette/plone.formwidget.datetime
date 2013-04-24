@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0dev (unreleased)
--------------------
+1.0b4 (2013-04-24)
+------------------
 
 - Don't show plone.formwidget.datetime:default profile when creating a Plone
   site with @@plone-addsite.
