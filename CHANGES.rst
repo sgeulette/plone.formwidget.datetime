@@ -4,7 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue when value has no timezone-information.
+  This happened when using plone.app.event-dx and Solgema.fullcalendar
+  [pbauer]
 
 
 1.0b4 (2013-04-24)
