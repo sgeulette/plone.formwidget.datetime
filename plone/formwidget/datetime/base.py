@@ -446,6 +446,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         timezone = self.request.get(self.name+'-timezone', None)
         if timezone:
             return timezone
+        # Issue #9: When no timezone is given, value < empty_value, return None
         if len(self.value) >= len(self.empty_value):
             if self.value[5] != self.empty_value[5]:
                 return self.value[5]
