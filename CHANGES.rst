@@ -4,6 +4,10 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+- Add compiled .mo gettext translation files, so that they don't need to be
+  compiled on startup.
+  [thet]
+
 - Fix issue when value has no timezone-information.
   This happened when using plone.app.event-dx and Solgema.fullcalendar
   [pbauer]
