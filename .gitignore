@@ -1,13 +1,9 @@
 .*
 *.egg-info
-*.mo
-*.pyc
+*.py?
 dist/
-
-!.gitignore
-
 bin/
 develop-eggs/
 parts/
 plone.env
-
+!.gitignore
