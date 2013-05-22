@@ -7,11 +7,9 @@ from plone.formwidget.datetime import base
 
 
 class AbstractATDattimeWidget(widgets.TypesWidget):
-    """ Date widget.
-
+    """Date widget.
     Please note: Archetypes DateTimeFields's values are Zope DateTime
     instances.
-
     """
     _properties = widgets.TypesWidget._properties.copy()
     _properties.update({
@@ -88,11 +86,7 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
 
 
 class DateWidget(base.AbstractDateWidget, AbstractATDattimeWidget):
-    """ Date widget.
-
-    Please note: Archetypes DateTimeFields's values are Zope DateTime
-    instances.
-
+    """Date widget.
     """
 registerWidget(DateWidget,
                title='Date widget',
@@ -102,7 +96,8 @@ registerWidget(DateWidget,
 
 
 class DatetimeWidget(base.AbstractDatetimeWidget, AbstractATDattimeWidget):
-    """ DateTime widget """
+    """DateTime widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'datetime_input',
@@ -115,7 +110,8 @@ registerWidget(DatetimeWidget,
 
 
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractATDattimeWidget):
-    """ Month and year widget """
+    """Month and year widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'monthyear_input',
@@ -128,7 +124,8 @@ registerWidget(MonthYearWidget,
 
 
 class YearWidget(base.AbstractYearWidget, AbstractATDattimeWidget):
-    """ Month and year widget """
+    """Month and year widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'year_input',
