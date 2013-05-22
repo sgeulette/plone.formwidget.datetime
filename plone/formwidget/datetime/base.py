@@ -1,10 +1,10 @@
-from datetime import date, datetime
 from DateTime import DateTime
-import pytz
-
-from zope.i18n import translate
-from plone.formwidget.datetime import MessageFactory as _
 from collections import deque
+from datetime import date, datetime
+from plone.formwidget.datetime import MessageFactory as _
+from zope.i18n import translate
+
+import pytz
 
 
 def rotated(sequence, steps):
@@ -19,6 +19,7 @@ def rotated(sequence, steps):
 def is_pure_date(instance):
     return (isinstance(instance, date)
             and not isinstance(instance, datetime))
+
 
 def safe_callable(var, default=None):
     if var is None: return default
@@ -35,7 +36,7 @@ class AbstractDateWidget(object):
     klass = u'date-widget'
     empty_value = ('', '', '')
     years_range = (-10, 10)
-    pattern = None # zope.i18n format (default: u'M/d/yyyy')
+    pattern = None  # zope.i18n format (default: u'M/d/yyyy')
     value = empty_value
     first_day = None
 
@@ -62,20 +63,6 @@ class AbstractDateWidget(object):
     @property
     def with_time(self):
         return 'time' in self.__class__.__name__.lower()
-
-
-    @property
-    def years(self):
-        """years."""
-        # 0: year
-        value = self.value[0]
-        if not value:
-            value = datetime.now().year
-        now = int(value)
-        before = now + self.years_range[0]
-        after  = now + self.years_range[1]
-        year_range = range(*(before, after))
-        return [{'value': x, 'name': x} for x in year_range]
 
     def get_formatted_value(self, dt_value):
         # due to fantastic datetime.strftime we need this hack
@@ -195,24 +182,52 @@ class AbstractDateWidget(object):
         return self.get_formatted_value(dt_value)
 
     @property
+    def years(self):
+        try:
+            current = int(self.year)
+        except:
+            current = -1
+
+        # 0: year
+        value = self.value[0]
+        if not value:
+            value = datetime.now().year
+        now = int(value)
+        before = now + self.years_range[0]
+        after  = now + self.years_range[1]
+        year_range = range(*(before, after))
+        return [{'value': x,
+                 'name': x,
+                 'selected': x == current}
+                for x in year_range]
+
+    @property
     def months(self):
         try:
-            selected = int(self.month)
+            current = int(self.month)
         except:
-            selected = -1
+            current = -1
 
         month_names = self.calendar.getMonthNames()
 
         for i, month in enumerate(month_names):
             yield dict(
                 name=month,
-                value=i+1,
-                selected=i+1 == selected)
+                value=i + 1,
+                selected=i + 1 == current)
 
     @property
     def days(self):
+        try:
+            current = int(self.day)
+        except:
+            current = -1
+
         day_range = range(1, 32)
-        return [{'value': x, 'name': self._padded_value(x)} for x in day_range]
+        return [{'value': x,
+                 'name': self._padded_value(x),
+                 'selected': x == current}
+                for x in day_range]
 
     @property
     def year(self):
@@ -264,7 +279,6 @@ class AbstractDateWidget(object):
                 today=translate(_(u"Today"), context=self.request)
             )
 
-
     def _base_dtvalue(self, func, value):
         if value:
             # either no noaive datetime or date
@@ -280,7 +294,6 @@ class AbstractDateWidget(object):
     def _dtvalue(self, value):
         return self._base_dtvalue(date, value)
 
-
     @property
     def _js_value(self):
         year = self.year
@@ -291,7 +304,6 @@ class AbstractDateWidget(object):
         if year and day and month is not None:
             value = 'new Date(%s, %s, %s)' % (year, month, day)
         return value
-
 
     @property
     def _js_config(self):
@@ -314,7 +326,6 @@ class AbstractDateWidget(object):
 
         return config
 
-
     @property
     def _js_localize(self):
         language = self.language
@@ -336,7 +347,6 @@ class AbstractDateWidget(object):
         localize += '});'
         localize = localize.replace(',}', '}')
         return localize
-
 
     def get_js(self, fieldname=None):
         # TODO:
@@ -408,7 +418,7 @@ class AbstractDatetimeWidget(AbstractDateWidget):
     value = empty_value
     klass = u'datetime-widget'
     ampm = False
-    pattern = None # (default: u'M/d/yyyy h:mm a'')
+    pattern = None  # (default: u'M/d/yyyy h:mm a'')
 
     @property
     def _dtformatter(self):
