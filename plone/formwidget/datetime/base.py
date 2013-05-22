@@ -31,7 +31,6 @@ def safe_callable(var, default=None):
 
 
 class AbstractDateWidget(object):
-
     calendar_type = 'gregorian'
     klass = u'date-widget'
     empty_value = ('', '', '')
@@ -413,7 +412,6 @@ class AbstractDateWidget(object):
 
 
 class AbstractDatetimeWidget(AbstractDateWidget):
-
     empty_value = ('', '', '', '00', '00', '')
     value = empty_value
     klass = u'datetime-widget'
@@ -426,6 +424,28 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def _dtvalue(self, value):
         return self._base_dtvalue(datetime, value)
+
+    @property
+    def hours(self):
+        try:
+            current = int(self.hour)
+        except:
+            current = -1
+        return [{'value': x,
+                 'name': self.padded_hour(x),
+                 'selected': x == current}
+                for x in range(24)]
+
+    @property
+    def minutes(self):
+        try:
+            current = int(self.minute)
+        except:
+            current = -1
+        return [{'value': x,
+                 'name': self.padded_minute(x),
+                 'selected': x == current}
+                for x in range(60)]
 
     @property
     def hour(self):
@@ -461,14 +481,6 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             if self.value[5] != self.empty_value[5]:
                 return self.value[5]
         return None
-
-    @property
-    def minutes(self):
-        return [{'value': x, 'name': self.padded_minute(x)} for x in range(60)]
-
-    @property
-    def hours(self):
-        return [{'value': x, 'name': self.padded_hour(x)} for x in range(24)]
 
     def padded_hour(self, hour=None):
         if hour is None:

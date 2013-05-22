@@ -131,7 +131,6 @@ registerWidget(MonthYearWidget,
                )
 
 
-
 class YearWidget(base.AbstractYearWidget, AbstractATDattimeWidget):
     """ Month and year widget """
     _properties = DateWidget._properties.copy()

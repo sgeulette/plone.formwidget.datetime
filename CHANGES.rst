@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+- Unify AT and DX templates.
+  [thet]
+
 - Fix issue when value has no timezone-information.
   This happened when using plone.app.event-dx and Solgema.fullcalendar
   [pbauer]
