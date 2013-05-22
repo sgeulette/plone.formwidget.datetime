@@ -22,8 +22,5 @@ class DatetimeTest(unittest.TestCase):
         css_id = "++resource++plone.app.jquerytools.dateinput.css"
         self.failUnless(p_css.getResource(css_id).getEnabled())
 
-        css_id = "++resource++plone.app.jquerytools.custom.css"
-        self.failUnless(p_css.getResource(css_id).getEnabled())
-
         css_id = "++resource++plone.formwidget.datetime/styles.css"
         self.failUnless(p_css.getResource(css_id).getEnabled())

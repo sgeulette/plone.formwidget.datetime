@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+- Remove plone.app.jquerytools' custom.css again, as it is gone.
+  [thet]
+
 - Unify AT and DX templates.
   [thet]
 
