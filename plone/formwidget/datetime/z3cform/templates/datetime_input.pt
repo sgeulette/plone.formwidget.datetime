@@ -2,6 +2,7 @@
 
 <!-- day -->
 <select class="day"
+    tal:condition="view/show_day"
     tal:attributes="id string:${view/id}-day;
                     name string:${view/name}-day;
                     class view/klass;
@@ -16,6 +17,7 @@
 <span class="separator">/</span>
 
 <select id="" name="" class="month"
+   tal:condition="view/show_month"
    tal:attributes="id string:${view/id}-month;
                     name string:${view/name}-month;
                     class view/klass;
@@ -30,6 +32,7 @@
 <span class="separator">/</span>
 
 <select class="year"
+  tal:condition="view/show_year"
   tal:attributes="id string:${view/id}-year;
                   name string:${view/name}-year;
                   class view/klass;
@@ -42,7 +45,7 @@
       tal:content="item/name">label</option>
 </select>
 
-<a tal:condition="view/show_jquerytools_dateinput"
+<a tal:condition="view/show_calendar"
    tal:replace="structure view/get_js" />
 
 <a tal:condition="view/show_today_link"
@@ -51,6 +54,7 @@
 &nbsp;
 
 <span class="datetimewidget-time"
+    tal:condition="view/show_time"
     tal:attributes="id string:${view/id}-timecomponents;
                     style python:whole_day and 'display:none' or ''">
  

@@ -5,6 +5,7 @@ from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
 from plone.formwidget.datetime import base
 
+
 class AbstractATDattimeWidget(widgets.TypesWidget):
     """ Date widget.
 
@@ -16,8 +17,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
     _properties.update({
         'macro': 'date_input',
         'show_calendar': True,
-        'show_day': True,
-        'show_month': True,
         'years_range': (-10, 10),
         'first_day': None,
     })
@@ -88,8 +87,6 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         return res, {}
 
 
-# TODO: multi inheritance is nasty, when it comes to overriding methods. then
-#       there is no clearly defined method resolution order.
 class DateWidget(base.AbstractDateWidget, AbstractATDattimeWidget):
     """ Date widget.
 
@@ -122,7 +119,6 @@ class MonthYearWidget(base.AbstractMonthYearWidget, AbstractATDattimeWidget):
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'monthyear_input',
-        'show_day': False,
     })
 registerWidget(MonthYearWidget,
                title='Month year widget',
@@ -136,8 +132,6 @@ class YearWidget(base.AbstractYearWidget, AbstractATDattimeWidget):
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'year_input',
-        'show_day': False,
-        'show_month': False,
     })
 registerWidget(YearWidget,
                title='Year widget',

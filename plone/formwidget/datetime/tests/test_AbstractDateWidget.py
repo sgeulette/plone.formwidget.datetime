@@ -37,9 +37,9 @@ class TestAbstractDateWidget(unittest.TestCase):
         instance = self.createInstance()
         self.assertFalse(instance.show_today_link)
 
-    def test_instance__show_jquerytools_dateinput(self):
+    def test_instance__show_calendar(self):
         instance = self.createInstance()
-        self.assertTrue(instance.show_jquerytools_dateinput)
+        self.assertTrue(instance.show_calendar)
 
     def test_instance___js_config(self):
         instance = self.createInstance()

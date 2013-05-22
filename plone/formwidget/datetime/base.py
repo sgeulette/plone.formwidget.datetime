@@ -31,21 +31,22 @@ def safe_callable(var, default=None):
 
 
 class AbstractDateWidget(object):
-    calendar_type = 'gregorian'
-    klass = u'date-widget'
-    empty_value = ('', '', '')
-    years_range = (-10, 10)
-    pattern = None  # zope.i18n format (default: u'M/d/yyyy')
-    value = empty_value
-    first_day = None
-
-    #
-    # pure javascript no dependencies
+    show_year = True
+    show_month = True
+    show_day = True
+    show_time = False
     show_today_link = False
-
     # Requires: jquery.tools.datewidget.js, jquery.js
     # Read more: http://flowplayer.org/tools/dateinput/index.html
-    show_jquerytools_dateinput = True
+    show_calendar = True
+
+    calendar_type = 'gregorian'
+    empty_value = ('', '', '')
+    first_day = None
+    klass = u'date-widget'
+    pattern = None  # zope.i18n format (default: u'M/d/yyyy')
+    value = empty_value
+    years_range = (-10, 10)
 
     base_jquerytools_dateinput_config = """selectors: true,
         trigger: true,
@@ -404,7 +405,7 @@ class AbstractDateWidget(object):
             {'id': id, 'name': name, 'config': config, 'localize': localize}
 
     def onchange(self, fieldname=None):
-        if not self.show_jquerytools_dateinput:
+        if not self.show_calendar:
             return ''
 
         id = fieldname and fieldname or self.id
@@ -412,11 +413,16 @@ class AbstractDateWidget(object):
 
 
 class AbstractDatetimeWidget(AbstractDateWidget):
-    empty_value = ('', '', '', '00', '00', '')
-    value = empty_value
-    klass = u'datetime-widget'
+    show_year = True
+    show_month = True
+    show_day = True
+    show_time = True
+
     ampm = False
+    empty_value = ('', '', '', '00', '00', '')
+    klass = u'datetime-widget'
     pattern = None  # (default: u'M/d/yyyy h:mm a'')
+    value = empty_value
 
     @property
     def _dtformatter(self):
@@ -522,16 +528,24 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
 
 class AbstractMonthYearWidget(AbstractDateWidget):
+    show_year = True
+    show_month = True
+    show_day = False
+    show_time = False
 
-    klass = u'monthyear-widget'
     empty_value = ('', '', 1)
-    value = empty_value
+    klass = u'monthyear-widget'
     pattern = 'yyyy/M'
+    value = empty_value
 
 
 class AbstractYearWidget(AbstractDateWidget):
+    show_year = True
+    show_month = False
+    show_day = False
+    show_time = False
 
-    klass = u'year-widget'
     empty_value = ('', 1, 1)
-    value = empty_value
+    klass = u'year-widget'
     pattern = 'yyyy'
+    value = empty_value
