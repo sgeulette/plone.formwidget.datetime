@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b5 (unreleased)
+1.0b5 (2013-05-27)
 ------------------
 
 - Remove plone.app.jquerytools' custom.css again, as it is gone.
