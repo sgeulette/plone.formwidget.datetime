@@ -27,7 +27,6 @@ setup(
         'mock',
         'plone.app.jquerytools',
         'setuptools',
-        'unittest2',
         'z3c.form',
         'zope.app.testing',
         'zope.i18nmessageid',
@@ -53,6 +52,7 @@ setup(
                 'zc.buildout',
                 'lxml',
                 'zope.testing',
+                'unittest2',
             ],
         ),
 )
