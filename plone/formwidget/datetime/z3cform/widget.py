@@ -10,7 +10,7 @@ from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
 from zope.i18n.format import DateTimeParseError
-from zope.interface import implementer, implements, implementsOnly
+from zope.interface import implementer, implementsOnly
 from zope.schema.interfaces import IField
 
 
@@ -172,23 +172,3 @@ class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
 def YearFieldWidget(field, request):
     """IFieldWidget factory for YearWidget."""
     return FieldWidget(field, YearWidget(request))
-
-
-# TODO: let's remove this, once an alternative is provided by plone.autoform or
-# any other package.
-
-# Use the parameterized widget factory to add widgets with specific parameters.
-class ParameterizedFieldWidget(object):
-    implements(IFieldWidget)
-
-    def __new__(cls, field, request):
-        widget = FieldWidget(field, cls.widget(request))
-        for k, v in cls.kw.items():
-            setattr(widget, k, v)
-        return widget
-
-
-def ParameterizedWidgetFactory(widget, **kw):
-    return type('%sFactory' % widget.__name__,
-                (ParameterizedFieldWidget,),
-                {'widget': widget, 'kw': kw})

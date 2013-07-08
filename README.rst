@@ -15,3 +15,5 @@ TODO
 * Include popup_calendar.gif as browser-resource in this package.
 * create DateDeltaWidget and DatetimeDeltaWidget
 * use timepicker
+* Usage docs for AT and DX. Show z3c.form widget parameters via
+  plone.autoform > 1.4
