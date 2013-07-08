@@ -1,23 +1,20 @@
 from plone.formwidget.datetime import base
+from plone.formwidget.datetime.z3cform.interfaces import IDateField
 from plone.formwidget.datetime.z3cform.interfaces import IDateWidget
+from plone.formwidget.datetime.z3cform.interfaces import IDatetimeField
 from plone.formwidget.datetime.z3cform.interfaces import IDatetimeWidget
 from plone.formwidget.datetime.z3cform.interfaces import IMonthYearWidget
 from plone.formwidget.datetime.z3cform.interfaces import IYearWidget
-
-from z3c.form.browser.widget import addFieldClass, HTMLTextInputWidget
+from z3c.form.browser.text import TextWidget
 from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
-from z3c.form.widget import Widget, FieldWidget
+from z3c.form.widget import FieldWidget
 from zope.component import adapter
 from zope.i18n.format import DateTimeParseError
 from zope.interface import implementer, implements, implementsOnly
 from zope.schema.interfaces import IField
 
 
-class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
-
-    def update(self):
-        super(AbstractDXDateWidget, self).update()
-        addFieldClass(self)
+class AbstractDXDateWidget(TextWidget):
 
     def extract(self, default=NOVALUE):
         # get normal input fields
@@ -44,22 +41,22 @@ class AbstractDXDateWidget(HTMLTextInputWidget, Widget):
 
     @property
     def js_field(self):
-        """Returns the id of a field that contains a js-parseable value of the selected date.
-        Used by plone.formwidget.recurrencewidget"""
+        """Returns the id of a field that contains a js-parseable value of the
+        selected date.  Used by plone.formwidget.recurrencewidget
+        """
         return self.id + '-calendar'
 
 
 class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
     """ Date widget.
-
     Please note: zope.schema date/datetime field values are python datetime
     instances.
-
     """
     implementsOnly(IDateWidget)
 
-@adapter(IField, IFormLayer)
+
 @implementer(IFieldWidget)
+@adapter(IDateField, IFormLayer)
 def DateFieldWidget(field, request):
     """IFieldWidget factory for DateWidget."""
     return FieldWidget(field, DateWidget(request))
@@ -78,10 +75,10 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
         minute = self.request.get(self.name + '-minute', default)
         timezone = self.request.get(self.name + '-timezone', default)
 
-        if (self.ampm is True and
-            hour is not default and
-            minute is not default and
-            hour):
+        if (self.ampm is True
+            and hour is not default
+            and minute is not default
+            and hour):
             ampm = self.request.get(self.name + '-ampm', default)
             if ampm == 'PM':
                 if hour != u'12':
@@ -111,20 +108,21 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
                 if tz:
                     tz = str(tz)
                 else:
-                    ts = ''
+                    tz = ''
                 return (str(dateobj.year),
                         str(dateobj.month),
                         str(dateobj.day),
                         str(dateobj.hour),
                         str(dateobj.minute),
-                        tz,)
+                        tz)
         except DateTimeParseError:
             pass
 
         return default
 
-@adapter(IField, IFormLayer)
+
 @implementer(IFieldWidget)
+@adapter(IDatetimeField, IFormLayer)
 def DatetimeFieldWidget(field, request):
     """IFieldWidget factory for DatetimeWidget."""
     return FieldWidget(field, DatetimeWidget(request))
@@ -133,6 +131,7 @@ def DatetimeFieldWidget(field, request):
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
     """ Month and year widget """
     implementsOnly(IMonthYearWidget)
+
     def extract(self, default=NOVALUE):
         day = self.request.get(self.name + '-day', default)
         year = self.request.get(self.name + '-year', default)
@@ -143,15 +142,18 @@ class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
             self.request.form[self.name + '-day'] = '1'
         return AbstractDXDateWidget.extract(self)
 
-@adapter(IField, IFormLayer)
+
 @implementer(IFieldWidget)
+@adapter(IField, IFormLayer)
 def MonthYearFieldWidget(field, request):
     """IFieldWidget factory for MonthYearWidget."""
     return FieldWidget(field, MonthYearWidget(request))
 
+
 class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
     """ Year widget """
     implementsOnly(IYearWidget)
+
     def extract(self, default=NOVALUE):
         day = self.request.get(self.name + '-day', default)
         year = self.request.get(self.name + '-year', default)
@@ -164,12 +166,12 @@ class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
                 self.request.form[self.name + '-month'] = '1'
         return AbstractDXDateWidget.extract(self)
 
-@adapter(IField, IFormLayer)
+
 @implementer(IFieldWidget)
+@adapter(IField, IFormLayer)
 def YearFieldWidget(field, request):
     """IFieldWidget factory for YearWidget."""
     return FieldWidget(field, YearWidget(request))
-
 
 
 # TODO: let's remove this, once an alternative is provided by plone.autoform or
@@ -184,6 +186,7 @@ class ParameterizedFieldWidget(object):
         for k, v in cls.kw.items():
             setattr(widget, k, v)
         return widget
+
 
 def ParameterizedWidgetFactory(widget, **kw):
     return type('%sFactory' % widget.__name__,
