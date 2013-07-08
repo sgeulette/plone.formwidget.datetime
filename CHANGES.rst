@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0dev (unreleased)
+-------------------
+
+- Add autoinclude entry point.
+  [thet]
+
+
 1.0b5 (2013-05-27)
 ------------------
 
