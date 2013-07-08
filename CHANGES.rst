@@ -4,6 +4,11 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
+- For the z3cform widget, remove widget adaptee registration from ZCML code and
+  keep it in Python code. More appropriate z3c.form class hierarchy for the
+  widget. Cleanup.
+  [thet]
+
 - Add autoinclude entry point.
   [thet]
 
