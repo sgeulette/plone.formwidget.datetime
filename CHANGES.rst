@@ -16,6 +16,10 @@ Changelog
 - Add autoinclude entry point.
   [thet]
 
+- Fix javascript error in IE7/IE8 on Windows XP -> "Unable to modify the parent
+  container element before the child element is closed"
+  [href]
+
 
 1.0b5 (2013-05-27)
 ------------------
