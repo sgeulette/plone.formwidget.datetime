@@ -4,6 +4,10 @@ Changelog
 1.0b6 (2013-07-21)
 ------------------
 
+- Fix javascript error in IE7/IE8 on Windows XP -> "Unable to modify the parent
+  container element before the child element is closed"
+  [href]
+
 - Remove the ParameterizedWidgetFactory in favor of form schema hints for
   widget parameters which is available since plone.autoform 1.4.
   [thet]
@@ -15,10 +19,6 @@ Changelog
 
 - Add autoinclude entry point.
   [thet]
-
-- Fix javascript error in IE7/IE8 on Windows XP -> "Unable to modify the parent
-  container element before the child element is closed"
-  [href]
 
 
 1.0b5 (2013-05-27)
