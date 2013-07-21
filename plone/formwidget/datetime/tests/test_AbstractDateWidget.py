@@ -327,11 +327,12 @@ class TestAbstractDateWidget(unittest.TestCase):
                 name="field-calendar"
                 class="field-calendar" />
             <script type="text/javascript">
-                if (jQuery().dateinput) {
-                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});
-                    jQuery("#id-calendar").dateinput({selectors: true,
+                jQuery(document).ready(function() {
+                    if (jQuery().dateinput) {
+                        jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});
+                        jQuery("#id-calendar").dateinput({selectors: true,
         trigger: true,
-        format: \'mm/dd/yyyy\',
+        format: 'mm/dd/yyyy',
                 yearRange: [-10, 10],
             firstDay: 1,
                 lang: 'en',
@@ -340,25 +341,26 @@ class TestAbstractDateWidget(unittest.TestCase):
                 jQuery("#id-year").val(value[0]);
                 jQuery("#id-month").val(value[1]);
                 jQuery("#id-day").val(value[2]);
-            }}).unbind(\'change\')
-                        .bind(\'onShow\', function (event) {
-                            var trigger_offset = jQuery(this).next().offset();
-                            jQuery(this).data(\'dateinput\').getCalendar().offset(
-                                {top: trigger_offset.top+20, left: trigger_offset.left}
-                            );
-                        });
-                }
+            }}).unbind('change')
+                            .bind('onShow', function (event) {
+                                var trigger_offset = jQuery(this).next().offset();
+                                jQuery(this).data('dateinput').getCalendar().offset(
+                                    {top: trigger_offset.top+20, left: trigger_offset.left}
+                                );
+                            });
+                    }
+                });
                 function updateCalendar(widgetId) {
-                    var y = jQuery(widgetId + \'-year\').val();
-                    var m = jQuery(widgetId + \'-month\').val();
-                    var d = jQuery(widgetId + \'-day\').val();
+                    var y = jQuery(widgetId + '-year').val();
+                    var m = jQuery(widgetId + '-month').val();
+                    var d = jQuery(widgetId + '-day').val();
                     if (!y || !m || !d) {
                         return;
                     }
-                    var newDate = new Date(m + \'/\' + d + \'/\' + y);
+                    var newDate = new Date(m + '/' + d + '/' + y);
                     if (newDate.getYear()) { // return NaN (which is false) if the date is invalid
-                        jQuery(widgetId + \'-calendar\').val(m + \'/\' + d + \'/\' + y);
-                        jQuery(widgetId + \'-calendar\').data()[\'dateinput\'].setValue(newDate);
+                        jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                        jQuery(widgetId + '-calendar').data()['dateinput'].setValue(newDate);
                     }
                 }
             </script>"""
@@ -382,15 +384,17 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         instance._js_value = '_js_value'
         instance.base_jquerytools_dateinput_config = 'jquerytools_dateinput_config'
+        print instance.get_js()
         REFJS = """
             <input type="hidden"
                 id="id-calendar"
                 name="field-calendar"
                 class="field-calendar" />
             <script type="text/javascript">
-                if (jQuery().dateinput) {
-                    jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});
-                    jQuery("#id-calendar").dateinput({jquerytools_dateinput_config,
+                jQuery(document).ready(function() {
+                    if (jQuery().dateinput) {
+                        jQuery.tools.dateinput.localize("en", {months: "Jan,Feb,Mar,Apr",shortMonths: "J,F,M,A",days: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",shortDays: "S,M,T,W,T,F,S"});
+                        jQuery("#id-calendar").dateinput({jquerytools_dateinput_config,
                 yearRange: [-10, 10],
             firstDay: 1,
                 lang: 'en',
@@ -400,25 +404,26 @@ class TestAbstractDateWidget(unittest.TestCase):
                 jQuery("#id-year").val(value[0]);
                 jQuery("#id-month").val(value[1]);
                 jQuery("#id-day").val(value[2]);
-            }}).unbind(\'change\')
-                        .bind(\'onShow\', function (event) {
-                            var trigger_offset = jQuery(this).next().offset();
-                            jQuery(this).data(\'dateinput\').getCalendar().offset(
-                                {top: trigger_offset.top+20, left: trigger_offset.left}
-                            );
-                        });
-                }
+            }}).unbind('change')
+                            .bind('onShow', function (event) {
+                                var trigger_offset = jQuery(this).next().offset();
+                                jQuery(this).data('dateinput').getCalendar().offset(
+                                    {top: trigger_offset.top+20, left: trigger_offset.left}
+                                );
+                            });
+                    }
+                });
                 function updateCalendar(widgetId) {
-                    var y = jQuery(widgetId + \'-year\').val();
-                    var m = jQuery(widgetId + \'-month\').val();
-                    var d = jQuery(widgetId + \'-day\').val();
+                    var y = jQuery(widgetId + '-year').val();
+                    var m = jQuery(widgetId + '-month').val();
+                    var d = jQuery(widgetId + '-day').val();
                     if (!y || !m || !d) {
                         return;
                     }
-                    var newDate = new Date(m + \'/\' + d + \'/\' + y);
+                    var newDate = new Date(m + '/' + d + '/' + y);
                     if (newDate.getYear()) { // return NaN (which is false) if the date is invalid
-                        jQuery(widgetId + \'-calendar\').val(m + \'/\' + d + \'/\' + y);
-                        jQuery(widgetId + \'-calendar\').data()[\'dateinput\'].setValue(newDate);
+                        jQuery(widgetId + '-calendar').val(m + '/' + d + '/' + y);
+                        jQuery(widgetId + '-calendar').data()['dateinput'].setValue(newDate);
                     }
                 }
             </script>"""

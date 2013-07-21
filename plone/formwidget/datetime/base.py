@@ -378,16 +378,18 @@ class AbstractDateWidget(object):
                 name="%(name)s-calendar"
                 class="%(name)s-calendar" />
             <script type="text/javascript">
-                if (jQuery().dateinput) {
-                    %(localize)s
-                    jQuery("#%(id)s-calendar").dateinput({%(config)s}).unbind('change')
-                        .bind('onShow', function (event) {
-                            var trigger_offset = jQuery(this).next().offset();
-                            jQuery(this).data('dateinput').getCalendar().offset(
-                                {top: trigger_offset.top+20, left: trigger_offset.left}
-                            );
-                        });
-                }
+                jQuery(document).ready(function() {
+                    if (jQuery().dateinput) {
+                        %(localize)s
+                        jQuery("#%(id)s-calendar").dateinput({%(config)s}).unbind('change')
+                            .bind('onShow', function (event) {
+                                var trigger_offset = jQuery(this).next().offset();
+                                jQuery(this).data('dateinput').getCalendar().offset(
+                                    {top: trigger_offset.top+20, left: trigger_offset.left}
+                                );
+                            });
+                    }
+                });
                 function updateCalendar(widgetId) {
                     var y = jQuery(widgetId + '-year').val();
                     var m = jQuery(widgetId + '-month').val();
