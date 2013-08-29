@@ -124,11 +124,11 @@ class TestAbstractDateWidget(unittest.TestCase):
         self.assertEqual(len(instance.years), 20)
         self.assertEqual(
             instance.years[0],
-            {'name': 2000, 'value': 2000}
+            {'name': 2000, 'value': 2000, 'selected': False}
         )
         self.assertEqual(
             instance.years[19],
-            {'name': 2019, 'value': 2019}
+            {'name': 2019, 'value': 2019, 'selected': False}
         )
 
     @mock.patch('plone.formwidget.datetime.base.AbstractDateWidget.month')
@@ -172,8 +172,8 @@ class TestAbstractDateWidget(unittest.TestCase):
     def test_days(self):
         instance = self.createInstance()
         self.assertEqual(len(instance.days), 31)
-        self.assertEqual(instance.days[0], {'name': '01', 'value': 1})
-        self.assertEqual(instance.days[-1], {'name': '31', 'value': 31})
+        self.assertEqual(instance.days[0], {'name': '01', 'value': 1, 'selected': False})
+        self.assertEqual(instance.days[-1], {'name': '31', 'value': 31, 'selected': False})
 
     def test_year_is_not_None(self):
         instance = self.createInstance()
