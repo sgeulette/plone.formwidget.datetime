@@ -5,6 +5,13 @@ from plone.formwidget.datetime.testing import PFWDT_FIXTURE
 from plone.testing import z2
 
 
+try:
+    from plone.app.upgrade import v50
+    PLONE5 = 1
+except ImportError:
+    PLONE5 = 0
+
+
 class PFWDTATLayer(PloneSandboxLayer):
 
     # TODO: DRI_FIXTURE temporary until removal of DRI
@@ -19,14 +26,21 @@ class PFWDTATLayer(PloneSandboxLayer):
         import plone.formwidget.datetime.at.tests.examples
         self.loadZCML(package=plone.formwidget.datetime.at.tests.examples)
 
+        z2.installProduct(app, 'Products.ATContentTypes')
+
         # Install product and call its initialize() function
         z2.installProduct(app, 'plone.formwidget.datetime.at.tests.examples')
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
+        if PLONE5:
+            # Install Products.ATContentTypes profile only for versions, where
+            # it's available
+            self.applyProfile(portal, 'Products.ATContentTypes:default')
+
         self.applyProfile(
-                portal,
-                'plone.formwidget.datetime.at.tests.examples:examples')
+            portal,
+            'plone.formwidget.datetime.at.tests.examples:examples')
 
     def tearDownZope(self, app):
         # Uninstall product

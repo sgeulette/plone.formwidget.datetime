@@ -43,6 +43,7 @@ setup(
             ],
             test=[
                 'Products.Archetypes',
+                'Products.ATContentTypes',
                 'Products.CMFCore',
                 'Products.GenericSetup',
                 'Zope2',
