@@ -18,22 +18,20 @@ class TestYearWidget(unittest.TestCase):
         self.assertEqual(
             instance._properties,
             {
-                'show_calendar': True,
-                'helper_css': (),
-                'years_range': (-10, 10),
+                'blurrable': False,
+                'condition': '',
                 'description': '',
                 'first_day': None,
-                'populate': True,
-                'show_day': False,
-                'show_month': False,
-                'macro': 'year_input',
-                'postback': True,
+                'helper_css': (),
+                'helper_js': (),
                 'label': '',
-                'visible': {'edit': 'visible', 'view': 'visible'},
-                'blurrable': False,
+                'macro': 'year_input',
                 'modes': ('view', 'edit'),
+                'populate': True,
+                'postback': True,
+                'show_calendar': True,
                 'show_content_type': False,
-                'condition': '',
-                'helper_js': ()
+                'visible': {'edit': 'visible', 'view': 'visible'},
+                'years_range': (-10, 10),
             }
         )

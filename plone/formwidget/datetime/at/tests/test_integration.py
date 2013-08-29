@@ -7,20 +7,20 @@ from plone.formwidget.datetime.at.widget import (
     YearWidget,
     MonthYearWidget,
     DateWidget,)
-from plone.formwidget.datetime.testing import PFWDT_INTEGRATION_TESTING
+from plone.formwidget.datetime.at.testing import PFWDTAT_INTEGRATION_TESTING
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 import datetime
 import unittest2 as unittest
 
 class BaseTestDatetimeIWidget(unittest.TestCase):
-    layer = PFWDT_INTEGRATION_TESTING
+    layer = PFWDTAT_INTEGRATION_TESTING
     fid = 'modification_date'
 
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.folder =  (
+        self.folder = (
             'f1' in self.portal.objectIds()
             and self.portal['f1']
             or self.portal[
@@ -39,6 +39,7 @@ class BaseTestDatetimeIWidget(unittest.TestCase):
         raise Exception('notimplemented')
 
 class TestDatetimeIWidget(BaseTestDatetimeIWidget):
+
     def createInstance(self):
         mrange = (datetime.datetime.now() - datetime.datetime(1,1,1)).days/365
         return DatetimeWidget(years_range=(-mrange, 10))
@@ -403,4 +404,3 @@ class TestYearMonthIWidget(BaseTestDatetimeIWidget):
         self.assertTrue(
             '<option selected="selected" value="2012">2012</option>'
             in res)
-
