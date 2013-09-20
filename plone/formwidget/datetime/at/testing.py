@@ -1,15 +1,12 @@
 # from Products.DateRecurringIndex.testing import DRI_FIXTURE
+from Products.CMFPlone.utils import getFSVersionTuple
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.formwidget.datetime.testing import PFWDT_FIXTURE
 from plone.testing import z2
 
 
-try:
-    from plone.app.upgrade import v50
-    PLONE5 = 1
-except ImportError:
-    PLONE5 = 0
+PLONE5 = getFSVersionTuple()[0] >= 5
 
 
 class PFWDTATLayer(PloneSandboxLayer):
