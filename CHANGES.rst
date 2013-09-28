@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0 dev (unreleased)
+--------------------
+
+- In z3c.form based forms, allow timezone naive datetimes.
+  [thet]
+
+
 1.0b6 (2013-07-21)
 ------------------
 
