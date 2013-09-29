@@ -1,7 +1,8 @@
 import pytz
 from datetime import date, datetime
 from plone.formwidget.datetime.z3cform.interfaces import DateValidationError
-from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
+from plone.formwidget.datetime.z3cform.interfaces import\
+    DatetimeValidationError
 from z3c.form.converter import BaseDataConverter
 
 

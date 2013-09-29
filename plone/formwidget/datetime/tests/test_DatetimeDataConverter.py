@@ -1,3 +1,8 @@
+from plone.formwidget.datetime.z3cform.converter import DateDataConverter
+from plone.formwidget.datetime.z3cform.converter import DatetimeDataConverter
+from plone.formwidget.datetime.z3cform.interfaces import\
+    DatetimeValidationError
+
 import mock
 import unittest2 as unittest
 
@@ -5,19 +10,15 @@ import unittest2 as unittest
 class TestDatetimeDataConverter(unittest.TestCase):
 
     def createInstance(self):
-        from plone.formwidget.datetime.z3cform.converter import DatetimeDataConverter
         field = mock.Mock()
         widget = mock.Mock()
         return DatetimeDataConverter(field, widget)
 
     def test_subclass(self):
-        from plone.formwidget.datetime.z3cform.converter import DatetimeDataConverter
-        from plone.formwidget.datetime.z3cform.converter import DateDataConverter
         self.assertTrue(DatetimeDataConverter, DateDataConverter)
 
     def test_instance(self):
         instance = self.createInstance()
-        from plone.formwidget.datetime.z3cform.converter import DatetimeDataConverter
         self.assertTrue(isinstance(instance, DatetimeDataConverter))
 
     def test_toWidgetValue__value_is_missing(self):
@@ -53,7 +54,6 @@ class TestDatetimeDataConverter(unittest.TestCase):
     def test_toFieldValue_map_ValueError(self):
         instance = self.createInstance()
         value = 'abcde'
-        from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
         self.assertRaises(
             DatetimeValidationError,
             lambda: instance.toFieldValue(value)
@@ -61,19 +61,17 @@ class TestDatetimeDataConverter(unittest.TestCase):
 
     def test_toFieldValue_date_ValueError(self):
         instance = self.createInstance()
-        value = ('a',2,3,4)
-        from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
+        value = ('a', 2, 3, 4)
         self.assertRaises(
             DatetimeValidationError,
             lambda: instance.toFieldValue(value)
         )
 
-    @mock.patch('plone.formwidget.datetime.z3cform.converter.datetime')
-    def test_toFieldValue_no_ValueError(self, datetime):
+    def test_toFieldValue__value_is_nissing(self):
         instance = self.createInstance()
-        value = (1,2,3, '')
-        datetime.return_value = 'datetime'
+        instance.field.missing_value = 'missing_value'
+        value = (1, 2, 3, '')
         self.assertEqual(
             instance.toFieldValue(value),
-            'datetime'
+            'missing_value'
         )
