@@ -6,6 +6,7 @@ from plone.formwidget.datetime.z3cform.interfaces import IDatetimeWidget
 from plone.formwidget.datetime.z3cform.interfaces import IMonthYearWidget
 from plone.formwidget.datetime.z3cform.interfaces import IYearWidget
 from z3c.form.browser.text import TextWidget
+from z3c.form.browser.widget import addFieldClass
 from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
@@ -45,6 +46,10 @@ class AbstractDXDateWidget(TextWidget):
         selected date.  Used by plone.formwidget.recurrencewidget
         """
         return self.id + '-calendar'
+
+    def update(self):
+        super(AbstractDXDateWidget, self).update()
+        addFieldClass(self)
 
 
 class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
@@ -93,7 +98,7 @@ class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
 
         if default not in (year, month, day, hour, minute):
             dt = (year, month, day, hour, minute)
-            if timezone != default:
+            if timezone and timezone != default:
                 # can be naive datetime
                 dt += (timezone,)
             return dt
