@@ -49,23 +49,31 @@ class DatetimeDataConverter(DateDataConverter):
         if not value:
             return self.field.missing_value
 
-        for val in value[:-1]:
+        if len(value) > 5:
+            # TZ component available
+            dt_value = value[:-1]
+            tz = value[-1]
+        else:
+            # TZ component not available
+            dt_value = value
+            tz = None
+
+        for val in dt_value:
             if not val:
                 return self.field.missing_value
 
-        if not value[0]:
-            return self.field.missing_value
-
         try:
-            intvalues = map(int, value[:-1])
+            intvalues = map(int, dt_value)
         except ValueError:
             raise DatetimeValidationError
 
         try:
-            if value[-1]:
-                timezone = pytz.timezone(value[-1])
+            if tz:
+                # Timezone aware, localize.
+                timezone = pytz.timezone(tz)
                 return timezone.localize(datetime(*intvalues))
             else:
+                # Timezone naive.
                 return datetime(*intvalues)
         except ValueError:
             raise DatetimeValidationError
