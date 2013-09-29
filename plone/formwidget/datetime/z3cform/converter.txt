@@ -52,3 +52,16 @@ a valid date, a validation error will be raised.
     DateValidationError
 
 
+datetime data converter, timezone naive test:
+
+    >>> from zope.schema import Datetime
+    >>> from plone.formwidget.datetime.z3cform import DatetimeWidget
+    >>> from plone.formwidget.datetime.z3cform.converter import DatetimeDataConverter
+
+    >>> converter = DatetimeDataConverter(field, widget)
+    >>> field = Datetime()
+    >>> widget = DatetimeWidget(request)
+    >>> converter.toFieldValue(('2009', '5', '10', '10', '10'))
+    datetime.datetime(2009, 5, 10, 10, 10)
+
+
