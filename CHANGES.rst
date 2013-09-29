@@ -4,7 +4,7 @@ Changelog
 1.0 dev (unreleased)
 --------------------
 
-- In z3c.form based forms, allow timezone naive datetimes.
+- In z3c.form based widgets, allow timezone naive datetimes.
   [thet]
 
 
