@@ -45,8 +45,12 @@ HIDDEN_MODE
 
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render()
-  <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/2007" />
+  <BLANKLINE>
+  <input type="hidden" name="bar" value="4/1/2007" id="foo"
+         class="date-widget required date-field" />
+  <BLANKLINE>
+  <BLANKLINE>
+
   >>> widget.request = self.testrequest(
   ...     form={'bar': '4/1/2007'}
   ...     )
@@ -79,5 +83,4 @@ check if translations are working
   ...
 
 Deactivated for now
-
 
