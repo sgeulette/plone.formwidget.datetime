@@ -34,17 +34,17 @@ class DatetimeDataConverter(DateDataConverter):
         if value is self.field.missing_value:
             return ('', '', '', '00', '00', '')
 
-
         tz = getattr(value, 'tzinfo', '')
-        if tz: tz = str(tz)
-        else: tz = ''
+        if tz:
+            tz = str(tz)
+        else:
+            tz = ''
         return (value.year,
                 value.month,
                 value.day,
                 value.hour,
                 value.minute,
-                tz
-               )
+                tz)
 
     def toFieldValue(self, value):
         if not value:
@@ -86,6 +86,7 @@ class MonthYearDataConverter(DateDataConverter):
         if value is self.field.missing_value:
             return ('', '', '1')
         return (value.year, value.month, value.day)
+
 
 class YearDataConverter(DateDataConverter):
 
