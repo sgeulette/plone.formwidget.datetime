@@ -24,22 +24,43 @@ INPUT_MODE
 ----------
 
   >>> print widget.render()
+  <BLANKLINE>
+  <BLANKLINE>
   <!-- day -->
-  <input type="hidden" id="foo-day" name="bar-day"
-         class="year-widget required date-field" size="2"
-         maxlength="2" onchange="updateCalendar('#foo');"
-         value="2" />
-  <!-- month -->
-  <input type="hidden" id="foo-month" name="bar-month"
-         class="year-widget required date-field" size="2"
-         maxlength="2" onchange="updateCalendar('#foo');"
-         value="4" />
-  <!-- year -->
-  <input type="text" id="foo-year" name="bar-year"
-         class="year-widget required date-field" alt=""
-         accesskey="" size="4" maxlength="4"
-         onchange="updateCalendar('#foo');" value="2007" />
-  <input name="bar-empty-marker" type="hidden" value="1" />...
+  <input type="hidden" id="foo-day" value="2" name="bar-day" />
+  <BLANKLINE>
+  <BLANKLINE>
+  <BLANKLINE>
+  <input type="hidden" id="foo-month" value="4"
+         name="bar-month" />
+  <BLANKLINE>
+  <BLANKLINE>
+  <BLANKLINE>
+  <BLANKLINE>
+  <select class="year-widget required date-field" id="foo-year" name="bar-year">
+    <option value="1997">1997</option>
+    <option value="1998">1998</option>
+    <option value="1999">1999</option>
+    <option value="2000">2000</option>
+    <option value="2001">2001</option>
+    <option value="2002">2002</option>
+    <option value="2003">2003</option>
+    <option value="2004">2004</option>
+    <option value="2005">2005</option>
+    <option value="2006">2006</option>
+    <option selected="selected" value="2007">2007</option>
+    <option value="2008">2008</option>
+    <option value="2009">2009</option>
+    <option value="2010">2010</option>
+    <option value="2011">2011</option>
+    <option value="2012">2012</option>
+    <option value="2013">2013</option>
+    <option value="2014">2014</option>
+    <option value="2015">2015</option>
+    <option value="2016">2016</option>
+  </select>
+  ...
+
   >>> widget.request = self.testrequest(
   ...     form={
   ...           'bar-year': '2007',
@@ -64,8 +85,12 @@ HIDDEN_MODE
 
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render()
-    <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="2007" />
+  <BLANKLINE>
+  <input type="hidden" name="bar" value="2007" id="foo"
+         class="year-widget required date-field" />
+  <BLANKLINE>
+  <BLANKLINE>
+
   >>> widget.request = self.testrequest(
   ...     form={'bar-year': '2007',
   ...           'bar-day': '6',
