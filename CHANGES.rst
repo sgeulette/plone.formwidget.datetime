@@ -4,6 +4,10 @@ Changelog
 1.0 dev (unreleased)
 --------------------
 
+- Re-Add rendering of hidden date-, month- and year-fields for monthyear and
+  year widgets. This got lost at template unifying attempt.
+  [thet]
+
 - In z3c.form based widgets, allow timezone naive datetime conversion.
   [thet]
 
