@@ -384,7 +384,6 @@ class TestAbstractDateWidget(unittest.TestCase):
         calendar.getDayAbbreviations.return_value = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
         instance._js_value = '_js_value'
         instance.base_jquerytools_dateinput_config = 'jquerytools_dateinput_config'
-        print instance.get_js()
         REFJS = """
             <input type="hidden"
                 id="id-calendar"
