@@ -1,6 +1,11 @@
 <tal:root define="whole_day context/whole_day|context/wholeDay|nothing;">
 
 <!-- day -->
+<input type="hidden"
+    tal:condition="not:view/show_day"
+    tal:attributes="id string:${view/id}-day;
+                    name string:${view/name}-day;
+                    value view/day"/>
 <select class="day"
     tal:condition="view/show_day"
     tal:attributes="id string:${view/id}-day;
@@ -14,9 +19,14 @@
                       selected python:item['selected'] and 'selected' or None"
       tal:content="item/name">label</option>
 </select>
-<span class="separator">/</span>
+<span tal:condition="view/show_day" class="separator">/</span>
 
-<select id="" name="" class="month"
+<input type="hidden"
+    tal:condition="not:view/show_month"
+    tal:attributes="id string:${view/id}-month;
+                    name string:${view/name}-month;
+                    value view/month"/>
+<select class="month"
    tal:condition="view/show_month"
    tal:attributes="id string:${view/id}-month;
                     name string:${view/name}-month;
@@ -29,8 +39,13 @@
                       selected python:item['selected'] and 'selected' or None"
       tal:content="item/name">label</option>
 </select>
-<span class="separator">/</span>
+<span tal:condition="view/show_month" class="separator">/</span>
 
+<input type="hidden"
+    tal:condition="not:view/show_year"
+    tal:attributes="id string:${view/id}-year;
+                    name string:${view/name}-year;
+                    value view/year"/>
 <select class="year"
   tal:condition="view/show_year"
   tal:attributes="id string:${view/id}-year;
