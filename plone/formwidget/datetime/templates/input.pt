@@ -21,6 +21,7 @@
 </select>
 <span tal:condition="view/show_day" class="separator">/</span>
 
+<!-- month -->
 <input type="hidden"
     tal:condition="not:view/show_month"
     tal:attributes="id string:${view/id}-month;
@@ -41,6 +42,7 @@
 </select>
 <span tal:condition="view/show_month" class="separator">/</span>
 
+<!-- year -->
 <input type="hidden"
     tal:condition="not:view/show_year"
     tal:attributes="id string:${view/id}-year;

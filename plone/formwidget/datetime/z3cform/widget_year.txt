@@ -31,12 +31,14 @@ INPUT_MODE
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
+  <!-- month -->
   <input type="hidden" id="foo-month" value="4"
          name="bar-month" />
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
+  <!-- year -->
   <select class="year-widget required date-field" id="foo-year" name="bar-year">
     <option value="1997">1997</option>
     <option value="1998">1998</option>
