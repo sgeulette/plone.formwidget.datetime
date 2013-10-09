@@ -1,7 +1,15 @@
+import pkg_resources
+
 from plone.formwidget.datetime import MessageFactory as _
 from z3c.form.interfaces import IWidget
 from zope.schema import ValidationError
-from zope.schema.interfaces import IDate, IDatetime
+
+try:
+    pkg_resources.get_distribution('plone.schemaeditor')
+    from plone.schemaeditor.schema import IDate, IDatetime
+except (pkg_resources.DistributionNotFound, pkg_resources.VersionConflict), e:
+    # No dexterity
+    from zope.schema.interfaces import IDate, IDatetime
 
 
 # Fields

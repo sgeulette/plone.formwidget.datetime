@@ -11,6 +11,9 @@ Changelog
 - In z3c.form based widgets, allow timezone naive datetime conversion.
   [thet]
 
+- If plone.schemaeditor is available, use his patched IDate schema.
+  [do3cc]
+
 
 1.0b6 (2013-07-21)
 ------------------
