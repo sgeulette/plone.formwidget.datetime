@@ -14,13 +14,13 @@ class DatetimeTest(unittest.TestCase):
         # this plugin is disabled by default. let's check if it's now enabled'
         p_js = getToolByName(self.portal, 'portal_javascripts')
         js_id = "++resource++plone.app.jquerytools.dateinput.js"
-        self.failUnless(p_js.getResource(js_id).getEnabled())
+        self.assertTrue(p_js.getResource(js_id).getEnabled())
 
     def test_portal_css(self):
         # this stylesheet is disabled by default. let's check if it's now enabled
         p_css = getToolByName(self.portal, 'portal_css')
         css_id = "++resource++plone.app.jquerytools.dateinput.css"
-        self.failUnless(p_css.getResource(css_id).getEnabled())
+        self.assertTrue(p_css.getResource(css_id).getEnabled())
 
         css_id = "++resource++plone.formwidget.datetime/styles.css"
-        self.failUnless(p_css.getResource(css_id).getEnabled())
+        self.assertTrue(p_css.getResource(css_id).getEnabled())
