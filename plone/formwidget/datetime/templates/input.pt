@@ -13,6 +13,7 @@
                     class view/klass;
                     style view/style;
                     title view/title">
+  <option value="">--</option>
   <option
       tal:repeat="item view/days"
       tal:attributes="value item/value;
@@ -34,7 +35,8 @@
                     class view/klass;
                     style view/style;
                     title view/title">
-  <option 
+  <option value="">--</option>
+  <option
       tal:repeat="item view/months"
       tal:attributes="value item/value;
                       selected python:item['selected'] and 'selected' or None"
@@ -55,6 +57,7 @@
                   class view/klass;
                   style view/style;
                   title view/title">
+  <option value="">--</option>
   <option
       tal:repeat="item view/years"
       tal:attributes="value item/value;
@@ -74,7 +77,7 @@
     tal:condition="view/show_time"
     tal:attributes="id string:${view/id}-timecomponents;
                     style python:whole_day and 'display:none' or ''">
- 
+
   <!-- hour -->
   <select class="hour"
       tal:attributes="id string:${view/id}-hour;
@@ -82,14 +85,15 @@
                       class view/klass;
                       style view/style;
                       title view/title">
-    <option 
+    <option value="">--</option>
+    <option
         tal:repeat="item view/hours"
         tal:attributes="value item/value;
                         selected python:item['selected'] and 'selected' or None"
         tal:content="item/name">label</option>
   </select>
   <span class="separator">:</span>
-  
+
   <!-- minute -->
   <select class="minute"
       tal:attributes="id string:${view/id}-minute;
@@ -97,7 +101,8 @@
                       class view/klass;
                       style view/style;
                       title view/title">
-    <option 
+    <option value="">--</option>
+    <option
         tal:repeat="item view/minutes"
         tal:attributes="value item/value;
                         selected python:item['selected'] and 'selected' or None"
@@ -112,6 +117,7 @@
                       class view/klass;
                       style view/style;
                       title view/title">
+    <option value="">--</option>
     <option tal:attributes="selected python:not view.is_pm() and 'selected' or None"
           value="AM" selected="">AM</option>
     <option tal:attributes="selected python:view.is_pm() and 'selected' or None"
