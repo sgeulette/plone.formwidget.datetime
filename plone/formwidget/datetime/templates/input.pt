@@ -1,4 +1,5 @@
-<tal:root define="whole_day context/whole_day|context/wholeDay|nothing;">
+<tal:root define="whole_day context/whole_day|context/wholeDay|nothing;
+                  required view/required">
 
 <!-- day -->
 <input type="hidden"
@@ -13,7 +14,8 @@
                     class view/klass;
                     style view/style;
                     title view/title">
-  <option value="">--</option>
+  <option value=""
+      tal:condition="not:required">--</option>
   <option
       tal:repeat="item view/days"
       tal:attributes="value item/value;
@@ -35,7 +37,8 @@
                     class view/klass;
                     style view/style;
                     title view/title">
-  <option value="">--</option>
+  <option value=""
+      tal:condition="not:required">--</option>
   <option
       tal:repeat="item view/months"
       tal:attributes="value item/value;
@@ -57,7 +60,8 @@
                   class view/klass;
                   style view/style;
                   title view/title">
-  <option value="">--</option>
+  <option value=""
+      tal:condition="not:required">--</option>
   <option
       tal:repeat="item view/years"
       tal:attributes="value item/value;
@@ -85,7 +89,8 @@
                       class view/klass;
                       style view/style;
                       title view/title">
-    <option value="">--</option>
+    <option value=""
+        tal:condition="not:required">--</option>
     <option
         tal:repeat="item view/hours"
         tal:attributes="value item/value;
@@ -101,7 +106,8 @@
                       class view/klass;
                       style view/style;
                       title view/title">
-    <option value="">--</option>
+    <option value=""
+        tal:condition="not:required">--</option>
     <option
         tal:repeat="item view/minutes"
         tal:attributes="value item/value;
@@ -117,7 +123,8 @@
                       class view/klass;
                       style view/style;
                       title view/title">
-    <option value="">--</option>
+    <option value=""
+        tal:condition="not:required">--</option>
     <option tal:attributes="selected python:not view.is_pm() and 'selected' or None"
           value="AM" selected="">AM</option>
     <option tal:attributes="selected python:view.is_pm() and 'selected' or None"
