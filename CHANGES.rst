@@ -4,6 +4,10 @@ Changelog
 1.0 dev (unreleased)
 --------------------
 
+- Allow empty values when the field is not required.
+  https://github.com/plone/plone.app.contenttypes/issues/79
+  [pbauer]
+
 - Replace deprecated test assert statements.
   [timo]
 
