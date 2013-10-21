@@ -1,4 +1,3 @@
-
 from DateTime import DateTime
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
