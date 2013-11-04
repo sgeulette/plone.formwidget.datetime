@@ -11,7 +11,7 @@
     tal:condition="view/show_day"
     tal:attributes="id string:${view/id}-day;
                     name string:${view/name}-day;
-                    class view/klass;
+                    class string:day ${view/klass};
                     style view/style;
                     title view/title">
   <option value=""
@@ -34,7 +34,7 @@
    tal:condition="view/show_month"
    tal:attributes="id string:${view/id}-month;
                     name string:${view/name}-month;
-                    class view/klass;
+                    class string:month ${view/klass};
                     style view/style;
                     title view/title">
   <option value=""
@@ -57,7 +57,7 @@
   tal:condition="view/show_year"
   tal:attributes="id string:${view/id}-year;
                   name string:${view/name}-year;
-                  class view/klass;
+                  class string:year ${view/klass};
                   style view/style;
                   title view/title">
   <option value=""
@@ -86,7 +86,7 @@
   <select class="hour"
       tal:attributes="id string:${view/id}-hour;
                       name string:${view/name}-hour;
-                      class view/klass;
+                      class string:hour ${view/klass};
                       style view/style;
                       title view/title">
     <option value=""
@@ -103,7 +103,7 @@
   <select class="minute"
       tal:attributes="id string:${view/id}-minute;
                       name string:${view/name}-minute;
-                      class view/klass;
+                      class string:minute ${view/klass};
                       style view/style;
                       title view/title">
     <option value=""
@@ -120,7 +120,7 @@
       tal:condition="view/ampm"
       tal:attributes="id string:${view/id}-ampm;
                       name string:${view/name}-ampm;
-                      class view/klass;
+                      class string:ampm ${view/klass};
                       style view/style;
                       title view/title">
     <option value=""

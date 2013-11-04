@@ -4,6 +4,9 @@ Changelog
 1.0 dev (unreleased)
 --------------------
 
+- Align CSS classes between AT and z3cform templates.
+  [thet]
+
 - Allow empty values when the field is not required.
   https://github.com/plone/plone.app.contenttypes/issues/79
   [pbauer]
