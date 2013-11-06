@@ -33,7 +33,7 @@ INPUT_MODE
   <BLANKLINE>
   <BLANKLINE>
   <!-- month -->
-  <select class="monthyear-widget required date-field"
+  <select class="month monthyear-widget required date-field"
           id="foo-month" name="bar-month">
     <option value="1">January</option>
     <option value="2">February</option>
@@ -52,7 +52,7 @@ INPUT_MODE
   <BLANKLINE>
   <BLANKLINE>
   <!-- year -->
-  <select class="monthyear-widget required date-field"
+  <select class="year monthyear-widget required date-field"
           id="foo-year" name="bar-year">
     <option value="1997">1997</option>
     <option value="1998">1998</option>
