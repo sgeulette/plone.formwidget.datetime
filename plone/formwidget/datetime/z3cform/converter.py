@@ -1,7 +1,8 @@
 import pytz
 from datetime import date, datetime
 from plone.formwidget.datetime.z3cform.interfaces import DateValidationError
-from plone.formwidget.datetime.z3cform.interfaces import DatetimeValidationError
+from plone.formwidget.datetime.z3cform.interfaces import\
+    DatetimeValidationError
 from z3c.form.converter import BaseDataConverter
 
 
@@ -33,39 +34,47 @@ class DatetimeDataConverter(DateDataConverter):
         if value is self.field.missing_value:
             return ('', '', '', '00', '00', '')
 
-
         tz = getattr(value, 'tzinfo', '')
-        if tz: tz = str(tz)
-        else: tz = ''
+        if tz:
+            tz = str(tz)
+        else:
+            tz = ''
         return (value.year,
                 value.month,
                 value.day,
                 value.hour,
                 value.minute,
-                tz
-               )
+                tz)
 
     def toFieldValue(self, value):
         if not value:
             return self.field.missing_value
 
-        for val in value[:-1]:
+        if len(value) > 5:
+            # TZ component available
+            dt_value = value[:-1]
+            tz = value[-1]
+        else:
+            # TZ component not available
+            dt_value = value
+            tz = None
+
+        for val in dt_value:
             if not val:
                 return self.field.missing_value
 
-        if not value[0]:
-            return self.field.missing_value
-
         try:
-            intvalues = map(int, value[:-1])
+            intvalues = map(int, dt_value)
         except ValueError:
             raise DatetimeValidationError
 
         try:
-            if value[-1]:
-                timezone = pytz.timezone(value[-1])
+            if tz:
+                # Timezone aware, localize.
+                timezone = pytz.timezone(tz)
                 return timezone.localize(datetime(*intvalues))
             else:
+                # Timezone naive.
                 return datetime(*intvalues)
         except ValueError:
             raise DatetimeValidationError
@@ -77,6 +86,7 @@ class MonthYearDataConverter(DateDataConverter):
         if value is self.field.missing_value:
             return ('', '', '1')
         return (value.year, value.month, value.day)
+
 
 class YearDataConverter(DateDataConverter):
 

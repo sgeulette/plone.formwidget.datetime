@@ -31,7 +31,7 @@ Render without AM/PM support:
 
   >>> widget.mode == z3c.form.interfaces.INPUT_MODE
   True
-  >>> widget.js_value
+  >>> widget._js_value
   'new Date(2007, 3, 1, 12, 0)'
   >>> 'Date(2007, 3, 1, 12, 0)' in widget.render() #doctest: +ELLIPSIS
   True
@@ -82,12 +82,16 @@ HIDDEN_MODE
 
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render() #doctest: +ELLIPSIS
-  <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/2007 12:00 PM" />
+  <BLANKLINE>
+  <input type="hidden" name="bar" value="4/1/2007 12:00 PM"
+         id="foo"
+         class="datetime-widget required datetime-field" />
+  <BLANKLINE>
+  <BLANKLINE>
 
   >>> widget.request = self.testrequest(form={'bar': '4/1/2007 12:00 PM'})
   >>> widget.extract()
-  ('2007', '4', '1', '12', '0', None)
+  ('2007', '4', '1', '12', '0', '')
 
 
 13 o'clock
@@ -141,9 +145,13 @@ HIDDEN_MODE
 
   >>> widget.mode = z3c.form.interfaces.HIDDEN_MODE
   >>> print widget.render() #doctest: +ELLIPSIS
-  <input type="hidden" id="foo" name="bar"
-           class="hidden-widget" value="4/1/2007 1:00 PM" />
+  <BLANKLINE>
+  <input type="hidden" name="bar" value="4/1/2007 1:00 PM"
+         id="foo"
+         class="datetime-widget required datetime-field" />
+  <BLANKLINE>
+  <BLANKLINE>
 
   >>> widget.request = self.testrequest(form={'bar': '4/1/2007 1:00 PM'})
   >>> widget.extract()
-  ('2007', '4', '1', '13', '0', None)
+  ('2007', '4', '1', '13', '0', '')

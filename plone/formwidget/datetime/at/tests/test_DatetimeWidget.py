@@ -1,15 +1,8 @@
 from plone.formwidget.datetime.at.widget import DateWidget
 from plone.formwidget.datetime.base import AbstractDatetimeWidget
 from plone.formwidget.datetime.at.widget import DatetimeWidget
-from DateTime import DateTime
-from Products.Archetypes.Field import DateTimeField
-from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
-from plone.formwidget.datetime.testing import PFWDT_INTEGRATION_TESTING
-from plone.formwidget.datetime.at.browser import widget as bw
 import datetime
 import mock
-from DateTime import DateTime
 import unittest2 as unittest
 
 
@@ -26,22 +19,21 @@ class TestDatetimeWidget(unittest.TestCase):
         self.assertEqual(
             instance._properties,
             {
-                'show_calendar': True,
-                'helper_css': (),
-                'years_range': (-10, 10),
-                'description': '',
-                'populate': True,
-                'show_day': True,
-                'show_month': True,
-                'macro': 'datetime_input',
-                'postback': True,
-                'label': '',
-                'visible': {'edit': 'visible', 'view': 'visible'},
                 'blurrable': False,
-                'modes': ('view', 'edit'),
-                'show_content_type': False,
                 'condition': '',
-                'helper_js': ()
+                'description': '',
+                'first_day': None,
+                'helper_css': (),
+                'helper_js': (),
+                'label': '',
+                'macro': 'datetime_input',
+                'modes': ('view', 'edit'),
+                'populate': True,
+                'postback': True,
+                'show_calendar': True,
+                'show_content_type': False,
+                'visible': {'edit': 'visible', 'view': 'visible'},
+                'years_range': (-10, 10),
             }
         )
 

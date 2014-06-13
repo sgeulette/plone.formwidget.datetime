@@ -1,10 +1,11 @@
 from datetime import date, datetime
 from DateTime import DateTime
-import pytz
-
-from zope.i18n import translate
-from plone.formwidget.datetime import MessageFactory as _
 from collections import deque
+from datetime import date, datetime
+from plone.formwidget.datetime import MessageFactory as _
+from zope.i18n import translate
+
+import pytz
 
 
 def rotated(sequence, steps):
@@ -20,54 +21,49 @@ def is_pure_date(instance):
     return (isinstance(instance, date)
             and not isinstance(instance, datetime))
 
+
+def safe_callable(var, default=None):
+    if var is None: return default
+    if hasattr(var, '__call__'):
+        ret = var()
+    else:
+        ret = var
+    return ret
+
+
 class AbstractDateWidget(object):
-
-    calendar_type = 'gregorian'
-    klass = u'date-widget'
-    empty_value = ('', '', '')
-    years_range = (-10, 10)
-    pattern = None # zope.i18n format (default: u'M/d/yyyy')
-    value = empty_value
-
-    #
-    # pure javascript no dependencies
+    show_year = True
+    show_month = True
+    show_day = True
+    show_time = False
     show_today_link = False
-
     # Requires: jquery.tools.datewidget.js, jquery.js
     # Read more: http://flowplayer.org/tools/dateinput/index.html
-    show_jquerytools_dateinput = True
+    show_calendar = True
 
-    base_jquerytools_dateinput_config = 'selectors: true, ' \
-            'trigger: true, ' \
-            'format: \'mm/dd/yyyy\', '\
-            'yearRange: [%s, %s]'
+    calendar_type = 'gregorian'
+    empty_value = ('', '', '')
+    first_day = None
+    klass = u'date-widget'
+    pattern = None  # zope.i18n format (default: u'M/d/yyyy')
+    value = empty_value
+    years_range = (-10, 10)
 
+    base_jquerytools_dateinput_config = """selectors: true,
+        trigger: true,
+        format: 'mm/dd/yyyy'"""
+
+    @property
+    def language(self):
+        return self.request.get('LANGUAGE', 'en')
+
+    @property
+    def calendar(self):
+        return self.request.locale.dates.calendars[self.calendar_type]
 
     @property
     def with_time(self):
         return 'time' in self.__class__.__name__.lower()
-
-    @property
-    def jquerytools_dateinput_config(self):
-        config = self.base_jquerytools_dateinput_config
-        if 'yearRange' in config:
-            config = config % self.years_range
-        return config
-    # TODO: yearRange shoud respect site_properties values for
-    #       calendar_starting_year and valendar_future_years_avaliable
-
-    @property
-    def years(self):
-        """years."""
-        # 0: year
-        value = self.value[0]
-        if not value:
-            value = datetime.now().year
-        now = int(value)
-        before = now + self.years_range[0]
-        after  = now + self.years_range[1]
-        year_range = range(*(before, after))
-        return [{'value': x, 'name': x} for x in year_range]
 
     def get_formatted_value(self, dt_value):
         # due to fantastic datetime.strftime we need this hack
@@ -187,25 +183,52 @@ class AbstractDateWidget(object):
         return self.get_formatted_value(dt_value)
 
     @property
+    def years(self):
+        try:
+            current = int(self.year)
+        except:
+            current = -1
+
+        # 0: year
+        value = self.value[0]
+        if not value:
+            value = datetime.now().year
+        now = int(value)
+        before = now + self.years_range[0]
+        after  = now + self.years_range[1]
+        year_range = range(*(before, after))
+        return [{'value': x,
+                 'name': x,
+                 'selected': x == current}
+                for x in year_range]
+
+    @property
     def months(self):
         try:
-            selected = int(self.month)
+            current = int(self.month)
         except:
-            selected = -1
+            current = -1
 
-        calendar = self.request.locale.dates.calendars[self.calendar_type]
-        month_names = calendar.getMonthNames()
+        month_names = self.calendar.getMonthNames()
 
         for i, month in enumerate(month_names):
             yield dict(
                 name=month,
-                value=i+1,
-                selected=i+1 == selected)
+                value=i + 1,
+                selected=i + 1 == current)
 
     @property
     def days(self):
+        try:
+            current = int(self.day)
+        except:
+            current = -1
+
         day_range = range(1, 32)
-        return [{'value': x, 'name': self._padded_value(x)} for x in day_range]
+        return [{'value': x,
+                 'name': self._padded_value(x),
+                 'selected': x == current}
+                for x in day_range]
 
     @property
     def year(self):
@@ -257,19 +280,6 @@ class AbstractDateWidget(object):
                 today=translate(_(u"Today"), context=self.request)
             )
 
-    @property
-    def js_value(self):
-        year = self.year
-        month = None
-        month = self.month and int(self.month) - 1 or None
-
-        day = self.day
-        if year and month and day:
-            return 'new Date(%s, %s, %s)' % (
-                year, month, day)
-        else:
-            return ''
-
     def _base_dtvalue(self, func, value):
         if value:
             # either no noaive datetime or date
@@ -285,18 +295,42 @@ class AbstractDateWidget(object):
     def _dtvalue(self, value):
         return self._base_dtvalue(date, value)
 
-    def get_js(self, fieldname=None):
-        # TODO:
-        #     * check if self.name must always be self.name or fieldname if
-        #       given (search for other self.name appearances)
-        #     * has value be passed here from at-template?
-        # archetypes based widget have to pass id and name from the template
-        id = fieldname and fieldname or self.id
-        name = fieldname and fieldname or self.name
+    @property
+    def _js_value(self):
+        year = self.year
+        month = self.month and int(self.month) - 1 or None
+        day = self.day
+        value = None
 
-        language = self.request.get('LANGUAGE', 'en')
-        calendar = self.request.locale.dates.calendars[self.calendar_type]
-        
+        if year and day and month is not None:
+            value = 'new Date(%s, %s, %s)' % (year, month, day)
+        return value
+
+    @property
+    def _js_config(self):
+        config = self.base_jquerytools_dateinput_config
+
+        if self.years_range:
+            # TODO: yearRange shoud respect site_properties values for
+            #       calendar_starting_year and valendar_future_years_avaliable
+            config += """,
+                yearRange: [%s, %s]""" % self.years_range
+
+        first_day = safe_callable(self.first_day,
+            default=self.calendar.week.get('firstDay', 0))
+        config += """,
+            firstDay: %s""" % first_day
+
+        if self.language:
+            config += """,
+                lang: '%s'""" % self.language
+
+        return config
+
+    @property
+    def _js_localize(self):
+        language = self.language
+        calendar = self.calendar
         localize = 'jQuery.tools.dateinput.localize("' + language + '", {'
         localize += 'months: "%s",' % ','.join(calendar.getMonthNames())
         localize += 'shortMonths: "%s",' % ','.join(
@@ -313,36 +347,50 @@ class AbstractDateWidget(object):
             rotated(calendar.getDayAbbreviations(), 1))
         localize += '});'
         localize = localize.replace(',}', '}')
+        return localize
 
-        config = 'lang: "%s", ' % language
-        if self.js_value:
-            config += 'value: %s, ' % self.js_value
-        config += 'firstDay: %s, ' % calendar.week.get('firstDay', 0)
+    def get_js(self, fieldname=None):
+        # TODO:
+        #     * check if self.name must always be self.name or fieldname if
+        #       given (search for other self.name appearances)
+        #     * has value be passed here from at-template?
+        # archetypes based widget have to pass id and name from the template
+        id = fieldname and fieldname or self.id
+        name = fieldname and fieldname or self.name
 
-        config += ('change: function() {\n'
-                   '  var value = this.getValue("yyyy-m-d").split("-");\n'
-                   '  jQuery("#%(id)s-year").val(value[0]); \n' \
-                   '  jQuery("#%(id)s-month").val(value[1]); \n' \
-                   '  jQuery("#%(id)s-day").val(value[2]); \n' \
-                   '}, ') % dict(id=id)
-        config += self.jquerytools_dateinput_config
+        localize = self._js_localize
+        config = self._js_config
 
-        return '''
+        if self._js_value:
+            config += """,
+                value: %s""" % self._js_value
+
+        config += """,
+            change: function() {
+                var value = this.getValue("yyyy-m-d").split("-");
+                jQuery("#%(id)s-year").val(value[0]);
+                jQuery("#%(id)s-month").val(value[1]);
+                jQuery("#%(id)s-day").val(value[2]);
+            }""" % {'id': id}
+
+        return """
             <input type="hidden"
                 id="%(id)s-calendar"
                 name="%(name)s-calendar"
                 class="%(name)s-calendar" />
             <script type="text/javascript">
-                if (jQuery().dateinput) {
-                    %(localize)s
-                    jQuery("#%(id)s-calendar").dateinput({%(config)s}).unbind('change')
-                        .bind('onShow', function (event) {
-                            var trigger_offset = jQuery(this).next().offset();
-                            jQuery(this).data('dateinput').getCalendar().offset(
-                                {top: trigger_offset.top+20, left: trigger_offset.left}
-                            );
-                        });
-                }
+                jQuery(document).ready(function() {
+                    if (jQuery().dateinput) {
+                        %(localize)s
+                        jQuery("#%(id)s-calendar").dateinput({%(config)s}).unbind('change')
+                            .bind('onShow', function (event) {
+                                var trigger_offset = jQuery(this).next().offset();
+                                jQuery(this).data('dateinput').getCalendar().offset(
+                                    {top: trigger_offset.top+20, left: trigger_offset.left}
+                                );
+                            });
+                    }
+                });
                 function updateCalendar(widgetId) {
                     var y = jQuery(widgetId + '-year').val();
                     var m = jQuery(widgetId + '-month').val();
@@ -356,13 +404,11 @@ class AbstractDateWidget(object):
                         jQuery(widgetId + '-calendar').data()['dateinput'].setValue(newDate);
                     }
                 }
-            </script>''' % dict(
-                id=id, name=name,
-                config=config, localize=localize
-            )
+            </script>""" %\
+            {'id': id, 'name': name, 'config': config, 'localize': localize}
 
     def onchange(self, fieldname=None):
-        if not self.show_jquerytools_dateinput:
+        if not self.show_calendar:
             return ''
 
         id = fieldname and fieldname or self.id
@@ -370,11 +416,15 @@ class AbstractDateWidget(object):
 
 
 class AbstractDatetimeWidget(AbstractDateWidget):
+    show_year = True
+    show_month = True
+    show_day = True
+    show_time = True
 
     empty_value = ('', '', '', '00', '00', '')
-    value = empty_value
     klass = u'datetime-widget'
-    pattern = None # (default: u'M/d/yyyy h:mm a'')
+    pattern = None  # (default: u'M/d/yyyy h:mm a'')
+    value = empty_value
 
     @property
     def _dtformatter(self):
@@ -382,6 +432,33 @@ class AbstractDatetimeWidget(AbstractDateWidget):
 
     def _dtvalue(self, value):
         return self._base_dtvalue(datetime, value)
+
+    @property
+    def hours(self):
+        try:
+            current = int(self.hour)
+        except:
+            current = -1
+        if self.ampm:
+            if current > 11:
+                current = current - 12
+            hours = [12] + range(1, 12)
+        else:
+            hours = range(24)
+        return [{'value': x,
+                 'name': self.padded_hour(x),
+                 'selected': x == current} for x in hours]
+
+    @property
+    def minutes(self):
+        try:
+            current = int(self.minute)
+        except:
+            current = -1
+        return [{'value': x,
+                 'name': self.padded_minute(x),
+                 'selected': x == current}
+                for x in range(60)]
 
     @property
     def hour(self):
@@ -407,8 +484,9 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         timepattern = dates.getFormatter('time').getPattern()
         return bool('a' in timepattern)
 
-    def is_pm(self):
-        hour = self.hour
+    def is_pm(self, hour=None):
+        if hour is None:
+            hour = self.hour
         if hour in (None, '') or int(hour) < 12:
             return False
         return True
@@ -418,40 +496,17 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         timezone = self.request.get(self.name+'-timezone', None)
         if timezone:
             return timezone
-        if self.value[5] != self.empty_value[5]:
-            return self.value[5]
+        # Issue #9: When no timezone is given, value < empty_value, return None
+        if len(self.value) >= len(self.empty_value):
+            if self.value[5] != self.empty_value[5]:
+                return self.value[5]
         return None
-
-    @property
-    def minutes(self):
-        return [{'value': x, 'name': self.padded_minute(x)} for x in range(60)]
-
-    @property
-    def hours(self):
-        if self.ampm:
-            hours = [{'value': x,
-                      'name': self._padded_value(x),
-                      'selected': False} for x in [12] + range(1, 12)]
-            hour = self.hour
-            if hour is not None:
-                if hour > 11:
-                    hours[hour - 12]['selected'] = True
-                else:
-                    hours[hour]['selected'] = True
-        else:
-            hours = [{'value': x,
-                      'name': self.padded_hour(x),
-                      'selected': False} for x in range(24)]
-            hour = self.hour
-            if hour is not None:
-                hours[self.hour]['selected'] = True
-        return hours
 
     def padded_hour(self, hour=None):
         if hour is None:
             hour = self.hour
         if hour not in (None, ''):
-            pm = self.is_pm()
+            pm = self.is_pm(hour)
             if self.ampm is True and pm and int(hour)!=12:
                 hour = str(int(hour)-12)
             if self.ampm is True and not pm and int(hour)==0:
@@ -469,36 +524,42 @@ class AbstractDatetimeWidget(AbstractDateWidget):
             return None
 
     @property
-    def js_value(self):
+    def _js_value(self):
         year = self.year
         month = self.month and int(self.month) - 1 or None
         day = self.day
         hour = self.hour
         minute = self.minute
-        if (year is not None
-            and month is not None
-            and day is not None
-            and hour is not None
-            and minute is not None):
-            return 'new Date(%s, %s, %s, %s, %s)' % (
-                year, month, day, hour, minute)
-        elif year and month and day:
-            return 'new Date(%s, %s, %s)' % (
-                year, month, day)
-        else:
-            return None
+        value = None
+
+        if year and day and month is not None:
+            if hour is not None and minute is not None:
+                value = 'new Date(%s, %s, %s, %s, %s)' % (
+                    year, month, day, hour, minute)
+            else:
+                value = 'new Date(%s, %s, %s)' % (year, month, day)
+        return value
+
 
 class AbstractMonthYearWidget(AbstractDateWidget):
+    show_year = True
+    show_month = True
+    show_day = False
+    show_time = False
 
-    klass = u'monthyear-widget'
     empty_value = ('', '', 1)
-    value = empty_value
+    klass = u'monthyear-widget'
     pattern = 'yyyy/M'
+    value = empty_value
 
 
 class AbstractYearWidget(AbstractDateWidget):
+    show_year = True
+    show_month = False
+    show_day = False
+    show_time = False
 
-    klass = u'year-widget'
     empty_value = ('', 1, 1)
-    value = empty_value
+    klass = u'year-widget'
     pattern = 'yyyy'
+    value = empty_value

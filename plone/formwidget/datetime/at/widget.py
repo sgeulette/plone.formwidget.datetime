@@ -5,20 +5,18 @@ from Products.Archetypes import Widget as widgets
 from Products.Archetypes.Registry import registerWidget
 from plone.formwidget.datetime import base
 
-class AbstractATDattimeWidget(widgets.TypesWidget):
-    """ Date widget.
 
+class AbstractATDattimeWidget(widgets.TypesWidget):
+    """Date widget.
     Please note: Archetypes DateTimeFields's values are Zope DateTime
     instances.
-
     """
     _properties = widgets.TypesWidget._properties.copy()
     _properties.update({
         'macro': 'date_input',
         'show_calendar': True,
-        'show_day': True,
-        'show_month': True,
         'years_range': (-10, 10),
+        'first_day': None,
     })
     security = ClassSecurityInfo()
 
@@ -98,14 +96,8 @@ class AbstractATDattimeWidget(widgets.TypesWidget):
         return res, {}
 
 
-# TODO: multi inheritance is nasty, when it comes to overriding methods. then
-#       there is no clearly defined method resolution order.
 class DateWidget(base.AbstractDateWidget, AbstractATDattimeWidget):
-    """ Date widget.
-
-    Please note: Archetypes DateTimeFields's values are Zope DateTime
-    instances.
-
+    """Date widget.
     """
 registerWidget(DateWidget,
                title='Date widget',
@@ -115,7 +107,8 @@ registerWidget(DateWidget,
 
 
 class DatetimeWidget(base.AbstractDatetimeWidget, AbstractATDattimeWidget):
-    """ DateTime widget """
+    """DateTime widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'datetime_input',
@@ -128,11 +121,11 @@ registerWidget(DatetimeWidget,
 
 
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractATDattimeWidget):
-    """ Month and year widget """
+    """Month and year widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'monthyear_input',
-        'show_day': False,
     })
 registerWidget(MonthYearWidget,
                title='Month year widget',
@@ -141,14 +134,12 @@ registerWidget(MonthYearWidget,
                )
 
 
-
 class YearWidget(base.AbstractYearWidget, AbstractATDattimeWidget):
-    """ Month and year widget """
+    """Month and year widget.
+    """
     _properties = DateWidget._properties.copy()
     _properties.update({
         'macro': 'year_input',
-        'show_day': False,
-        'show_month': False,
     })
 registerWidget(YearWidget,
                title='Year widget',

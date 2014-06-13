@@ -23,22 +23,21 @@ class TestDateWidget(unittest.TestCase):
         self.assertEqual(
             instance._properties,
             {
-                'show_calendar': True,
-                'helper_css': (),
-                'years_range': (-10, 10),
-                'description': '',
-                'populate': True,
-                'show_day': True,
-                'show_month': True,
-                'macro': 'date_input',
-                'postback': True,
-                'label': '',
-                'visible': {'edit': 'visible', 'view': 'visible'},
                 'blurrable': False,
-                'modes': ('view', 'edit'),
-                'show_content_type': False,
                 'condition': '',
-                'helper_js': ()
+                'description': '',
+                'first_day': None,
+                'helper_css': (),
+                'helper_js': (),
+                'label': '',
+                'macro': 'date_input',
+                'modes': ('view', 'edit'),
+                'populate': True,
+                'postback': True,
+                'show_calendar': True,
+                'show_content_type': False,
+                'visible': {'edit': 'visible', 'view': 'visible'},
+                'years_range': (-10, 10),
             }
         )
 

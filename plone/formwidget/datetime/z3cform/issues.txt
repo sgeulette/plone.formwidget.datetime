@@ -24,7 +24,7 @@ ISSUE 1
 
   >>> import zope.interface
   >>> class ITest(zope.interface.Interface):
-  ...     date = zope.schema.Date(title=u'Date',required=True)
+  ...     date = zope.schema.Date(title=u'Date', required=True)
   ...     datetime = zope.schema.Datetime(title=u'Datetime', required=True)
 
   >>> from z3c.form import form, field, button, interfaces
@@ -61,9 +61,9 @@ ISSUE 1
   >>> test_form.widgets['datetime'].value
   (u'99', u'10', u'1', u'6', u'35')
   >>> test_form.widgets['date'].render().replace('\n', '')
-  u'<span id="form-widgets-date"      class="date-widget required date-field">99/02/14</span>'
+  u'<span id="form-widgets-date" class="date-widget date-field">99/02/14</span>'
   >>> test_form.widgets['datetime'].render().replace('\n', '')
-  u'<span id="form-widgets-datetime"      class="datetime-widget required datetime-field">99/10/01 06:35</span>'
+  u'<span id="form-widgets-datetime" class="datetime-widget datetime-field">99/10/01 06:35</span>'
 
 ISSUE 2
 -------

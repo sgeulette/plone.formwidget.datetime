@@ -1,10 +1,87 @@
 Changelog
 =========
 
-1.0dev (unreleased)
--------------------
+1.1 (unreleased)
+----------------
 
 - Nothing changed yet.
+
+
+1.0 (2013-11-06)
+----------------
+
+- Align CSS classes between AT and z3cform templates.
+  [thet]
+
+- Allow empty values when the field is not required.
+  https://github.com/plone/plone.app.contenttypes/issues/79
+  [pbauer]
+
+- Replace deprecated test assert statements.
+  [timo]
+
+- Re-Add rendering of hidden date-, month- and year-fields for monthyear and
+  year widgets. This got lost at template unifying attempt.
+  [thet]
+
+- In z3c.form based widgets, allow timezone naive datetime conversion.
+  [thet]
+
+- If plone.schemaeditor is available, use his patched IDate schema.
+  [do3cc]
+
+
+1.0b6 (2013-07-21)
+------------------
+
+- Fix javascript error in IE7/IE8 on Windows XP -> "Unable to modify the parent
+  container element before the child element is closed"
+  [href]
+
+- Remove the ParameterizedWidgetFactory in favor of form schema hints for
+  widget parameters which is available since plone.autoform 1.4.
+  [thet]
+
+- For the z3cform widget, remove widget adaptee registration from ZCML code and
+  keep it in Python code. More appropriate z3c.form class hierarchy for the
+  widget. Cleanup.
+  [thet]
+
+- Add autoinclude entry point.
+  [thet]
+
+
+1.0b5 (2013-05-27)
+------------------
+
+- Remove plone.app.jquerytools' custom.css again, as it is gone.
+  [thet]
+
+- Unify AT and DX templates.
+  [thet]
+
+- Fix issue when value has no timezone-information.
+  This happened when using plone.app.event-dx and Solgema.fullcalendar
+  [pbauer]
+
+
+1.0b4 (2013-04-24)
+------------------
+
+- Don't show plone.formwidget.datetime:default profile when creating a Plone
+  site with @@plone-addsite.
+  [thet]
+
+- Enable plone.app.jquerytools' custom.css for datepicker style overrides and
+  enable next/prev icons this way.
+  [thet]
+
+
+1.0b3 (2013-02-08)
+------------------
+
+- Allow configuration of the first day of the week (first_day).
+  [thet]
 
 
 1.0b2 (2012-10-29)

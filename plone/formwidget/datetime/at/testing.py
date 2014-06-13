@@ -1,8 +1,12 @@
 # from Products.DateRecurringIndex.testing import DRI_FIXTURE
+from Products.CMFPlone.utils import getFSVersionTuple
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.formwidget.datetime.testing import PFWDT_FIXTURE
 from plone.testing import z2
+
+
+PLONE5 = getFSVersionTuple()[0] >= 5
 
 
 class PFWDTATLayer(PloneSandboxLayer):
@@ -19,14 +23,21 @@ class PFWDTATLayer(PloneSandboxLayer):
         import plone.formwidget.datetime.at.tests.examples
         self.loadZCML(package=plone.formwidget.datetime.at.tests.examples)
 
+        z2.installProduct(app, 'Products.ATContentTypes')
+
         # Install product and call its initialize() function
         z2.installProduct(app, 'plone.formwidget.datetime.at.tests.examples')
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
+        if PLONE5:
+            # Install Products.ATContentTypes profile only for versions, where
+            # it's available
+            self.applyProfile(portal, 'Products.ATContentTypes:default')
+
         self.applyProfile(
-                portal,
-                'plone.formwidget.datetime.at.tests.examples:examples')
+            portal,
+            'plone.formwidget.datetime.at.tests.examples:examples')
 
     def tearDownZope(self, app):
         # Uninstall product

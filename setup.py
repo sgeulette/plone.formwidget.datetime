@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='plone.formwidget.datetime',
-    version='1.0dev',
+    version='1.1.dev0',
     description="Datetime widgets for Plone",
     long_description=open("README.rst").read() + "\n" +
         open("CHANGES.rst").read(),
@@ -24,35 +24,45 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'mock',
-        'plone.app.jquerytools',
         'setuptools',
-        'unittest2',
-        'z3c.form',
-        'zope.app.testing',
+        'DateTime',
+        'Products.CMFPlone',
+        'plone.app.jquerytools',
+        'pytz',
         'zope.i18nmessageid',
+        'zope.interface',
+    ],
+    extras_require=dict(
+        z3cform=[
+            'z3c.form',
+            'zope.component',
+            'zope.schema',
         ],
-        extras_require=dict(
-            z3cform=[
-                'z3c.form',
-                'zope.i18n',
-            ],
-            archetypes=[
-                'Products.Archetypes',
-                'Products.CMFCore',
-                'Zope2',
-            ],
-            test=[
-                'Products.Archetypes',
-                'Products.CMFCore',
-                'Products.GenericSetup',
-                'Zope2',
-                'plone.app.testing',
-                'profilehooks',
-                'z3c.form',
-                'zc.buildout',
-                'lxml',
-                'zope.testing',
-            ],
-        ),
+        archetypes=[
+            'Products.Archetypes',
+            'Products.CMFCore',
+            'Zope2',
+        ],
+        test=[
+            'plone.formwidget.datetime[archetypes, z3cform]',
+            'Products.ATContentTypes',
+            'Products.GenericSetup',
+            'lxml',
+            'mock',
+            'plone.app.testing',
+            'plone.testing',
+            'unittest2',
+            'zc.buildout',
+            'zope.app.testing',
+            'zope.configuration',
+            'zope.security',
+            'zope.testing',
+        ],
+      ),
+      entry_points="""
+      # -*- Entry points: -*-
+
+      [z3c.autoinclude.plugin]
+      target = plone
+      """,
 )

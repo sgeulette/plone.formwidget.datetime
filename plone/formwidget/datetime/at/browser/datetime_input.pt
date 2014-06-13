@@ -35,8 +35,8 @@
                                 name field_id;">
             <tal:day repeat="day widget/days">
                 <option tal:define="day_val day/value"
-                        tal:attributes="value day_val;
-                                        selected python:str(day_val)==str(current_val) and 'selected' or ''"
+                        tal:attributes="selected python:str(day_val)==str(current_val) and 'selected' or '';
+                                        value day_val;"
                         tal:content="day/name">label</option>
             </tal:day>
         </select>
@@ -58,8 +58,8 @@
                 name field_id;">
         <tal:month repeat="month widget/months">
             <option tal:define="month_val month/value"
-                tal:attributes="value month_val;
-                    selected python:str(month_val)==str(current_val) and 'selected' or ''"
+                tal:attributes="selected python:str(month_val)==str(current_val) and 'selected' or '';
+                                value month_val;"
             tal:content="month/name">label</option>
         </tal:month>
         </select>
@@ -75,8 +75,8 @@
             <option value=""></option>
             <tal:year repeat="year python:widget.years">
                 <option tal:define="year_val year/value"
-                        tal:attributes="value year_val;
-                                        selected python:str(year_val)==str(current_val) and 'selected' or ''"
+                        tal:attributes="selected python:str(year_val)==str(current_val) and 'selected' or '';
+                                        value year_val;"
                         tal:content="year/name">label</option>
             </tal:year>
         </select>
@@ -109,8 +109,8 @@
                                         name field_id;">
                     <tal:day repeat="minute widget/minutes">
                         <option tal:define="minute_val minute/value"
-                                tal:attributes="value minute_val;
-                                                selected python:str(minute_val)==str(current_val) and 'selected' or ''"
+                                tal:attributes="selected python:str(minute_val)==str(current_val) and 'selected' or '';
+                                                value minute_val;"
                                 tal:content="minute/name">label</option>
                     </tal:day>
                 </select>
