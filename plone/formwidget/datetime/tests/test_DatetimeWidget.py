@@ -123,7 +123,7 @@ class TestDatetimeWidget(unittest.TestCase):
             'field-year': '2011',
             'field-hour': '5',
             'field-minute': '30',
-        } 
+        }
         self.assertEqual(
             len(instance.extract()),
             5

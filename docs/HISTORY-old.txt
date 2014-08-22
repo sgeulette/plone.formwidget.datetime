@@ -20,10 +20,10 @@ trunk
 
 1.0.4 (2011-01-19)
 ------------------
-    
+
  * fixed show_jquerytools_dateinput_js for DatetimeWidget [awello]
  * fix time-dependent test [davisagli]
-    
+
 1.0.3 (2011-01-03)
 ------------------
 

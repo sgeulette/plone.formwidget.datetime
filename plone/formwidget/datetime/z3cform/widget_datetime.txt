@@ -52,7 +52,7 @@ Render without AM/PM support:
 Render with AM/PM support:
 
   >>> widget.ampm = True
-  >>> '<option value="AM">AM</option>' in widget.render() 
+  >>> '<option value="AM">AM</option>' in widget.render()
   True
   >>> widget.request = self.testrequest(
   ...     form={'bar-day': '1',

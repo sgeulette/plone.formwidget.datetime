@@ -1,4 +1,4 @@
-<tal:block 
+<tal:block
   tal:define="field options/field;
   errors python:{};
   mode options/mode;"

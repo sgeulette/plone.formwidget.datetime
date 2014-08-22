@@ -9,7 +9,7 @@ class TestDateWidget(unittest.TestCase):
         instance = DateWidget(request)
         instance.drequest = request
         instance.name = 'field'
-        return instance 
+        return instance
 
     def createInstance(self):
         from plone.formwidget.datetime.z3cform.widget import DateWidget

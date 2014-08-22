@@ -22,7 +22,7 @@ Let's set up a date field, date widget, and a converter adapting both of them.
     >>> converter = DateDataConverter(field, widget)
 
 Now we can convert field values to widget values.
-  
+
     >>> from datetime import date
     >>> converter.toWidgetValue(date(2009, 5, 10))
     (2009, 5, 10)

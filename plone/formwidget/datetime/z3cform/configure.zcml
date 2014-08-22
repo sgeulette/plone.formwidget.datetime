@@ -35,7 +35,7 @@
     <class class=".widget.YearWidget">
       <require permission="zope.Public"
                interface=".interfaces.IYearWidget" />
-    </class> 
+    </class>
 
 
     <!-- CONVERTORS -->
@@ -54,7 +54,7 @@
     <adapter
         factory=".converter.YearDataConverter"
         for="zope.schema.interfaces.IDate
-             .interfaces.IYearWidget" /> 
+             .interfaces.IYearWidget" />
 
 
     <!-- TEMPLATES -->
@@ -115,11 +115,11 @@
         mode="input"
         widget=".interfaces.IYearWidget"
         layer="z3c.form.interfaces.IFormLayer"
-        template="../templates/input.pt" /> 
+        template="../templates/input.pt" />
     <z3c:widgetTemplate
         mode="hidden"
         widget=".interfaces.IYearWidget"
         layer="z3c.form.interfaces.IFormLayer"
-        template="../templates/hidden.pt" /> 
+        template="../templates/hidden.pt" />
 
 </configure>
