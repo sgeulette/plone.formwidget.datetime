@@ -13,7 +13,8 @@
                     name string:${view/name}-day;
                     class string:day ${view/klass};
                     style view/style;
-                    title view/title">
+                    title view/title;
+                    onchange view/onchange;">
   <option value=""
       tal:condition="not:required">--</option>
   <option
@@ -36,7 +37,8 @@
                     name string:${view/name}-month;
                     class string:month ${view/klass};
                     style view/style;
-                    title view/title">
+                    title view/title;
+                    onchange view/onchange;">
   <option value=""
       tal:condition="not:required">--</option>
   <option
@@ -59,7 +61,8 @@
                   name string:${view/name}-year;
                   class string:year ${view/klass};
                   style view/style;
-                  title view/title">
+                  title view/title;
+                  onchange view/onchange;">
   <option value=""
       tal:condition="not:required">--</option>
   <option

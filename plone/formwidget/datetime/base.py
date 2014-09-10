@@ -262,9 +262,9 @@ class AbstractDateWidget(object):
         return str(value).zfill(2)
 
     def show_today_link_js(self, fieldname=None):
-        id = fieldname and fieldname or self.id
+        field_id = fieldname and fieldname or self.id
         now = datetime.today()
-        show_link_func = id+'-show-today-link'
+        show_link_func = field_id + '-show-today-link'
         for i in ['-', '_']:
             show_link_func = show_link_func.replace(i, '')
         return '<a href="#" onclick="' \
@@ -272,7 +272,7 @@ class AbstractDateWidget(object):
             'document.getElementById(\'%(id)s-month\').value = %(month)s;' \
             'document.getElementById(\'%(id)s-year\').value = %(year)s;' \
             'return false;">%(today)s</a>' % dict(
-                id=id,
+                id=field_id,
                 day=now.day,
                 month=now.month,
                 year=now.year,
@@ -354,7 +354,7 @@ class AbstractDateWidget(object):
         #       given (search for other self.name appearances)
         #     * has value be passed here from at-template?
         # archetypes based widget have to pass id and name from the template
-        id = fieldname and fieldname or self.id
+        field_id = fieldname and fieldname or self.id
         name = fieldname and fieldname or self.name
 
         localize = self._js_localize
@@ -370,7 +370,7 @@ class AbstractDateWidget(object):
                 jQuery("#%(id)s-year").val(value[0]);
                 jQuery("#%(id)s-month").val(value[1]);
                 jQuery("#%(id)s-day").val(value[2]);
-            }""" % {'id': id}
+            }""" % {'id': field_id}
 
         return """
             <input type="hidden"
@@ -404,14 +404,14 @@ class AbstractDateWidget(object):
                     }
                 }
             </script>""" %\
-            {'id': id, 'name': name, 'config': config, 'localize': localize}
+            {'id': field_id, 'name': name, 'config': config, 'localize': localize}
 
     def onchange(self, fieldname=None):
         if not self.show_calendar:
             return ''
 
-        id = fieldname and fieldname or self.id
-        return "updateCalendar('#%(id)s');" % dict(id=id)
+        field_id = fieldname and fieldname or self.id
+        return "updateCalendar('#%(id)s');" % dict(id=field_id)
 
 
 class AbstractDatetimeWidget(AbstractDateWidget):

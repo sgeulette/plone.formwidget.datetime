@@ -4,7 +4,8 @@ Changelog
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Calendar is updated when date is changed from select.
+  [thomasdesvenain]
 
 
 1.0 (2013-11-06)
