@@ -388,6 +388,7 @@ class AbstractDateWidget(object):
                                     {top: trigger_offset.top+20, left: trigger_offset.left}
                                 );
                             });
+                        updateCalendar('#%(id)s');
                     }
                 });
                 function updateCalendar(widgetId) {

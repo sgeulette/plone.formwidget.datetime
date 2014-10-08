@@ -4,6 +4,9 @@ Changelog
 1.1 (unreleased)
 ----------------
 
+- Set date in calendar when the page load (Archetypes widget).
+  [vincentfretin]
+
 - Calendar is updated when date is changed from select.
   [thomasdesvenain]
 
