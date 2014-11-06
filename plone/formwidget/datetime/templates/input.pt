@@ -1,5 +1,4 @@
-<tal:root define="whole_day context/whole_day|context/wholeDay|nothing;
-                  required view/required">
+<tal:root define="required view/required">
 
 <!-- day -->
 <input type="hidden"
@@ -82,8 +81,7 @@
 
 <span class="datetimewidget-time"
     tal:condition="view/show_time"
-    tal:attributes="id string:${view/id}-timecomponents;
-                    style python:whole_day and 'display:none' or ''">
+    tal:attributes="id string:${view/id}-timecomponents">
 
   <!-- hour -->
   <select class="hour"

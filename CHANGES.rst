@@ -4,6 +4,12 @@ Changelog
 1.1 (unreleased)
 ----------------
 
+- Don't hide the timecomponents of input fields, when context has whole_day
+  set. In context of plone.app.event, this is done via JavaScript by
+  plone.app.event itself.
+  Fixes: https://github.com/plone/plone.app.event/issues/167
+  [thet]
+
 - Set date in calendar when the page load (Archetypes widget).
   [vincentfretin]
 

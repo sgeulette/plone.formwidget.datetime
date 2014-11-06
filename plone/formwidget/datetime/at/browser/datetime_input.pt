@@ -15,8 +15,7 @@
         <span tal:content="python:widget.get_formatted_value(value)">Value</span>
     </metal:view_macro>
 
-    <metal:edit_macro define-macro="edit"
-        tal:define="whole_day context/whole_day|nothing;">
+    <metal:edit_macro define-macro="edit">
         <metal:use use-macro="field_macro | context/widgets/field/macros/edit">
 
     <div metal:fill-slot="widget_body">
@@ -89,8 +88,7 @@
 
         <tal:hm condition="widget/with_time">
             &nbsp;
-            <span class="datetimewidget-time"
-                  tal:attributes="style python:whole_day and 'display:none' or ''">
+            <span class="datetimewidget-time">
 
                 <!-- hour -->
                 <select class="hour"
