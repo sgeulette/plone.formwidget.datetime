@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2014-11-06)
 ----------------
 
 - Don't hide the timecomponents of input fields, when context has whole_day
