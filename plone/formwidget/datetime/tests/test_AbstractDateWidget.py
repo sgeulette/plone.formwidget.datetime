@@ -348,6 +348,7 @@ class TestAbstractDateWidget(unittest.TestCase):
                                     {top: trigger_offset.top+20, left: trigger_offset.left}
                                 );
                             });
+                        updateCalendar('#id');
                     }
                 });
                 function updateCalendar(widgetId) {
@@ -410,6 +411,7 @@ class TestAbstractDateWidget(unittest.TestCase):
                                     {top: trigger_offset.top+20, left: trigger_offset.left}
                                 );
                             });
+                        updateCalendar('#id');
                     }
                 });
                 function updateCalendar(widgetId) {

@@ -32,14 +32,15 @@ INPUT_MODE
   <BLANKLINE>
   <BLANKLINE>
   <!-- month -->
-  <input type="hidden" id="foo-month" value="4"
-         name="bar-month" />
+  <input type="hidden" id="foo-month" value="4" name="bar-month" />
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   <BLANKLINE>
   <!-- year -->
-  <select class="year year-widget required date-field" id="foo-year" name="bar-year">
+  <BLANKLINE>
+  <select class="year year-widget required date-field" name="bar-year" id="foo-year" onchange="updateCalendar('#foo');">
+  <BLANKLINE>
     <option value="1997">1997</option>
     <option value="1998">1998</option>
     <option value="1999">1999</option>
