@@ -4,6 +4,10 @@ Changelog
 1.1 (2014-11-06)
 ----------------
 
+- Simplify buildout infrastructure to be used only for test running on latest
+  Plone 4.3.
+  [thet]
+
 - Don't hide the timecomponents of input fields, when context has whole_day
   set. In context of plone.app.event, this is done via JavaScript by
   plone.app.event itself.
