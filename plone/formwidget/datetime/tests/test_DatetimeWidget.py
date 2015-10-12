@@ -128,3 +128,18 @@ class TestDatetimeWidget(unittest.TestCase):
             len(instance.extract()),
             5
         )
+
+    def test_extract__no_time(self):
+        instance = self.createInstance()
+        instance.request = {
+            'field-day': '21',
+            'field-month': '11',
+            'field-year': '2011',
+            'field-hour': '',
+            'field-minute': '',
+        }
+        default = mock.Mock()
+        self.assertEqual(
+            instance.extract(default),
+            ('2011', '11', '21', '00', '00')
+        )
