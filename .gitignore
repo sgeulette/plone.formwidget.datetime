@@ -7,4 +7,5 @@ develop-eggs/
 dist/
 parts/
 plone.env
+!.gitattributes
 !.gitignore
