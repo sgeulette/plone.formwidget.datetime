@@ -4,7 +4,9 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Add defaultvalue for hour and minute for z3cform Datetime widget.
+Fixes:
+
+- Added defaultvalue for hour and minute for z3cform Datetime widget.
   Fixes: https://github.com/plone/plone.formwidget.datetime/issues/14
   [elioschmutz]
 
