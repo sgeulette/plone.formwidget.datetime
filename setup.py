@@ -9,10 +9,12 @@ setup(
     long_description=open("README.rst").read() + "\n" +
         open("CHANGES.rst").read(),
     # Get more strings from
-    # http://pypi.python.org/pypi?:action=list_classifiers
+    # https://pypi.python.org/pypi?:action=list_classifiers
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 5.0",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
     ],
     keywords='plone date time datetime event widget archetypes z3c.form',
     author='Plone Foundation',
