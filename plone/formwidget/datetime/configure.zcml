@@ -10,8 +10,6 @@
     <include zcml:condition="installed Products.Archetypes" package=".at" />
     <include zcml:condition="installed z3c.form" package=".z3cform" />
 
-    <i18n:registerTranslations directory="locales" />
-
     <browser:resourceDirectory
       name="plone.formwidget.datetime"
       directory="resources"
