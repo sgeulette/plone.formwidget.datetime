@@ -1,3 +1,4 @@
-import zope.i18nmessageid
-PROJECTNAME = "plone.formwidget.datetime"
-MessageFactory = zope.i18nmessageid.MessageFactory(PROJECTNAME)
+from zope.i18nmessageid import MessageFactory
+
+
+_ = MessageFactory('plone')
