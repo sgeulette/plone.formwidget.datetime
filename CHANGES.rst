@@ -7,6 +7,7 @@ Changelog
 New:
 
 - Translations moved to plone.app.locales in plone domain.
+  [staeff]
 
 Fixes:
 
