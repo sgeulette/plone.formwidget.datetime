@@ -33,6 +33,7 @@ setup(
         'pytz',
         'zope.i18nmessageid',
         'zope.interface',
+        'plone.app.locales >= 4.3.9',
     ],
     extras_require=dict(
         z3cform=[

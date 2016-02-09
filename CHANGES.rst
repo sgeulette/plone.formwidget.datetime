@@ -6,7 +6,7 @@ Changelog
 
 New:
 
-- *add item here*
+- Translations moved to plone.app.locales in plone domain.
 
 Fixes:
 
