@@ -9,10 +9,6 @@ New:
 - Translations moved to plone.app.locales in plone domain.
   [staeff]
 
-Fixes:
-
-- *add item here*
-
 
 1.2 (2015-10-28)
 ----------------
