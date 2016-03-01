@@ -6,14 +6,16 @@ setup(
     name='plone.formwidget.datetime',
     version='1.4.dev0',
     description="Datetime widgets for Plone",
-    long_description=open("README.rst").read() + "\n" +
-        open("CHANGES.rst").read(),
+    long_description=(open("README.rst").read() + "\n" +
+                      open("CHANGES.rst").read()),
     # Get more strings from
     # https://pypi.python.org/pypi?:action=list_classifiers
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
     ],
     keywords='plone date time datetime event widget archetypes z3c.form',

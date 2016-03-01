@@ -10,7 +10,7 @@ New:
 
 Fixes:
 
-- *add item here*
+- Marked in setup.py as also compatible with Plone 4.3, next to 5.0.  [maurits]
 
 
 1.3 (2016-02-11)
