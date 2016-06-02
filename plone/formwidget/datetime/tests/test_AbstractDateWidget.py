@@ -264,9 +264,8 @@ class TestAbstractDateWidget(unittest.TestCase):
         value = 'abc'
         self.assertEqual(instance._padded_value(value), 'abc')
 
-    @mock.patch('plone.formwidget.datetime.zope.i18n.translate')
     @mock.patch('plone.formwidget.datetime.base.datetime')
-    def test_show_today_link_js(self, datetime, translate):
+    def test_show_today_link_js(self, datetime):
         instance = self.createInstance()
         instance.id = 'id'
         now = datetime.today()
@@ -274,7 +273,6 @@ class TestAbstractDateWidget(unittest.TestCase):
         now.month = 11
         now.year = 2011
         instance.request = mock.Mock()
-        translate.return_value = 'Today'
         self.assertEqual(
             instance.show_today_link_js(),
             '<a href="#" onclick="document.getElementById(\'id-day\').value = 22;document.getElementById(\'id-month\').value = 11;document.getElementById(\'id-year\').value = 2011;return false;">Today</a>'
