@@ -1,3 +1,4 @@
+from datetime import datetime
 from plone.formwidget.datetime import base
 from plone.formwidget.datetime.z3cform.interfaces import IDateField
 from plone.formwidget.datetime.z3cform.interfaces import IDateWidget
@@ -50,6 +51,14 @@ class AbstractDXDateWidget(TextWidget):
     def update(self):
         super(AbstractDXDateWidget, self).update()
         addFieldClass(self)
+        now = datetime.now()
+        min_value = -10
+        max_value = 10
+        if self.field.min:
+            min_value = self.field.min.year - now.year
+        if self.field.max:
+            max_value = self.field.max.year - now.year + 1
+        self.years_range = (min_value, max_value)
 
 
 class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):

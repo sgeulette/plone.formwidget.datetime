@@ -1,3 +1,6 @@
+from datetime import datetime
+from zope import schema
+
 import mock
 import unittest2 as unittest
 
@@ -8,6 +11,7 @@ class TestDatetimeWidget(unittest.TestCase):
         from plone.formwidget.datetime.z3cform.widget import DatetimeWidget
         instance = DatetimeWidget(mock.Mock())
         instance.name = 'field'
+        instance.field = schema.Datetime(title=u'field')
         return instance
 
     def test_subclass(self):
@@ -143,3 +147,19 @@ class TestDatetimeWidget(unittest.TestCase):
             instance.extract(default),
             ('2011', '11', '21', '00', '00')
         )
+
+    def test_years_range_default(self):
+        instance = self.createInstance()
+        instance.update()
+        self.assertEqual((-10, 10), instance.years_range)
+
+    def test_years_range_min_max(self):
+        instance = self.createInstance()
+        now = datetime.now()
+        instance.field = schema.Datetime(
+            title=u'field',
+            min=datetime(now.year - 6, 1, 1),
+            max=datetime(now.year, 1, 1),
+        )
+        instance.update()
+        self.assertEqual((-6, 1), instance.years_range)

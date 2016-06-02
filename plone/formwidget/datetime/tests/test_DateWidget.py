@@ -1,3 +1,5 @@
+from zope import schema
+
 import mock
 import unittest2 as unittest
 
@@ -9,12 +11,14 @@ class TestDateWidget(unittest.TestCase):
         instance = DateWidget(request)
         instance.drequest = request
         instance.name = 'field'
+        instance.field = schema.Date(title=u'field')
         return instance
 
     def createInstance(self):
         from plone.formwidget.datetime.z3cform.widget import DateWidget
         instance = DateWidget(mock.Mock())
         instance.name = 'field'
+        instance.field = schema.Date(title=u'field')
         return instance
 
     def test_subclass(self):
