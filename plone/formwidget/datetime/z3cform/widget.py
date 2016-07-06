@@ -11,7 +11,7 @@ from z3c.form.interfaces import NOVALUE, IFormLayer, IFieldWidget
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
 from zope.i18n.format import DateTimeParseError
-from zope.interface import implementer, implementsOnly
+from zope.interface import implementer, implementer_only
 from zope.schema.interfaces import IField
 
 
@@ -52,12 +52,12 @@ class AbstractDXDateWidget(TextWidget):
         addFieldClass(self)
 
 
+@implementer_only(IDateWidget)
 class DateWidget(base.AbstractDateWidget, AbstractDXDateWidget):
     """ Date widget.
     Please note: zope.schema date/datetime field values are python datetime
     instances.
     """
-    implementsOnly(IDateWidget)
 
 
 @implementer(IFieldWidget)
@@ -67,9 +67,9 @@ def DateFieldWidget(field, request):
     return FieldWidget(field, DateWidget(request))
 
 
+@implementer_only(IDatetimeWidget)
 class DatetimeWidget(base.AbstractDatetimeWidget, AbstractDXDateWidget):
     """ DateTime widget """
-    implementsOnly(IDatetimeWidget)
 
     def extract(self, default=NOVALUE):
         # get normal input fields
@@ -133,9 +133,9 @@ def DatetimeFieldWidget(field, request):
     return FieldWidget(field, DatetimeWidget(request))
 
 
+@implementer_only(IMonthYearWidget)
 class MonthYearWidget(base.AbstractMonthYearWidget, AbstractDXDateWidget):
     """ Month and year widget """
-    implementsOnly(IMonthYearWidget)
 
     def extract(self, default=NOVALUE):
         day = self.request.get(self.name + '-day', default)
@@ -155,9 +155,9 @@ def MonthYearFieldWidget(field, request):
     return FieldWidget(field, MonthYearWidget(request))
 
 
+@implementer_only(IYearWidget)
 class YearWidget(base.AbstractYearWidget, AbstractDXDateWidget):
     """ Year widget """
-    implementsOnly(IYearWidget)
 
     def extract(self, default=NOVALUE):
         day = self.request.get(self.name + '-day', default)

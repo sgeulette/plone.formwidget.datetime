@@ -1,9 +1,9 @@
-from zope.interface import implements
+from zope.interface import implementer
 from Products.CMFPlone.interfaces import INonInstallable
 
 
+@implementer(INonInstallable)
 class HiddenProfiles(object):
-    implements(INonInstallable)
 
     def getNonInstallableProfiles(self):
         """Prevents profiles, which should not be user-installable from showing
