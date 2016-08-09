@@ -4,10 +4,6 @@ Changelog
 1.4 (unreleased)
 ----------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Marked in setup.py as also compatible with Plone 4.3, next to 5.0.  [maurits]
