@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Required datetime fields should have no values preselected. Fix #11
+  [mamico]
 
 
 1.3.1 (2016-08-09)
