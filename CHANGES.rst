@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- Please pyScss. Makes it compatible with Plone 5.1.
+- Please pyScss by adding quotes in the urls. Makes it compatible with Plone 5.1.
   [thomasdesvenain]
 
 
