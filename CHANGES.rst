@@ -10,14 +10,6 @@ Changelog
 1.3.3 (2018-02-14)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Required datetime fields should have no values preselected. Fix #11
