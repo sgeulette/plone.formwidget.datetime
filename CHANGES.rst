@@ -30,6 +30,9 @@ Bug fixes:
 
 Fixes:
 
+- Use the field min and max values to determine the years range
+  [mpeeters]
+
 - Marked in setup.py as also compatible with Plone 4.3, next to 5.0.  [maurits]
 
 - Use zope.interface decorator.

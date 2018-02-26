@@ -1,7 +1,7 @@
 from DateTime import DateTime
 from collections import deque
 from datetime import date, datetime
-from plone.formwidget.datetime import MessageFactory as _
+from plone.formwidget.datetime import _
 from zope.i18n import translate
 
 import pytz
