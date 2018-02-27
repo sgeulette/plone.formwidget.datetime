@@ -4,7 +4,10 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Bug fixes:
+
+- Use the field min and max values to determine the years range
+  [mpeeters]
 
 
 1.3.3 (2018-02-14)
@@ -29,9 +32,6 @@ Bug fixes:
 ------------------
 
 Fixes:
-
-- Use the field min and max values to determine the years range
-  [mpeeters]
 
 - Marked in setup.py as also compatible with Plone 4.3, next to 5.0.  [maurits]
 
