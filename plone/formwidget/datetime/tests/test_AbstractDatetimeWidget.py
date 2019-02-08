@@ -280,3 +280,13 @@ class TestAbstractDatetimeWidget(unittest.TestCase):
         value = (1,2,3)
         instance._dtvalue(value)
         datetime.assert_called_with(1, 2, 3)
+
+    def test_formatted_value_value_is_empty_value(self):
+        instance = self.createInstance()
+
+        self.assertEqual(instance.value, ('', '', '', '00', '00', ''))
+        self.assertEqual(instance.formatted_value, '')
+
+        instance.value = instance.value[:-1]
+        self.assertEqual(instance.value, ('', '', '', '00', '00'))
+        self.assertEqual(instance.formatted_value, '')

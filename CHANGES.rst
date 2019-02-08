@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Tuple ('', '', '', '00', '00') is also an empty value. Fix #22
+  [batlock666]
 
 
 1.3.4 (2018-04-08)
