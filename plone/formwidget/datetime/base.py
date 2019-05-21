@@ -435,6 +435,13 @@ class AbstractDatetimeWidget(AbstractDateWidget):
         return self._base_dtvalue(datetime, value)
 
     @property
+    def formatted_value(self):
+        if self.value in (self.empty_value, self.empty_value[:-1], None):
+            return ''
+        dt_value = self._dtvalue(self.value)
+        return self.get_formatted_value(dt_value)
+
+    @property
     def hours(self):
         try:
             current = int(self.hour)
