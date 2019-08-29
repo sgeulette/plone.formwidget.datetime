@@ -8,9 +8,9 @@ setup(
     description="Datetime widgets for Plone",
     long_description=(open("README.rst").read() + "\n" +
                       open("CHANGES.rst").read()),
-    # Get more strings from
-    # https://pypi.python.org/pypi?:action=list_classifiers
+    # Get more strings from https://pypi.org/classifiers/
     classifiers=[
+        "Development Status :: 6 - Mature",
         "Framework :: Plone",
         "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
