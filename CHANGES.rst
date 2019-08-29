@@ -4,14 +4,6 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Tuple ('', '', '', '00', '00') is also an empty value. Fix #22
