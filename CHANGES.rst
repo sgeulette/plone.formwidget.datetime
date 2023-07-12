@@ -4,18 +4,10 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
-
+- year select range is now correctly calculated
+  [sgeulette]
 
 1.3.5 (2019-08-29)
 ------------------

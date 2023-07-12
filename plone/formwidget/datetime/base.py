@@ -188,11 +188,11 @@ class AbstractDateWidget(object):
         except:
             current = -1
 
+        now = datetime.now().year
         # 0: year
         value = self.value[0]
         if not value:
-            value = datetime.now().year
-        now = int(value)
+            value = now
         before = now + self.years_range[0]
         after  = now + self.years_range[1]
         year_range = range(*(before, after))
